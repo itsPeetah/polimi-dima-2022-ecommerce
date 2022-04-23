@@ -1,9 +1,10 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dima/components/welcomeHeader.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dima/components/questionbar.dart';
-import 'package:dima/components/product.dart';
+import 'package:dima/components/productHome.dart';
+import 'package:dima/components/productHomeHorizontal.dart';
 import 'package:dima/components/dbs.dart';
 import 'package:dima/components/drawer.dart';
 
@@ -73,9 +74,23 @@ class _MyHomePageState extends State<MyHomePage> {
     if (top15Choices.isEmpty) {
       getAllDb().forEach((preference) => {
             if (top15Choices.length < 15)
-              top15Choices.add(Padding(
-                  padding: EdgeInsets.only(right: width / 20),
-                  child: ProductItem(product: preference)))
+              {
+                top15Choices.add(Padding(
+                    padding:
+                        EdgeInsets.only(left: width / 20, right: width / 20),
+                    child: ProductItemHorizontal(product: preference)))
+              },
+            if (top15Choices.length < 15 - 1)
+              {
+                top15Choices.add(
+                  Divider(
+                    color: dividerColor,
+                    thickness: 3,
+                    indent: width / 20,
+                    endIndent: width / 20,
+                  ),
+                )
+              }
           });
     }
 
@@ -87,42 +102,46 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SizedBox(
           width: width,
           height: height * 0.9,
-          child: ListView(children: [
-            Center(
-              child: Column(
-                children: [
-                  const Headline(text: "Our choices for you"),
-                  Row(
-                      // scrollDirection: Axis.horizontal,
-                      children: [
-                        SizedBox(
-                            height: height / 3,
-                            width: width,
-                            child: ListView(
-                                padding: EdgeInsets.only(left: width * 0.01),
-                                scrollDirection: Axis.horizontal,
-                                children: preferredProducts)),
-                      ]),
-                  const Padding(
-                      padding: EdgeInsets.all(25),
-                      child: Headline(
-                        text: "Top Choices of the Week",
-                      )),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                            height: height / 3,
-                            width: width,
-                            child: ListView(
-                                padding: EdgeInsets.only(left: width * 0.01),
-                                scrollDirection: Axis.horizontal,
-                                children: top15Choices))
-                      ]),
-                ],
-              ),
-            ),
-          ])),
+          child: Container(
+              color: backgroundAppColor,
+              child: ListView(scrollDirection: Axis.vertical, children: [
+                Center(
+                  child: Column(
+                    children: [
+                      const WelcomeHeader(),
+                      const Headline(text: "Our choices for you"),
+                      Container(
+                        color: backgroundColor1,
+                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                        margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                        child: Row(
+                            // scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                  height: height / 3,
+                                  width: width,
+                                  child: ListView(
+                                      padding:
+                                          EdgeInsets.only(left: width * 0.01),
+                                      scrollDirection: Axis.horizontal,
+                                      children: preferredProducts)),
+                            ]),
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.all(25),
+                          child: Headline(
+                            text: "Top Choices of the Week",
+                          )),
+                      Container(
+                        color: backgroundColor1,
+                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                        margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                        child: Column(children: top15Choices),
+                      ),
+                    ],
+                  ),
+                ),
+              ]))),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

@@ -1,6 +1,7 @@
 import 'package:dima/product/id.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:dima/styles/styleoftext.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({
@@ -19,7 +20,7 @@ class ProductItem extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => ProductFromID(product['id'].toString()))),
         child: Container(
-            color: const Color.fromARGB(75, 35, 116, 116),
+            color: backgroundItemColor1,
             child: Flex(
               direction: Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.center,
