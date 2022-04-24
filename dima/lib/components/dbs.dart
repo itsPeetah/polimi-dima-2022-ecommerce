@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
 
 query(String s) {
-  /// TODO: implement this
-  return s;
+  var resultList = getAllDb().where((Map<String, String> element) =>
+      (element['name']!.toLowerCase()).contains(s.toLowerCase()));
+  return resultList;
 }
 
 getProductInfo(String productId) {

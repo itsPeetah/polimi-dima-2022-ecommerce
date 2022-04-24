@@ -1,6 +1,7 @@
 import 'package:dima/userprofile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:dima/main.dart';
 
 class SideBarDrawer extends StatelessWidget {
   const SideBarDrawer({Key? key}) : super(key: key);
@@ -23,7 +24,8 @@ class SideBarDrawer extends StatelessWidget {
             leading: const Icon(Icons.house),
             title: const Text('Home Page'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()));
             },
           ),
           ListTile(
@@ -34,7 +36,7 @@ class SideBarDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const UserProfileRoute()));
-              Navigator.pop(context);
+              // Navigator.pop(context);
             },
           ),
         ],

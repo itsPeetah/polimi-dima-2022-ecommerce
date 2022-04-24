@@ -10,16 +10,25 @@ class WelcomeHeader extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var width = size.width;
     var height = size.height;
-    return Flex(
-      direction: Axis.vertical,
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      alignment: Alignment.center,
       children: [
         /// TODO: Put the text on top of the image instead of it being in the bottom
         Padding(
             padding: EdgeInsets.all(width * 0.02),
-            child: Image.asset('../../images/twoMenShakingHands.jpg')),
+            child: Image.asset(
+              '../../images/twoMenShakingHands.jpg',
+              color: const Color.fromARGB(210, 0, 0, 0),
+              colorBlendMode: BlendMode.dstATop,
+            )),
         const Text(
           'Welcome to AppName.com',
+          style: TextStyle(
+              fontFamily: 'Schyler',
+              fontWeight: FontWeight.bold,
+              color: headerTextColor,
+              fontSize: productTitleSize),
+          textAlign: TextAlign.center,
         ),
       ],
     );

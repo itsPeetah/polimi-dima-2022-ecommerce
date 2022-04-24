@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'components/drawer.dart';
-import 'components/questionbar.dart';
-
 class UserProfileRoute extends StatelessWidget {
-  const UserProfileRoute({Key? key}) : super(key: key);
-
+  const UserProfileRoute(
+      {Key? key, this.titleQuestion = 'Search for something new!'})
+      : super(key: key);
+  final String titleQuestion;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: const SideBarDrawer(),
-        appBar: AppBar(
-            toolbarHeight: 60,
-            flexibleSpace: const SafeArea(
-                child: QuestionBar(title: 'Search for something new!'))),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-                'Not yet implemented, go back to the previous page!'),
-          ),
-        ));
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          true;
+          //Navigator.pop(context);
+        },
+        child: const Text('Not yet implemented, go back to the previous page!'),
+      ),
+    );
   }
 }

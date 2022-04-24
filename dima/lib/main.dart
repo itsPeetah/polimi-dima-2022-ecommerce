@@ -1,10 +1,12 @@
-import 'package:dima/components/welcomeHeader.dart';
+import 'package:dima/components/home/homepage.dart';
+import 'package:dima/components/home/welcomeHeader.dart';
+import 'package:dima/shoppingcartroute.dart';
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/userprofile.dart';
 import 'package:flutter/material.dart';
 
-import 'package:dima/components/questionbar.dart';
-import 'package:dima/components/productHome.dart';
-import 'package:dima/components/productHomeHorizontal.dart';
+import 'package:dima/components/home/productHome.dart';
+import 'package:dima/components/home/productHomeHorizontal.dart';
 import 'package:dima/components/dbs.dart';
 import 'package:dima/components/drawer.dart';
 
@@ -38,7 +40,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, this.title = 'Search on AppName.com'})
+      : super(key: key);
 
   final String title;
 
@@ -47,25 +50,83 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // resultColumn = SizedBox(
+  // height: height / 3,
+  // child: ListView(
+  //   children: resultOfQuery,
+  // ));
+  // if (queryAsked) resultColumn
   final preferredProducts = <Widget>[];
   final top15Choices = <Widget>[];
+  var queryAsked = false;
+  List<Widget> resultOfQuery = <Widget>[];
   void _incrementCounter() {
+    setState(() {});
+  }
+
+  int _selectedIndex = 0;
+
+  searchDB(String x) {
+    var resultQuery = <Widget>[];
+    query(x).forEach((preference) => {
+          if (resultQuery.length < 8)
+            {
+              resultQuery.add(Padding(
+                  padding:
+                      const EdgeInsets.only(left: 400 / 20, right: 800 / 20),
+                  child: ProductItemHorizontal(product: preference)))
+            }
+        });
+    return showProducts(resultQuery, x);
+  }
+
+  showProducts(List<Widget> resultQuery, String x) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      if (resultQuery.isNotEmpty && x.isNotEmpty) {
+        queryAsked = true;
+        resultOfQuery = resultQuery;
+      } else {
+        queryAsked = false;
+        resultOfQuery = <Widget>[];
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
     var size = MediaQuery.of(context).size;
     var width = size.width;
     var height = size.height;
+    var iconHeight = height * 0.033;
+    Widget questionBar = Padding(
+        padding: EdgeInsets.only(left: width * 0.11),
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.all(width * 0.02),
+            decoration: BoxDecoration(
+                color: const Color.fromRGBO(255, 255, 255, 0.3),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                border: Border.all(
+                    color: const Color.fromARGB(255, 175, 208, 212))),
+            child: Row(children: [
+              Icon(Icons.search, size: (iconHeight)),
+              SizedBox(
+                width: width * 0.7,
+                child: TextField(
+                  decoration: InputDecoration.collapsed(hintText: widget.title),
+                  onChanged: (x) => searchDB(x),
+                ),
+              ),
+            ]),
+          ),
+        ));
+
     if (preferredProducts.isEmpty) {
       userPref().forEach((preference) => preferredProducts.add(Padding(
           padding: EdgeInsets.only(right: width * 0.05),
@@ -93,61 +154,50 @@ class _MyHomePageState extends State<MyHomePage> {
               }
           });
     }
+    List<Widget> _widgetOptions = <Widget>[
+      HomePage(
+          top15Choices: top15Choices,
+          preferredProducts: preferredProducts,
+          width: width,
+          height: height),
+      const UserProfileRoute(titleQuestion: 'Search for something new!'),
+      const ShoppingCartRoute(
+          titleQuestion: 'Do you want to buy something else?'),
+    ];
 
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 60,
-          flexibleSpace: SafeArea(child: QuestionBar(title: widget.title))),
-
-      body: SizedBox(
-          width: width,
-          height: height * 0.9,
-          child: Container(
-              color: backgroundAppColor,
-              child: ListView(scrollDirection: Axis.vertical, children: [
-                Center(
-                  child: Column(
-                    children: [
-                      const WelcomeHeader(),
-                      const Headline(text: "Our choices for you"),
-                      Container(
-                        color: backgroundColor1,
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Row(
-                            // scrollDirection: Axis.horizontal,
-                            children: [
-                              SizedBox(
-                                  height: height / 3,
-                                  width: width,
-                                  child: ListView(
-                                      padding:
-                                          EdgeInsets.only(left: width * 0.01),
-                                      scrollDirection: Axis.horizontal,
-                                      children: preferredProducts)),
-                            ]),
-                      ),
-                      const Padding(
-                          padding: EdgeInsets.all(25),
-                          child: Headline(
-                            text: "Top Choices of the Week",
-                          )),
-                      Container(
-                        color: backgroundColor1,
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Column(children: top15Choices),
-                      ),
-                    ],
-                  ),
-                ),
-              ]))),
+          // toolbarHeight: 60,
+          flexibleSpace: SafeArea(child: questionBar)),
+      body: Stack(children: [
+        _widgetOptions.elementAt(_selectedIndex),
+        ListView(children: resultOfQuery),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
       drawer: const SideBarDrawer(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Shopping Cart',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: bottomBarColor,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
