@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../styles/styleoftext.dart';
-import 'welcomeHeader.dart';
+import 'welcome_header.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -14,13 +14,13 @@ class HomePage extends StatelessWidget {
       required this.height})
       : super(key: key);
 
-  final top15Choices;
+  final List<Widget> top15Choices;
 
-  final height;
+  final double height;
 
-  final preferredProducts;
+  final List<Widget> preferredProducts;
 
-  final width;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +39,15 @@ class HomePage extends StatelessWidget {
                       color: backgroundColor1,
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: Row(
-                          // scrollDirection: Axis.horizontal,
-                          children: [
-                            SizedBox(
-                                height: height / 3,
-                                width: width,
-                                child: ListView(
-                                    padding:
-                                        EdgeInsets.only(left: width * 0.01),
-                                    scrollDirection: Axis.horizontal,
-                                    children: preferredProducts)),
-                          ]),
+                      child: Row(children: [
+                        SizedBox(
+                            height: height / 3,
+                            width: width,
+                            child: ListView(
+                                padding: EdgeInsets.only(left: width * 0.01),
+                                scrollDirection: Axis.horizontal,
+                                children: preferredProducts)),
+                      ]),
                     ),
                     const Padding(
                         padding: EdgeInsets.all(25),

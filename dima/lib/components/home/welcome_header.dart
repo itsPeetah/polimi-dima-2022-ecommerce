@@ -13,7 +13,6 @@ class WelcomeHeader extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        /// TODO: Put the text on top of the image instead of it being in the bottom
         Padding(
             padding: EdgeInsets.all(width * 0.02),
             child: Image.asset(

@@ -1,5 +1,4 @@
 import 'package:dima/product/id.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
 
@@ -18,7 +17,8 @@ class ProductItemHorizontal extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ProductFromID(product['id'].toString()))),
+                builder: (context) =>
+                    ProductFromID(productId: product['id'].toString()))),
         child: Container(
             color: backgroundItemColor1,
             child: Flex(

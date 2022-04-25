@@ -1,12 +1,12 @@
 import 'package:dima/components/home/homepage.dart';
-import 'package:dima/components/home/welcomeHeader.dart';
+import 'package:dima/components/map/map_component.dart';
 import 'package:dima/shoppingcartroute.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/userprofile.dart';
 import 'package:flutter/material.dart';
 
-import 'package:dima/components/home/productHome.dart';
-import 'package:dima/components/home/productHomeHorizontal.dart';
+import 'package:dima/components/home/product_home.dart';
+import 'package:dima/components/home/product_home_horizontal.dart';
 import 'package:dima/components/dbs.dart';
 import 'package:dima/components/drawer.dart';
 
@@ -58,13 +58,24 @@ class _MyHomePageState extends State<MyHomePage> {
   // if (queryAsked) resultColumn
   final preferredProducts = <Widget>[];
   final top15Choices = <Widget>[];
-  var queryAsked = false;
+  bool queryAsked = false;
   List<Widget> resultOfQuery = <Widget>[];
+  TextEditingController questionBarTextController = TextEditingController();
   void _incrementCounter() {
     setState(() {});
   }
 
   int _selectedIndex = 0;
+  _tappedOutside() {
+    setState(() {
+      if (resultOfQuery.isNotEmpty) {
+        queryAsked = false;
+        resultOfQuery = <Widget>[];
+      }
+      questionBarTextController.clear();
+    });
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
   searchDB(String x) {
     var resultQuery = <Widget>[];
@@ -119,6 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 width: width * 0.7,
                 child: TextField(
+                  controller: questionBarTextController,
                   decoration: InputDecoration.collapsed(hintText: widget.title),
                   onChanged: (x) => searchDB(x),
                 ),
@@ -160,19 +172,24 @@ class _MyHomePageState extends State<MyHomePage> {
           preferredProducts: preferredProducts,
           width: width,
           height: height),
+      const MapContainer(),
       const UserProfileRoute(titleQuestion: 'Search for something new!'),
       const ShoppingCartRoute(
           titleQuestion: 'Do you want to buy something else?'),
     ];
-
+    var body = queryAsked
+        ? GestureDetector(
+            child: Stack(children: [
+              _widgetOptions.elementAt(_selectedIndex),
+              ListView(children: resultOfQuery),
+            ]),
+            onTap: () => _tappedOutside())
+        : Stack(children: [_widgetOptions.elementAt(_selectedIndex)]);
     return Scaffold(
       appBar: AppBar(
           // toolbarHeight: 60,
           flexibleSpace: SafeArea(child: questionBar)),
-      body: Stack(children: [
-        _widgetOptions.elementAt(_selectedIndex),
-        ListView(children: resultOfQuery),
-      ]),
+      body: body,
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -186,6 +203,10 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.map_outlined),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
@@ -196,6 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: bottomBarColor,
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );
