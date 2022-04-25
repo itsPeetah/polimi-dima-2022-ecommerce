@@ -16,7 +16,7 @@ class WelcomeHeader extends StatelessWidget {
         Padding(
             padding: EdgeInsets.all(width * 0.02),
             child: Image.asset(
-              '../../images/twoMenShakingHands.jpg',
+              './images/twoMenShakingHands.jpg',
               color: const Color.fromARGB(210, 0, 0, 0),
               colorBlendMode: BlendMode.dstATop,
             )),
