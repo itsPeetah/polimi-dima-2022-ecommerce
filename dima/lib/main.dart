@@ -146,14 +146,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     if (top15Choices.isEmpty) {
       getAllDb().forEach((preference) => {
-            if (top15Choices.length < 15)
+            if (top15Choices.length <= 28)
               {
                 top15Choices.add(Padding(
                     padding:
                         EdgeInsets.only(left: width / 20, right: width / 20),
                     child: ProductItemHorizontal(product: preference)))
               },
-            if (top15Choices.length < 15 - 1)
+            if (top15Choices.length < 28)
               {
                 top15Choices.add(
                   Divider(
