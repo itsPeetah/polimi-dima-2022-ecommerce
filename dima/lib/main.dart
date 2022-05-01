@@ -1,5 +1,6 @@
 import 'package:dima/components/home/homepage.dart';
 import 'package:dima/components/map/map_component.dart';
+import 'package:dima/components/questionBarResult.dart';
 import 'package:dima/shoppingcartroute.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/userprofile.dart';
@@ -50,12 +51,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // resultColumn = SizedBox(
-  // height: height / 3,
-  // child: ListView(
-  //   children: resultOfQuery,
-  // ));
-  // if (queryAsked) resultColumn
   final preferredProducts = <Widget>[];
   final top15Choices = <Widget>[];
   bool queryAsked = false;
@@ -84,8 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
             {
               resultQuery.add(Padding(
                   padding:
+
+                      /// to do: change this value to a variable value
                       const EdgeInsets.only(left: 400 / 20, right: 800 / 20),
-                  child: ProductItemHorizontal(product: preference)))
+                  child: QuestionBarResult(product: preference)))
             }
         });
     return showProducts(resultQuery, x);
