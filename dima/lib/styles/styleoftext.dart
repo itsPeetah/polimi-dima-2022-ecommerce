@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 const Color backgroundColor1 = Color.fromARGB(207, 58, 114, 147);
 const Color backgroundItemColor1 = Color.fromARGB(76, 72, 148, 162);
 const Color dividerColor = Color.fromARGB(131, 69, 0, 28);
+const Color questionBarColor = Color.fromARGB(255, 46, 62, 70);
+
 // Text color
 const Color backgroundAppColor = Color.fromARGB(103, 221, 198, 124);
 const Color headerTextColor = Colors.blue;
+const Color questionBarTextColor = Color.fromARGB(226, 255, 255, 255);
 // Bottom Bar color
 const Color bottomBarColor = Color.fromARGB(255, 255, 143, 0);
 

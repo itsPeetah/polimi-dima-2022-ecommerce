@@ -29,11 +29,13 @@ class ProductItemHorizontal extends StatelessWidget {
                   width: width / 2,
                   child: Padding(
                       padding: EdgeInsets.all(width * 0.01),
-                      child: Image.network(
-                        product['link'],
-                        width: width * 0.4,
-                        height: height * 0.25,
-                      )),
+                      child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: Image.network(
+                            product['link'],
+                            width: width * 0.4,
+                            height: height * 0.25,
+                          ))),
                 ),
                 SizedBox(
                     width: width / 2,

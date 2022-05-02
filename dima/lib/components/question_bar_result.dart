@@ -11,7 +11,7 @@ class QuestionBarResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var width = size.width * .9;
+    var width = size.width;
     var height = size.height;
     return GestureDetector(
         onTap: () => Navigator.push(
@@ -20,31 +20,36 @@ class QuestionBarResult extends StatelessWidget {
                 builder: (context) =>
                     ProductFromID(productId: product['id'].toString()))),
         child: Container(
-            color: backgroundItemColor1,
+            color: questionBarColor,
             child: Flex(
               direction: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
+                  height: height * 0.28,
                   width: width / 2,
                   child: Padding(
-                      padding: EdgeInsets.all(width * 0.01),
-                      child: Image.network(
-                        product['link'],
-                        width: width * 0.4,
-                        height: height * 0.25,
-                      )),
+                      padding: EdgeInsets.all(width * 0.03),
+                      child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: Image.network(
+                            product['link'],
+                            height: height * 0.22,
+                          ))),
                 ),
                 SizedBox(
-                    width: width / 2,
+                    width: width * 0.35,
                     child: Column(children: [
                       Text(product['name'].toString(),
-                          style: const TextStyle(fontSize: productTitleSize),
+                          style: const TextStyle(
+                              fontSize: productTitleSize,
+                              color: questionBarTextColor),
                           textAlign: TextAlign.center),
                       Text(
                         product['price'],
                         textAlign: TextAlign.center,
                         style: const TextStyle(
+                            color: questionBarTextColor,
                             fontFamily: 'Raleway-Regular',
                             fontSize: productPriceSize),
                       )

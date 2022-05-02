@@ -1,6 +1,6 @@
 import 'package:dima/components/home/homepage.dart';
 import 'package:dima/components/map/map_component.dart';
-import 'package:dima/components/questionBarResult.dart';
+import 'package:dima/components/question_bar_result.dart';
 import 'package:dima/shoppingcartroute.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/userprofile.dart';
@@ -51,16 +51,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final preferredProducts = <Widget>[];
-  final top15Choices = <Widget>[];
+  TextEditingController questionBarTextController = TextEditingController();
   bool queryAsked = false;
   List<Widget> resultOfQuery = <Widget>[];
-  TextEditingController questionBarTextController = TextEditingController();
-  void _incrementCounter() {
-    setState(() {});
-  }
-
-  int _selectedIndex = 0;
   _tappedOutside() {
     setState(() {
       if (resultOfQuery.isNotEmpty) {
@@ -72,20 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  searchDB(String x) {
-    var resultQuery = <Widget>[];
-    query(x).forEach((preference) => {
-          if (resultQuery.length < 8)
-            {
-              resultQuery.add(Padding(
-                  padding:
-
-                      /// to do: change this value to a variable value
-                      const EdgeInsets.only(left: 400 / 20, right: 800 / 20),
-                  child: QuestionBarResult(product: preference)))
-            }
-        });
-    return showProducts(resultQuery, x);
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   showProducts(List<Widget> resultQuery, String x) {
@@ -102,10 +86,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    void _onItemTapped(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
+    final preferredProducts = <Widget>[];
+    final top15Choices = <Widget>[];
+
+    searchDB(String x) {
+      var resultQuery = <Widget>[];
+      query(x).forEach((preference) => {
+            if (resultQuery.length < 8)
+              {
+                resultQuery.add(Column(children: [
+                  QuestionBarResult(product: preference),
+                  const Divider(
+                    color: Colors.black,
+                    thickness: 3,
+                    indent: 4,
+                    endIndent: 4,
+                  )
+                ]))
+              }
+          });
+      return showProducts(resultQuery, x);
     }
 
     var size = MediaQuery.of(context).size;
@@ -174,24 +174,35 @@ class _MyHomePageState extends State<MyHomePage> {
       const ShoppingCartRoute(
           titleQuestion: 'Do you want to buy something else?'),
     ];
-    var body = queryAsked
-        ? GestureDetector(
-            child: Stack(children: [
-              _widgetOptions.elementAt(_selectedIndex),
-              ListView(children: resultOfQuery),
-            ]),
-            onTap: () => _tappedOutside())
-        : Stack(children: [_widgetOptions.elementAt(_selectedIndex)]);
-    return Scaffold(
-      appBar: AppBar(
-          // toolbarHeight: 60,
-          flexibleSpace: SafeArea(child: questionBar)),
+    var body = GestureDetector(
+        child: Stack(children: [
+          _widgetOptions.elementAt(_selectedIndex),
+          Visibility(
+              visible: queryAsked,
+              child: Padding(
+                  padding: EdgeInsets.only(left: width / 15, right: width / 30),
+                  child: Container(
+                    child: resultOfQuery.length >= 2
+                        ? ListView(
+                            controller: ScrollController(),
+                            children: resultOfQuery)
+                        : Column(
+                            children: resultOfQuery,
+                          ),
+                    color: Colors.blueGrey[900],
+                    height:
+                        resultOfQuery.length >= 2 ? height / 2 : height * 0.305,
+                  )))
+        ]),
+        onTap: () => _tappedOutside());
+    var finalResult = Scaffold(
+      appBar: AppBar(flexibleSpace: SafeArea(child: questionBar)),
       body: body,
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _tappedOutside,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
       drawer: const SideBarDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -218,5 +229,6 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onItemTapped,
       ),
     );
+    return finalResult;
   }
 }

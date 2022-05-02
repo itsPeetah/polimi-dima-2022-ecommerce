@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class ProductFromID extends StatelessWidget {
   const ProductFromID({Key? key, required this.productId}) : super(key: key);
   final String productId;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

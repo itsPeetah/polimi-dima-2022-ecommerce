@@ -29,40 +29,44 @@ class HomePage extends StatelessWidget {
         height: height * 0.88,
         child: Container(
             color: backgroundAppColor,
-            child: ListView(scrollDirection: Axis.vertical, children: [
-              Center(
-                child: Column(
-                  children: [
-                    const WelcomeHeader(),
-                    const Headline(text: "Our choices for you"),
-                    Container(
-                      color: backgroundColor1,
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: Row(children: [
-                        SizedBox(
-                            height: height / 3,
-                            width: width,
-                            child: ListView(
-                                padding: EdgeInsets.only(left: width * 0.01),
-                                scrollDirection: Axis.horizontal,
-                                children: preferredProducts)),
-                      ]),
+            child: ListView(
+                controller: ScrollController(),
+                scrollDirection: Axis.vertical,
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        const WelcomeHeader(),
+                        const Headline(text: "Our choices for you"),
+                        Container(
+                          color: backgroundColor1,
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Row(children: [
+                            SizedBox(
+                                height: height / 3,
+                                width: width,
+                                child: ListView(
+                                    padding:
+                                        EdgeInsets.only(left: width * 0.01),
+                                    scrollDirection: Axis.horizontal,
+                                    children: preferredProducts)),
+                          ]),
+                        ),
+                        const Padding(
+                            padding: EdgeInsets.all(25),
+                            child: Headline(
+                              text: "Top Choices of the Week",
+                            )),
+                        Container(
+                          color: backgroundColor1,
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Column(children: top15Choices),
+                        ),
+                      ],
                     ),
-                    const Padding(
-                        padding: EdgeInsets.all(25),
-                        child: Headline(
-                          text: "Top Choices of the Week",
-                        )),
-                    Container(
-                      color: backgroundColor1,
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: Column(children: top15Choices),
-                    ),
-                  ],
-                ),
-              ),
-            ])));
+                  ),
+                ])));
   }
 }
