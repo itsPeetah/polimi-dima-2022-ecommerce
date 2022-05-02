@@ -1,4 +1,5 @@
 import 'package:dima/components/dbs.dart';
+import 'package:dima/default_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +13,16 @@ class ProductFromID extends StatelessWidget {
     var width = size.width;
     var height = size.height;
     var product = getProductFromId(productId);
-    return SizedBox(
-        width: width,
-        height: 0.9 * height,
-        child: ListView(
-          children: [
-            Text(product['id'] + "--" + product['name']),
-            Image.network(product['link'])
-          ],
-        ));
+    return DefaultScaffold(
+        givenBody: SizedBox(
+            width: width,
+            height: 0.9 * height,
+            child: ListView(
+              children: [
+                Text(product['id'] + "--" + product['name']),
+                Image.network(product['link'])
+              ],
+            )),
+        isDefault: false);
   }
 }

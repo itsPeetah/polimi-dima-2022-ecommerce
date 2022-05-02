@@ -1,3 +1,4 @@
+import 'package:dima/default_scaffold.dart';
 import 'package:dima/userprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/main.dart';
@@ -24,7 +25,7 @@ class SideBarDrawer extends StatelessWidget {
             title: const Text('Home Page'),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()));
+                  MaterialPageRoute(builder: (context) => DefaultScaffold()));
             },
           ),
           ListTile(
