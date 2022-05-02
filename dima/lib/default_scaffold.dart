@@ -20,7 +20,7 @@ class DefaultScaffold extends StatefulWidget {
       : super(key: key);
 
   final String title;
-  final bool isDefault;
+  bool isDefault;
   final Widget? givenBody;
 
   @override
@@ -45,6 +45,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
+      widget.isDefault = true;
       _selectedIndex = index;
     });
   }
@@ -153,7 +154,12 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
     ];
     var defaultBody = GestureDetector(
         child: Stack(children: [
-          _widgetOptions.elementAt(_selectedIndex),
+          Visibility(
+              child: widget.isDefault ? Container() : widget.givenBody!,
+              visible: !widget.isDefault),
+          Visibility(
+              child: _widgetOptions.elementAt(_selectedIndex),
+              visible: widget.isDefault),
           Visibility(
               visible: queryAsked,
               child: Padding(
@@ -172,7 +178,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
                   )))
         ]),
         onTap: () => _tappedOutside());
-    var body = widget.isDefault ? defaultBody : widget.givenBody;
+    var body = defaultBody;
     var finalResult = Scaffold(
       appBar: AppBar(flexibleSpace: SafeArea(child: questionBar)),
       body: body,
