@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>445586647341-m3hienpnpcl67dnjcl8reag0c7vu6joj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.445586647341-m3hienpnpcl67dnjcl8reag0c7vu6joj</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCPU9r3nWcXMxWkHkXdg1zxa72NKkZIZME</string>
+	<key>GCM_SENDER_ID</key>
+	<string>445586647341</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.dima</string>
+	<key>PROJECT_ID</key>
+	<string>dima-eshopping</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dima-eshopping.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:445586647341:ios:6004d7c1da11cd33158ba4</string>
+</dict>
+</plist>

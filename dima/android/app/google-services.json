@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "445586647341",
+    "project_id": "dima-eshopping",
+    "storage_bucket": "dima-eshopping.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445586647341:android:d5267947830f3125158ba4",
+        "android_client_info": {
+          "package_name": "com.example.dima"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445586647341-qa0e8n3v47qg70q7ikdave2f5il1r6go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUlr2nMn4zsSdw7YY8sqg0mU32XWsnlm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445586647341-qa0e8n3v47qg70q7ikdave2f5il1r6go.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

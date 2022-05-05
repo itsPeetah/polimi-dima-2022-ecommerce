@@ -14,7 +14,7 @@ void main() {
   testWidgets('Test that a welcome header is present in the main page',
       (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
 
     expect(find.textContaining('Welcome to'), findsOneWidget);
 
@@ -27,7 +27,7 @@ void main() {
   testWidgets('Test that when the person icon is pressed we go to another page',
       (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
 
     await tester.tap(find.byIcon(Icons.person)); //shopping_cart
     await tester.pump(const Duration(seconds: 5));
@@ -42,7 +42,7 @@ void main() {
       'Test that when the shopping cart icon is pressed we go to shopping_cart_route',
       (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
 
     await tester.tap(find.byIcon(Icons.shopping_cart)); //shopping_cart
     await tester.pumpAndSettle();
@@ -57,7 +57,7 @@ void main() {
       'Test that when a (vertical) product icon is pressed we go to product id.dart',
       (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
     await tester.pumpAndSettle();
     expect(find.byType(ProductFromID), findsNothing);
 
@@ -76,7 +76,7 @@ void main() {
       'Test that when a (horizontal) product icon is pressed we go to product id.dart',
       (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
     await tester.pumpAndSettle();
     expect(find.byType(ProductFromID), findsNothing);
 
@@ -87,7 +87,7 @@ void main() {
   });
 
   testWidgets('Test that the search bar works', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
     await tester.pumpAndSettle();
     expect(find.byType(QuestionBarResult), findsNothing);
 

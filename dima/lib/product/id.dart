@@ -1,13 +1,16 @@
 import 'package:dima/components/dbs.dart';
 import 'package:dima/default_scaffold.dart';
 import 'package:dima/styles/styleoftext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductFromID extends StatelessWidget {
   const ProductFromID({Key? key, required this.productId}) : super(key: key);
   final String productId;
   void _buyCallback() {
+    true;
+  }
+
+  void _addToCart() {
     true;
   }
 
@@ -48,9 +51,14 @@ class ProductFromID extends StatelessWidget {
             product['price'],
             style: const TextStyle(fontSize: 17),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: ElevatedButton(
+                onPressed: _addToCart,
+                child: const Icon(Icons.add_shopping_cart_rounded)),
+          ),
           ElevatedButton(
-              onPressed: _buyCallback,
-              child: const Text('Buy this product/ or add To cart?'))
+              onPressed: _buyCallback, child: const Text('Buy this product'))
         ],
       )
     ]);
