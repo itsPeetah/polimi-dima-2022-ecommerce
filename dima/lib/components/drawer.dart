@@ -32,10 +32,8 @@ class SideBarDrawer extends StatelessWidget {
             leading: const Icon(Icons.person_outline_sharp),
             title: const Text('Your profile'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const UserProfileRoute()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserProfileRoute()));
               // Navigator.pop(context);
             },
           ),

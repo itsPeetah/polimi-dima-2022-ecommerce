@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "445586647341",
+    "firebase_url": "https://dima-eshopping-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "dima-eshopping",
     "storage_bucket": "dima-eshopping.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "445586647341-qa0e8n3v47qg70q7ikdave2f5il1r6go.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "445586647341-m3hienpnpcl67dnjcl8reag0c7vu6joj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dima"
+              }
             }
           ]
         }

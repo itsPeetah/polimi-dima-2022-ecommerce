@@ -148,7 +148,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
           width: width,
           height: height),
       const MapContainer(),
-      const UserProfileRoute(titleQuestion: 'Search for something new!'),
+      UserProfileRoute(titleQuestion: 'Search for something new!'),
       const ShoppingCartRoute(
           titleQuestion: 'Do you want to buy something else?'),
     ];
