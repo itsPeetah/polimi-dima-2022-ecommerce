@@ -1,3 +1,4 @@
+import 'package:dima/components/model/product.dart';
 import 'package:dima/product/id.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
@@ -7,7 +8,7 @@ class ProductItem extends StatelessWidget {
     Key? key,
     required this.product,
   }) : super(key: key);
-  final dynamic product;
+  final Product product;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -17,8 +18,7 @@ class ProductItem extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductFromID(productId: product['id'].toString()))),
+                builder: (context) => ProductFromID(product: product))),
         child: Container(
             color: backgroundItemColor1,
             child: Flex(
@@ -27,15 +27,15 @@ class ProductItem extends StatelessWidget {
               children: [
                 Padding(
                     padding: EdgeInsets.all(width * 0.02),
-                    child: Image.network(
-                      product['link'],
+                    child: SizedBox(
+                      child: product.image,
                       width: width * 0.4,
                       height: height * 0.25,
                     )),
                 Text(
-                  product['name'].toString(),
+                  product.name,
                 ),
-                Text(product['price'])
+                Text(product.price)
               ],
             )));
   }

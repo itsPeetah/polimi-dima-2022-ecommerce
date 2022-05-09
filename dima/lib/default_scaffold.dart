@@ -1,4 +1,4 @@
-import 'package:dima/components/dbs.dart';
+import 'package:dima/components/model/dbs.dart';
 import 'package:dima/components/home/homepage.dart';
 import 'package:dima/components/home/product_home.dart';
 import 'package:dima/components/home/product_home_horizontal.dart';
@@ -20,8 +20,8 @@ class DefaultScaffold extends StatefulWidget {
       : super(key: key);
 
   final String title;
-  bool isDefault;
   final Widget? givenBody;
+  bool isDefault;
 
   @override
   State<DefaultScaffold> createState() => _DefaultScaffoldState();
@@ -91,7 +91,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
     var height = size.height;
     var iconHeight = height * 0.033;
     Widget questionBar = Padding(
-        padding: EdgeInsets.only(left: width * 0.11),
+        padding: EdgeInsets.only(left: width * 0.125, right: width * 0.02),
         child: Center(
           child: Container(
             padding: EdgeInsets.all(width * 0.02),

@@ -1,4 +1,5 @@
 import 'package:dima/default_scaffold.dart';
+import 'package:dima/userprofile.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +20,12 @@ class RegisterForm extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final List<TextEditingController> controllers = [];
   final userRef = FirebaseDatabase.instance.ref().child('/user');
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late BuildContext context;
   void _userNameError() {}
   _registerUser() async {
+    final FormState? form = _formKey.currentState;
+    form!.validate();
     bool correctData = true;
     if (_nameController.text.isEmpty ||
         _surnameController.text.isEmpty ||
@@ -56,9 +60,18 @@ class RegisterForm extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Registered successfully')),
     );
+    dynamic usedUsername = _usernameController.text;
     for (var controller in controllers) {
       controller.clear();
     }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DefaultScaffold(
+                isDefault: false,
+                givenBody: UserProfileRoute(
+                  username: usedUsername,
+                ))));
   }
 
   @override
@@ -71,55 +84,57 @@ class RegisterForm extends StatelessWidget {
     controllers.add(_usernameController);
     _usernameController.text = username;
     _passwordController.text = password;
-    dynamic body = Column(children: [
-      TextFormField(
-        validator: (value) {
-          value == null
-              ? 'Username can not be empty'
-              : (value.length < 6
-                  ? 'Username needs to be of at least 6 characters'
-                  : null);
-        },
-        decoration: const InputDecoration(hintText: 'Enter your username'),
-        controller: _usernameController,
-      ),
-      TextFormField(
-        decoration: const InputDecoration(hintText: 'Enter your name'),
-        controller: _nameController,
-      ),
-      TextFormField(
-        decoration: const InputDecoration(hintText: 'Enter your surname'),
-        controller: _surnameController,
-      ),
-      TextFormField(
-        validator: (value) {
-          value == null
-              ? 'Password can not be empty'
-              : (value.length < 6
-                  ? 'Password needs to be of at least 6 characters'
-                  : null);
-        },
-        decoration: const InputDecoration(hintText: 'Enter your password'),
-        controller: _passwordController,
-        obscureText: true,
-      ),
-      TextFormField(
-        validator: (value) {
-          value == null
-              ? 'Email can not be empty'
-              : (value.contains(RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-                  ? 'Please input a correct email'
-                  : null);
-        },
-        decoration: const InputDecoration(hintText: 'Enter your email'),
-        controller: _emailController,
-      ),
-      Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: ElevatedButton(
-              onPressed: _registerUser, child: const Text('Submit')))
-    ]);
+    dynamic body = Form(
+        key: _formKey,
+        child: Column(children: [
+          TextFormField(
+            validator: (value) {
+              value == null
+                  ? 'Username can not be empty'
+                  : (value.length < 6
+                      ? 'Username needs to be of at least 6 characters'
+                      : null);
+            },
+            decoration: const InputDecoration(hintText: 'Enter your username'),
+            controller: _usernameController,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(hintText: 'Enter your name'),
+            controller: _nameController,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(hintText: 'Enter your surname'),
+            controller: _surnameController,
+          ),
+          TextFormField(
+            validator: (value) {
+              value == null
+                  ? 'Password can not be empty'
+                  : (value.length < 6
+                      ? 'Password needs to be of at least 6 characters'
+                      : null);
+            },
+            decoration: const InputDecoration(hintText: 'Enter your password'),
+            controller: _passwordController,
+            obscureText: true,
+          ),
+          TextFormField(
+            validator: (value) {
+              value == null
+                  ? 'Email can not be empty'
+                  : (value.contains(RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
+                      ? 'Please input a correct email'
+                      : null);
+            },
+            decoration: const InputDecoration(hintText: 'Enter your email'),
+            controller: _emailController,
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                  onPressed: _registerUser, child: const Text('Submit')))
+        ]));
     body = Padding(
         child: body,
         padding: const EdgeInsets.only(top: 40, left: 20, right: 20));

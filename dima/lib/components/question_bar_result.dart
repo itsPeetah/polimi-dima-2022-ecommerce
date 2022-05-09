@@ -1,3 +1,4 @@
+import 'package:dima/components/model/product.dart';
 import 'package:dima/product/id.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
@@ -7,7 +8,7 @@ class QuestionBarResult extends StatelessWidget {
     Key? key,
     required this.product,
   }) : super(key: key);
-  final dynamic product;
+  final Product product;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -17,8 +18,7 @@ class QuestionBarResult extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductFromID(productId: product['id'].toString()))),
+                builder: (context) => ProductFromID(product: product))),
         child: Container(
             color: questionBarColor,
             child: Flex(
@@ -32,21 +32,21 @@ class QuestionBarResult extends StatelessWidget {
                       padding: EdgeInsets.all(width * 0.03),
                       child: FittedBox(
                           fit: BoxFit.fill,
-                          child: Image.network(
-                            product['link'],
+                          child: SizedBox(
+                            child: product.image,
                             height: height * 0.22,
                           ))),
                 ),
                 SizedBox(
                     width: width * 0.35,
                     child: Column(children: [
-                      Text(product['name'].toString(),
+                      Text(product.name,
                           style: const TextStyle(
                               fontSize: productTitleSize,
                               color: questionBarTextColor),
                           textAlign: TextAlign.center),
                       Text(
-                        product['price'],
+                        product.price,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             color: questionBarTextColor,

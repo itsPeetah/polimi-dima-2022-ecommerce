@@ -1,3 +1,4 @@
+import 'package:dima/components/model/product.dart';
 import 'package:dima/product/id.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
@@ -7,7 +8,7 @@ class ProductItemHorizontal extends StatelessWidget {
     Key? key,
     required this.product,
   }) : super(key: key);
-  final dynamic product;
+  final Product product;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -17,8 +18,7 @@ class ProductItemHorizontal extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductFromID(productId: product['id'].toString()))),
+                builder: (context) => ProductFromID(product: product))),
         child: Container(
             color: backgroundItemColor1,
             child: Flex(
@@ -31,8 +31,8 @@ class ProductItemHorizontal extends StatelessWidget {
                       padding: EdgeInsets.all(width * 0.01),
                       child: FittedBox(
                           fit: BoxFit.fill,
-                          child: Image.network(
-                            product['link'],
+                          child: SizedBox(
+                            child: product.image,
                             width: width * 0.4,
                             height: height * 0.25,
                           ))),
@@ -40,11 +40,11 @@ class ProductItemHorizontal extends StatelessWidget {
                 SizedBox(
                     width: width / 2,
                     child: Column(children: [
-                      Text(product['name'].toString(),
+                      Text(product.name,
                           style: const TextStyle(fontSize: productTitleSize),
                           textAlign: TextAlign.center),
                       Text(
-                        product['price'],
+                        product.price,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontFamily: 'Raleway-Regular',

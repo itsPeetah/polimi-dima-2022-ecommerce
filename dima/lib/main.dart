@@ -31,12 +31,11 @@ class MyApp extends StatelessWidget {
             return const Text('Error');
           } else if (snapshot.hasData) {
             FirebaseApp fbApp = snapshot.data as FirebaseApp;
-            print('Created');
+            print('Firebase has been initialized correctly');
             //firebase: fbApp
             return DefaultScaffold();
           } else {
             /// TODO: create loading screen
-            print('Loading');
             return const Center(
               child: CircularProgressIndicator(),
             );

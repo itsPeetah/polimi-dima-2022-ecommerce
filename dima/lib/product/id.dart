@@ -1,11 +1,13 @@
-import 'package:dima/components/dbs.dart';
+import 'package:dima/components/model/dbs.dart';
+import 'package:dima/components/model/product.dart';
 import 'package:dima/default_scaffold.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:flutter/material.dart';
 
+/// Previously called product from id is now simply the page you get redirected when you click on a product link.
 class ProductFromID extends StatelessWidget {
-  const ProductFromID({Key? key, required this.productId}) : super(key: key);
-  final String productId;
+  const ProductFromID({Key? key, required this.product}) : super(key: key);
+  final Product product;
   void _buyCallback() {
     true;
   }
@@ -22,7 +24,6 @@ class ProductFromID extends StatelessWidget {
 
     var width = size.width;
     var height = size.height - bottomPadding - topPadding;
-    var product = getProductFromId(productId);
     Widget body =
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       ElevatedButton(
@@ -33,9 +34,9 @@ class ProductFromID extends StatelessWidget {
           height: 0.80 * height,
           child: ListView(
             children: [
-              Image.network(product['link']),
+              product.image,
               Text(
-                product['id'] + ") " + product['name'],
+                product.name,
                 style: const TextStyle(
                     color: headerTextColor, fontSize: productTitleSize),
               ),
@@ -48,7 +49,7 @@ class ProductFromID extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            product['price'],
+            product.price,
             style: const TextStyle(fontSize: 17),
           ),
           Padding(
