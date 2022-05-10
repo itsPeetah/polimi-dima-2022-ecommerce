@@ -1,7 +1,7 @@
-import 'package:dima/components/userPage/register_form.dart';
 import 'package:dima/default_scaffold.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'components/user_page/register_form.dart';
 
 class UserProfileRoute extends StatefulWidget {
   const UserProfileRoute(
