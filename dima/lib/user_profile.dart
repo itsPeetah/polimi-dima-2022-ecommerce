@@ -3,24 +3,29 @@ import 'package:dima/default_scaffold.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class UserProfileRoute extends StatelessWidget {
-  UserProfileRoute(
+class UserProfileRoute extends StatefulWidget {
+  const UserProfileRoute(
       {Key? key,
       this.titleQuestion = 'Search for something new!',
       this.mail = ''})
       : super(key: key);
   final String titleQuestion;
   final String mail;
-  late BuildContext context;
+  @override
+  State<UserProfileRoute> createState() => _UserProfileRouteState();
+}
+
+class _UserProfileRouteState extends State<UserProfileRoute> {
   void _signOut() {
     FirebaseAuth.instance.signOut();
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => DefaultScaffold()));
   }
 
-  void _signIn() {
-    FirebaseAuth.instance.signInWithEmailAndPassword(
+  void _signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _mailController.text, password: _passwordController.text);
+    setState(() {});
   }
 
   final TextEditingController _mailController = TextEditingController();
@@ -30,8 +35,7 @@ class UserProfileRoute extends StatelessWidget {
     /// TODO: why does the context.size.width return null?
     var width = 20 * 20;
     var height = 20 * 40;
-    _mailController.text = mail;
-    this.context = context;
+    _mailController.text = widget.mail;
     User? thisUser;
     String? uid;
     if (FirebaseAuth.instance.currentUser != null) {

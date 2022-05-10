@@ -1,19 +1,46 @@
-import 'package:dima/components/model/dbs.dart';
-import 'package:dima/components/model/product.dart';
+import 'package:dima/model/product.dart';
 import 'package:dima/default_scaffold.dart';
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/user_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 /// Previously called product from id is now simply the page you get redirected when you click on a product link.
-class ProductFromID extends StatelessWidget {
+class ProductFromID extends StatefulWidget {
   const ProductFromID({Key? key, required this.product}) : super(key: key);
   final Product product;
+
+  @override
+  State<ProductFromID> createState() => _ProductFromIDState();
+}
+
+class _ProductFromIDState extends State<ProductFromID> {
   void _buyCallback() {
     true;
   }
 
-  void _addToCart() {
-    true;
+  Future<void> _addToCart() async {
+    User? thisUser = FirebaseAuth.instance.currentUser;
+    if (thisUser == null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DefaultScaffold(
+                    isDefault: false,
+                    givenBody: const UserProfileRoute(),
+                  )));
+    }
+    final userFavoritesRef = FirebaseDatabase.instance.ref().child(
+        'user/' + thisUser!.uid + '/favorites' + '/' + widget.product.name);
+    final qt = await userFavoritesRef.child('/quantity').once();
+    var quantity = 0;
+    print(qt.snapshot.value);
+    if (qt.snapshot.value != null) {
+      quantity = qt.snapshot.value as int;
+    }
+    await userFavoritesRef
+        .update(Product.toRTDB(widget.product, quantity: quantity));
   }
 
   @override
@@ -34,9 +61,9 @@ class ProductFromID extends StatelessWidget {
           height: 0.80 * height,
           child: ListView(
             children: [
-              product.image,
+              widget.product.image,
               Text(
-                product.name,
+                widget.product.name,
                 style: const TextStyle(
                     color: headerTextColor, fontSize: productTitleSize),
               ),
@@ -49,7 +76,7 @@ class ProductFromID extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            product.price,
+            widget.product.price,
             style: const TextStyle(fontSize: 17),
           ),
           Padding(

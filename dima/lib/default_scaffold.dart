@@ -1,4 +1,4 @@
-import 'package:dima/components/model/dbs.dart';
+import 'package:dima/model/dbs.dart';
 import 'package:dima/components/home/homepage.dart';
 import 'package:dima/components/home/product_home.dart';
 import 'package:dima/components/home/product_home_horizontal.dart';
@@ -6,11 +6,11 @@ import 'package:dima/components/question_bar_result.dart';
 import 'package:dima/shopping_cart_route.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/user_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'components/drawer.dart';
 import 'components/map/map_component.dart';
+import 'model/dbs.dart';
 
 class DefaultScaffold extends StatefulWidget {
   DefaultScaffold(

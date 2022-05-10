@@ -1,4 +1,4 @@
-import 'package:dima/components/model/fire_auth.dart';
+import 'package:dima/model/fire_auth.dart';
 import 'package:dima/default_scaffold.dart';
 import 'package:dima/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,19 +31,6 @@ class RegisterForm extends StatelessWidget {
     if (!form!.validate()) {
       return;
     }
-    // print('Controlling mail');
-    // var queryResult =
-    //     await userRef.orderByKey().equalTo(_emailController.text).once();
-    // print('Controlled mail');
-
-    /// TODO: figure why there is an error here
-    // if (queryResult.snapshot.value != null) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //         content: Text('User with that username already exists.')),
-    //   );
-    //   return;
-    // }
 
     print('Calling register: ');
     User? user;
@@ -81,6 +68,8 @@ class RegisterForm extends StatelessWidget {
     for (var controller in controllers) {
       controller.clear();
     }
+
+    /// TODO: if you are using a context in a stateless widget then you need a stateful widget.
     Navigator.push(
         context,
         MaterialPageRoute(

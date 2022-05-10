@@ -1,5 +1,5 @@
-import 'package:dima/components/model/product.dart';
-import 'package:dima/product/id.dart';
+import 'package:dima/components/product/id.dart';
+import 'package:dima/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
 

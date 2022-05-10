@@ -1,7 +1,7 @@
 import 'package:dima/components/home/product_home.dart';
 import 'package:dima/components/home/product_home_horizontal.dart';
+import 'package:dima/components/product/id.dart';
 import 'package:dima/components/question_bar_result.dart';
-import 'package:dima/product/id.dart';
 import 'package:dima/shopping_cart_route.dart';
 import 'package:dima/user_profile.dart';
 import 'package:flutter/material.dart';

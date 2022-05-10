@@ -1,4 +1,4 @@
-import 'package:dima/components/model/product.dart';
+import 'package:dima/model/product.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 query(String s) {
