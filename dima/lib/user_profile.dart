@@ -1,45 +1,78 @@
 import 'package:dima/components/userPage/register_form.dart';
+import 'package:dima/default_scaffold.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserProfileRoute extends StatelessWidget {
   UserProfileRoute(
       {Key? key,
       this.titleQuestion = 'Search for something new!',
-      this.username = ''})
+      this.mail = ''})
       : super(key: key);
   final String titleQuestion;
-  final String username;
+  final String mail;
+  late BuildContext context;
+  void _signOut() {
+    FirebaseAuth.instance.signOut();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => DefaultScaffold()));
+  }
 
-  final TextEditingController _usernameController = TextEditingController();
+  void _signIn() {
+    FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _mailController.text, password: _passwordController.text);
+  }
+
+  final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     /// TODO: why does the context.size.width return null?
     var width = 20 * 20;
     var height = 20 * 40;
-    _usernameController.text = username;
+    _mailController.text = mail;
+    this.context = context;
+    User? thisUser;
+    String? uid;
+    if (FirebaseAuth.instance.currentUser != null) {
+      //FirebaseAuth.instance.currentUser?
+      thisUser = FirebaseAuth.instance.currentUser;
+    }
+    if (thisUser != null) {
+      return Column(
+        children: [
+          Center(
+            child: Text('Hello ' + thisUser.displayName!),
+          ),
+          ElevatedButton(onPressed: _signOut, child: const Text('Sign out'))
+        ],
+      );
+    }
+
     return Padding(
         padding: EdgeInsets.only(
             top: height / 20, left: width / 20, right: width / 20),
         child: Column(children: [
           TextFormField(
             validator: (value) {
-              value == null
-                  ? 'Username can not be empty'
+              final warning = value == null
+                  ? 'Mail can not be empty'
                   : (value.length < 6
-                      ? 'Username needs to be of at least 6 characters'
+                      ? 'Mail needs to be of at least 6 characters'
                       : null);
+              return warning;
             },
-            decoration: const InputDecoration(hintText: 'Enter your username'),
-            controller: _usernameController,
+            decoration: const InputDecoration(hintText: 'Enter your mail'),
+            controller: _mailController,
           ),
           TextFormField(
             validator: (value) {
-              value == null
+              final warning = value == null
                   ? 'Password can not be empty'
                   : (value.length < 6
                       ? 'Password needs to be of at least 6 characters'
                       : null);
+              return warning;
             },
             decoration: const InputDecoration(hintText: 'Enter your password'),
             controller: _passwordController,
@@ -48,7 +81,7 @@ class UserProfileRoute extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
-                  onPressed: () {}, child: const Text('Log In'))),
+                  onPressed: _signIn, child: const Text('Log In'))),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
@@ -57,7 +90,7 @@ class UserProfileRoute extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => RegisterForm(
-                                username: _usernameController.text,
+                                mail: _mailController.text,
                                 password: _passwordController.text)));
                   },
                   child: const Text('Register')))

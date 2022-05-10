@@ -9,17 +9,16 @@ class RegisterForm extends StatelessWidget {
   RegisterForm(
       {Key? key,
       this.titleQuestion = 'Search for something new!',
-      this.username = '',
+      this.mail = '',
       this.password = ''})
       : super(key: key);
   final String titleQuestion;
-  var username = '';
+  var mail = '';
   var password = '';
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final List<TextEditingController> controllers = [];
   final userRef = FirebaseDatabase.instance.ref().child('/user');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -30,44 +29,40 @@ class RegisterForm extends StatelessWidget {
   _registerUser() async {
     final FormState? form = _formKey.currentState;
     if (!form!.validate()) {
-      print('Error in validation');
       return;
     }
-    bool correctData = true;
-    if (_nameController.text.isEmpty ||
-        _surnameController.text.isEmpty ||
-        _passwordController.text.isEmpty ||
-        _emailController.text.isEmpty) {
-      correctData = false;
-    }
-    if (!correctData) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter all required information.')),
-      );
-      return;
-    }
-    var queryResult =
-        await userRef.orderByKey().equalTo(_usernameController.text).once();
+    // print('Controlling mail');
+    // var queryResult =
+    //     await userRef.orderByKey().equalTo(_emailController.text).once();
+    // print('Controlled mail');
 
     /// TODO: figure why there is an error here
-    if (queryResult.snapshot.value != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('User with that username already exists.')),
-      );
-      return;
-    }
+    // if (queryResult.snapshot.value != null) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //         content: Text('User with that username already exists.')),
+    //   );
+    //   return;
+    // }
 
     print('Calling register: ');
-    User? user = await FireAuth.registerUsingEmailPassword(
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passwordController.text);
-    print('Result of register: ');
+    User? user;
+    try {
+      user = await FireAuth.registerUsingEmailPassword(
+          name: _nameController.text + ' ' + _surnameController.text,
+          email: _emailController.text,
+          password: _passwordController.text);
+      print('Result of register: ');
+    } on Exception catch (exception) {
+      print('Error while trying to create a user');
+      print(exception);
+      return;
+    }
     print(user!.uid);
+
     // user does not already exist
     try {
-      await userRef.child(user!.uid).set({
+      await userRef.child(user.uid).set({
         'name': _nameController.text,
         'surname': _surnameController.text,
         'email': _emailController.text,
@@ -82,7 +77,7 @@ class RegisterForm extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Registered successfully')),
     );
-    dynamic usedUsername = _usernameController.text;
+    dynamic usedMail = _emailController.text;
     for (var controller in controllers) {
       controller.clear();
     }
@@ -92,7 +87,7 @@ class RegisterForm extends StatelessWidget {
             builder: (context) => DefaultScaffold(
                 isDefault: false,
                 givenBody: UserProfileRoute(
-                  username: usedUsername,
+                  mail: usedMail,
                 ))));
   }
 
@@ -103,54 +98,56 @@ class RegisterForm extends StatelessWidget {
     controllers.add(_surnameController);
     controllers.add(_passwordController);
     controllers.add(_emailController);
-    controllers.add(_usernameController);
-    _usernameController.text = username;
+    _emailController.text = mail;
     _passwordController.text = password;
     dynamic body = Form(
         key: _formKey,
         child: Column(children: [
           TextFormField(
             validator: (value) {
-              value == null
-                  ? 'Username can not be empty'
-                  : (value.length < 6
-                      ? 'Username needs to be of at least 6 characters'
+              final warning = value == null
+                  ? 'Email can not be empty'
+                  : (!value.contains(RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
+                      ? 'Please input a correct email'
                       : null);
+              return warning;
             },
-            decoration: const InputDecoration(hintText: 'Enter your username'),
-            controller: _usernameController,
+            decoration: const InputDecoration(hintText: 'Enter your email'),
+            controller: _emailController,
           ),
           TextFormField(
+            validator: (value) {
+              final warning = (value == null || value.isEmpty)
+                  ? 'Your name can not be empty.'
+                  : null;
+              return warning;
+            },
             decoration: const InputDecoration(hintText: 'Enter your name'),
             controller: _nameController,
           ),
           TextFormField(
+            validator: (value) {
+              final warning = (value == null || value.isEmpty)
+                  ? 'Your surname can not be empty.'
+                  : null;
+              return warning;
+            },
             decoration: const InputDecoration(hintText: 'Enter your surname'),
             controller: _surnameController,
           ),
           TextFormField(
             validator: (value) {
-              value == null
-                  ? 'Password can not be empty'
+              final warning = (value == null || value.isEmpty)
+                  ? 'Password can not be empty.'
                   : (value.length < 6
-                      ? 'Password needs to be of at least 6 characters'
+                      ? 'Password needs to be at least 6 characters long.'
                       : null);
+              return warning;
             },
             decoration: const InputDecoration(hintText: 'Enter your password'),
             controller: _passwordController,
             obscureText: true,
-          ),
-          TextFormField(
-            validator: (value) {
-              value == null
-                  ? 'Email can not be empty'
-                  : (value.contains(RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-                      ? 'Please input a correct email'
-                      : null);
-            },
-            decoration: const InputDecoration(hintText: 'Enter your email'),
-            controller: _emailController,
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
