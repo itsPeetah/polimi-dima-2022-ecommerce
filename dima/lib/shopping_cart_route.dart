@@ -1,3 +1,5 @@
+import 'package:dima/components/shopping_cart/shopping_product.dart';
+import 'package:dima/model/dbs.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingCartRoute extends StatelessWidget {
@@ -7,13 +9,15 @@ class ShoppingCartRoute extends StatelessWidget {
   final String titleQuestion;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: const Text('Not yet implemented, go back to the previous page!'),
-      ),
+    List<Widget> children = [];
+    for (var el in getAllDb()) {
+      children.add(ShoppingCartProduct(product: el, quantity: 1));
+      children.add(Divider());
+    }
+    var body = ListView(
+      scrollDirection: Axis.vertical,
+      children: children,
     );
+    return body;
   }
 }
