@@ -1,5 +1,4 @@
 import 'package:dima/components/userPage/register_form.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class UserProfileRoute extends StatelessWidget {
@@ -51,8 +50,6 @@ class UserProfileRoute extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {}, child: const Text('Log In'))),
           Padding(
-
-              /// TODO: Add log in and shopping cart
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                   onPressed: () {

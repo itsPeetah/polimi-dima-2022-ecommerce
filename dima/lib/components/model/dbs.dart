@@ -26,8 +26,8 @@ fourthChoice() {
 
 List<Product> userPref() {
   List<Product> result = getAllDb();
-  if (result.length > 8) {
-    result = result.getRange(4, 8).toList();
+  if (result.length > 5) {
+    result = result.getRange(1, 5).toList();
   } else {
     result = [];
   }
@@ -46,7 +46,6 @@ List<Product> getAllDb() {
         resultList.add(productToAppend);
       }
     },
-    onDone: () => resultList,
   );
   return resultList;
 }

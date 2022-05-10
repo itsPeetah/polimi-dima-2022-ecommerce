@@ -1,7 +1,6 @@
 import 'package:dima/default_scaffold.dart';
-import 'package:dima/userprofile.dart';
+import 'package:dima/user_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:dima/main.dart';
 
 class SideBarDrawer extends StatelessWidget {
   const SideBarDrawer({Key? key}) : super(key: key);

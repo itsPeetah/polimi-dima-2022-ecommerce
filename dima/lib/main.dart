@@ -2,10 +2,13 @@ import 'package:dima/default_scaffold.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   // Firebase initialization and avoiding race condition
   WidgetsFlutterBinding.ensureInitialized();
+  print('Ensured WidgetsFlutterBinding is initialized');
+
   runApp(MyApp());
 }
 
@@ -32,6 +35,13 @@ class MyApp extends StatelessWidget {
           } else if (snapshot.hasData) {
             FirebaseApp fbApp = snapshot.data as FirebaseApp;
             print('Firebase has been initialized correctly');
+            FirebaseAuth.instance.authStateChanges().listen((User? user) {
+              if (user == null) {
+                print('User is currently signed out!');
+              } else {
+                print('User is signed in!');
+              }
+            });
             //firebase: fbApp
             return DefaultScaffold();
           } else {

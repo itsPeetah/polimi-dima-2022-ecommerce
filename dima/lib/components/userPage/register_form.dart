@@ -1,5 +1,7 @@
+import 'package:dima/components/model/fire_auth.dart';
 import 'package:dima/default_scaffold.dart';
-import 'package:dima/userprofile.dart';
+import 'package:dima/user_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -22,10 +24,15 @@ class RegisterForm extends StatelessWidget {
   final userRef = FirebaseDatabase.instance.ref().child('/user');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late BuildContext context;
-  void _userNameError() {}
+  void _userNameError() {
+    ///TODO: why does the validator not highlight text
+  }
   _registerUser() async {
     final FormState? form = _formKey.currentState;
-    form!.validate();
+    if (!form!.validate()) {
+      print('Error in validation');
+      return;
+    }
     bool correctData = true;
     if (_nameController.text.isEmpty ||
         _surnameController.text.isEmpty ||
@@ -50,13 +57,28 @@ class RegisterForm extends StatelessWidget {
       );
       return;
     }
+
+    print('Calling register: ');
+    User? user = await FireAuth.registerUsingEmailPassword(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text);
+    print('Result of register: ');
+    print(user!.uid);
     // user does not already exist
-    await userRef.child(_usernameController.text).set({
-      'name': _nameController.text,
-      'surname': _surnameController.text,
-      'email': _emailController.text,
-      'password': _passwordController.text
-    });
+    try {
+      await userRef.child(user!.uid).set({
+        'name': _nameController.text,
+        'surname': _surnameController.text,
+        'email': _emailController.text,
+
+        /// TODO: remove?
+        'password': _passwordController.text,
+        'favorites': '',
+        'bought': '',
+        'visualized': ''
+      });
+    } on Exception catch (exception, stackTrace) {}
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Registered successfully')),
     );
