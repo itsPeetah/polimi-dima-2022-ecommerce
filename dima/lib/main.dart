@@ -15,6 +15,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   late Future<FirebaseApp> _fbApp;
+  late FirebaseApp fbApp;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
                 snapshot.error.toString());
             return const Text('Error');
           } else if (snapshot.hasData) {
-            FirebaseApp fbApp = snapshot.data as FirebaseApp;
+            fbApp = snapshot.data as FirebaseApp;
             print('Firebase has been initialized correctly');
             FirebaseAuth.instance.authStateChanges().listen((User? user) {
               if (user == null) {
