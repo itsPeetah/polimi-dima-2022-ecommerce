@@ -37,6 +37,7 @@ class Authentication {
           .createUserWithEmailAndPassword(email: email, password: password);
       await credential.user!.updateDisplayName(displayName);
       successCallback();
+      _createUserEntryInDatabase();
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
@@ -44,5 +45,9 @@ class Authentication {
 
   static void signOut() {
     FirebaseAuth.instance.signOut();
+  }
+
+  static void _createUserEntryInDatabase() {
+    // TODO IMPLEMENT THIS URGENTLY
   }
 }
