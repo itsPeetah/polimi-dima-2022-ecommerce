@@ -1,3 +1,7 @@
+import 'package:dima/pages/cart.dart';
+import 'package:dima/pages/home.dart';
+import 'package:dima/pages/map.dart';
+import 'package:dima/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/pages/404.dart';
 import 'package:dima/pages/fork.dart';
@@ -18,38 +22,22 @@ class NestedNavigatorRouter {
       case NestedNavigatorRoutes.home:
         return MaterialPageRoute(
           // builder: (_) => const HelloPage(title: "Home"),
-          builder: (_) => const ForkPage(
-            route1: "/home",
-            route2: "/map",
-            title: "Home",
-          ),
+          builder: (_) => const HomePage(),
         );
       case NestedNavigatorRoutes.map:
         return MaterialPageRoute(
           // builder: (_) => const HelloPage(title: "Map"),
-          builder: (_) => const ForkPage(
-            route1: "/cart",
-            route2: "/home",
-            title: "Map",
-          ),
+          builder: (_) => const MapPage(),
         );
       case NestedNavigatorRoutes.cart:
         return MaterialPageRoute(
           // builder: (_) => const HelloPage(title: "Cart"),
-          builder: (_) => const ForkPage(
-            route1: "/profile",
-            route2: "/map",
-            title: "Cart",
-          ),
+          builder: (_) => const CartPage(),
         );
       case NestedNavigatorRoutes.profile:
         return MaterialPageRoute(
           // builder: (_) => const HelloPage(title: "Profile"),
-          builder: (_) => const ForkPage(
-            route1: "/map",
-            route2: "/cart",
-            title: "Profile",
-          ),
+          builder: (_) => const ProfilePage(),
         );
       case "/":
         return MaterialPageRoute(
