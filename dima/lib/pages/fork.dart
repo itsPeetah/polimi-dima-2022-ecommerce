@@ -27,7 +27,7 @@ class ForkPage extends StatelessWidget {
   }
 
   void _pushMain() {
-    const rs = RouteSettings(name: "foobar");
+    const rs = RouteSettings(name: "/foobar");
     final r = MainNavigatorRouter.generateRoute(rs);
     MainNavigator.mainNavigatorKey.currentState!.push(r!);
   }

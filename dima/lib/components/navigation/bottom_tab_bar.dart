@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_multiple_navigation_stacks_1/util/navigation/tab_item.dart';
+import 'package:dima/util/navigation/tab_item.dart';
 
 class BottomTabBar extends StatelessWidget {
   const BottomTabBar(

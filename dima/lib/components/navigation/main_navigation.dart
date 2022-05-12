@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/components/navigation/bottom_tab_bar.dart';
 import 'package:dima/components/navigation/nested_navigator.dart';
@@ -54,7 +55,7 @@ class MainNavigationState extends State<MainNavigation> {
   }
 
   String _getAppBarTitle() {
-    return _currentTab.toString();
+    return Firebase.app().name;
   }
 
   @override
@@ -69,10 +70,10 @@ class MainNavigationState extends State<MainNavigation> {
         }),
         controller: _pageController,
         children: [
-          _buildNavigator(TabItem.home),
-          _buildNavigator(TabItem.map),
-          _buildNavigator(TabItem.cart),
-          _buildNavigator(TabItem.profile),
+          _buildNestedNavigator(TabItem.home),
+          _buildNestedNavigator(TabItem.map),
+          _buildNestedNavigator(TabItem.cart),
+          _buildNestedNavigator(TabItem.profile),
         ],
       ),
       bottomNavigationBar: BottomTabBar(
@@ -82,7 +83,7 @@ class MainNavigationState extends State<MainNavigation> {
     );
   }
 
-  Widget _buildNavigator(TabItem tabItem) {
+  Widget _buildNestedNavigator(TabItem tabItem) {
     switch (tabItem) {
       case TabItem.home:
         return NestedNavigator(

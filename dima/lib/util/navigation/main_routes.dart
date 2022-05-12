@@ -24,6 +24,8 @@ class MainNavigatorRouter {
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(body: PageNotFound()));
+      // return MaterialPageRoute(
+      //     builder: (_) => const Scaffold(body: FoobarPage()));
     }
   }
 }

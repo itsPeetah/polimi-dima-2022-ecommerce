@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_multiple_navigation_stacks_1/pages/404.dart';
-import 'package:flutter_multiple_navigation_stacks_1/pages/fork.dart';
-import 'package:flutter_multiple_navigation_stacks_1/pages/hello.dart';
+import 'package:dima/pages/404.dart';
+import 'package:dima/pages/fork.dart';
+import 'package:dima/pages/hello.dart';
 
 class NestedNavigatorRoutes {
   static const String root = "/";

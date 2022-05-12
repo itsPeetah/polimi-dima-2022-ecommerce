@@ -14,6 +14,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
+
   late Future<FirebaseApp> _fbApp;
   late FirebaseApp fbApp;
   // This widget is the root of your application.
