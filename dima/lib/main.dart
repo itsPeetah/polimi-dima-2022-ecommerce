@@ -1,58 +1,27 @@
-import 'package:dima/default_scaffold.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dima/util/navigation/main_routes.dart';
 
-Future<void> main() async {
-  // Firebase initialization and avoiding race condition
-  WidgetsFlutterBinding.ensureInitialized();
-  print('Ensured WidgetsFlutterBinding is initialized');
-
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  late Future<FirebaseApp> _fbApp;
-  late FirebaseApp fbApp;
-  // This widget is the root of your application.
+  const MyApp({Key? key}) : super(key: key);
+
+  static final mainNavigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
-    _fbApp =
-        Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     return MaterialApp(
-      title: 'AppName.com',
+      title: 'Flutter Nested Navigation Tests',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: FutureBuilder(
-        future: _fbApp,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print('Firebase might have not been initialized correctly' +
-                snapshot.error.toString());
-            return const Text('Error');
-          } else if (snapshot.hasData) {
-            fbApp = snapshot.data as FirebaseApp;
-            print('Firebase has been initialized correctly');
-            FirebaseAuth.instance.authStateChanges().listen((User? user) {
-              if (user == null) {
-                print('User is currently signed out!');
-              } else {
-                print('User is signed in!');
-              }
-            });
-            //firebase: fbApp
-            return DefaultScaffold();
-          } else {
-            /// TODO: create loading screen
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+      /* Entry Point -> MainNavigation (tabbed view) */
+      initialRoute: MainNavigationRoutes.root,
+      /* Here to create pages based on route */
+      onGenerateRoute: MainNavigatorRouter.generateRoute,
+      navigatorKey: mainNavigatorKey,
     );
   }
 }
