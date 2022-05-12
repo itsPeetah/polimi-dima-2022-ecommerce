@@ -12,6 +12,7 @@ class Authentication {
   static Future<void> signInWithEmailAndPassword(
     String email,
     String password,
+    void Function() successCallback,
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
     try {
@@ -19,6 +20,7 @@ class Authentication {
         email: email,
         password: password,
       );
+      successCallback();
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
