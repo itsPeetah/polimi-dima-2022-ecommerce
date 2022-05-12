@@ -2,7 +2,6 @@ import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/main.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/navigation/main_routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
