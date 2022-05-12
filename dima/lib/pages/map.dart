@@ -1,4 +1,4 @@
-import 'package:dima/pages/fork.dart';
+import 'package:dima/pages/misc/fork.dart';
 import 'package:flutter/material.dart';
 
 class MapPage extends StatelessWidget {
