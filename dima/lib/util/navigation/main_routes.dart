@@ -1,7 +1,7 @@
 import 'package:dima/pages/authentication/register.dart';
 import 'package:dima/pages/authentication/signin.dart';
 import 'package:flutter/material.dart';
-import 'package:dima/components/navigation/main_navigation.dart';
+import 'package:dima/widgets/navigation/main_navigation.dart';
 import 'package:dima/pages/misc/404.dart';
 
 class MainNavigator {
