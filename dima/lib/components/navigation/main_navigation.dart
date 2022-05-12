@@ -1,9 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:dima/main.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/components/navigation/bottom_tab_bar.dart';
 import 'package:dima/components/navigation/nested_navigator.dart';
 import 'package:dima/util/navigation/nested_routes.dart';
 import 'package:dima/util/navigation/tab_item.dart';
+import 'package:provider/provider.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key? key}) : super(key: key);
@@ -13,8 +14,10 @@ class MainNavigation extends StatefulWidget {
 }
 
 class MainNavigationState extends State<MainNavigation> {
-  final _pageController = PageController(initialPage: 0);
-  var _currentTab = TabItem.home;
+  // final _pageController = PageController(initialPage: 0);
+  // var _currentTab = TabItem.home;
+  final _pageController = PageController(initialPage: 3);
+  var _currentTab = TabItem.profile;
 
   // Navigator key used for nested navigation in the home page
   final _homeNavigatorKey = GlobalKey<NavigatorState>();
@@ -54,15 +57,17 @@ class MainNavigationState extends State<MainNavigation> {
     _currentTab = tabItem;
   }
 
-  String _getAppBarTitle() {
-    return Firebase.app().name;
+  Widget _getAppBarTitle() {
+    return Consumer<ApplicationState>(builder: (context, appstate, _) {
+      return Text(appstate.fbAppName);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_getAppBarTitle()),
+        title: _getAppBarTitle(),
       ),
       body: PageView(
         onPageChanged: (idx) => setState(() {
