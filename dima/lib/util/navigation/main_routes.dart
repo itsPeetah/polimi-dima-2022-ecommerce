@@ -6,11 +6,15 @@ import 'package:dima/pages/404.dart';
 class MainNavigator {
   static final mainNavigatorKey = GlobalKey<NavigatorState>();
 
-  static void push(String route) {
+  static Future<void> push(String route) {
     if (route[0] != "/") route = "/" + route;
     final rs = RouteSettings(name: route);
     final r = MainNavigatorRouter.generateRoute(rs);
-    mainNavigatorKey.currentState!.push(r!);
+    return mainNavigatorKey.currentState!.push(r!);
+  }
+
+  static void pop() {
+    mainNavigatorKey.currentState!.pop();
   }
 }
 
