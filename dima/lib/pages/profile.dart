@@ -6,15 +6,29 @@ import 'package:dima/util/navigation/main_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<ProfilePage> createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
   void _goToSignIn() {
-    MainNavigator.push("/signin");
+    // .then(...) is a janky solution to force the widget to rebuild.
+    // The consumer is not notified when in the signin page so the screen
+    // does not update to signed in after popping back.
+    // Forcing the page to reload fixes this...
+    MainNavigator.push("/signin").then((_) => setState(() {}));
   }
 
   void _goToSignUp() {
-    MainNavigator.push("/register");
+    MainNavigator.push("/register").then((_) => setState(() {}));
+  }
+
+  void _signOut() {
+    Authentication.signOut();
+    setState(() {});
   }
 
   @override
@@ -22,11 +36,24 @@ class ProfilePage extends StatelessWidget {
     return Consumer<ApplicationState>(
       builder: ((context, appState, _) {
         if (appState.loginState == ApplicationLoginState.loggedIn) {
-          return Text("You are logged in");
+          return _buildLoggedInBody();
         } else {
           return _buildNotLoggedInBody();
         }
       }),
+    );
+  }
+
+  Widget _buildLoggedInBody() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const TextLarge(text: "You are logged in."),
+        TextButtonLarge(
+          text: "Sign out",
+          onPressed: _signOut,
+        ),
+      ],
     );
   }
 
