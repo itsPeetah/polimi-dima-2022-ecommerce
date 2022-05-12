@@ -23,9 +23,7 @@ class RegisterForm extends StatelessWidget {
   final userRef = FirebaseDatabase.instance.ref().child('/user');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late BuildContext context;
-  void _userNameError() {
-    ///TODO: why does the validator not highlight text
-  }
+
   _registerUser() async {
     final FormState? form = _formKey.currentState;
     if (!form!.validate()) {
