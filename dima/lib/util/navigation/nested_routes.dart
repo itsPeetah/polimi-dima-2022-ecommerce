@@ -3,9 +3,8 @@ import 'package:dima/pages/home.dart';
 import 'package:dima/pages/map.dart';
 import 'package:dima/pages/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:dima/pages/404.dart';
-import 'package:dima/pages/fork.dart';
-import 'package:dima/pages/hello.dart';
+import 'package:dima/pages/misc/404.dart';
+import 'package:dima/pages/misc/hello.dart';
 
 class NestedNavigatorRoutes {
   static const String root = "/";

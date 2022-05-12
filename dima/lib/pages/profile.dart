@@ -1,6 +1,5 @@
 import 'package:dima/components/misc/textWidgets.dart';
 import 'package:dima/main.dart';
-import 'package:dima/pages/fork.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/navigation/main_routes.dart';
 import 'package:flutter/material.dart';
