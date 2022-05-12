@@ -1,11 +1,18 @@
+import 'dart:js';
+
 import 'package:dima/firebase_options.dart';
+import 'package:dima/util/authentication/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/util/navigation/main_routes.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: (context, _) => const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,5 +31,34 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: MainNavigatorRouter.generateRoute,
       navigatorKey: MainNavigator.mainNavigatorKey,
     );
+  }
+}
+
+class ApplicationState extends ChangeNotifier {
+  ApplicationState() {
+    init();
+  }
+
+  String _fbAppName = "NA";
+  String get fbAppName => _fbAppName;
+
+  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
+  ApplicationLoginState get loginState => _loginState;
+
+  Future<void> init() async {
+    await Firebase.initializeApp(
+            options: DefaultFirebaseOptions.currentPlatform)
+        .whenComplete(() {
+      _fbAppName = Firebase.app().name;
+      notifyListeners();
+    });
+
+    FirebaseAuth.instance.userChanges().listen((user) {
+      if (user != null) {
+        _loginState = ApplicationLoginState.loggedIn;
+      } else {
+        _loginState = ApplicationLoginState.loggedOut;
+      }
+    });
   }
 }
