@@ -1,10 +1,11 @@
 import 'package:dima/main.dart';
 import 'package:flutter/material.dart';
-import 'package:dima/components/navigation/bottom_tab_bar.dart';
-import 'package:dima/components/navigation/nested_navigator.dart';
 import 'package:dima/util/navigation/nested_routes.dart';
 import 'package:dima/util/navigation/tab_item.dart';
 import 'package:provider/provider.dart';
+
+import 'bottom_tab_bar.dart';
+import 'nested_navigator.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key? key}) : super(key: key);
