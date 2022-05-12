@@ -1,3 +1,4 @@
+import 'package:dima/pages/register.dart';
 import 'package:dima/pages/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/components/navigation/main_navigation.dart';
@@ -36,6 +37,8 @@ class MainNavigatorRouter {
         return MaterialPageRoute(builder: (_) => const MainNavigation());
       case MainNavigationRoutes.signin:
         return MaterialPageRoute(builder: (_) => SignInPage());
+      case MainNavigationRoutes.register:
+        return MaterialPageRoute(builder: (_) => RegisterPage());
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(body: PageNotFound()));

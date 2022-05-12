@@ -1,11 +1,8 @@
-import 'dart:html';
-
 import 'package:dima/components/misc/textWidgets.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/navigation/main_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -41,7 +38,7 @@ class SignInPage extends StatelessWidget {
     }
 
     void onFailure(FirebaseAuthException e) {
-      print("ERRORE!");
+      print("Error while signing in!");
     }
 
     await Authentication.signInWithEmailAndPassword(
