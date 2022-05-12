@@ -46,6 +46,7 @@ class ApplicationState extends ChangeNotifier {
   ApplicationLoginState get loginState => _loginState;
 
   Future<void> init() async {
+    // Initialize firebase
     await Firebase.initializeApp(
             options: DefaultFirebaseOptions.currentPlatform)
         .whenComplete(() {
@@ -53,12 +54,14 @@ class ApplicationState extends ChangeNotifier {
       notifyListeners();
     });
 
+    // Listen for auth user changes
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
       } else {
         _loginState = ApplicationLoginState.loggedOut;
       }
+      notifyListeners();
     });
   }
 }
