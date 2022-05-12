@@ -26,7 +26,9 @@ class ShoppingCartRouteState extends State<ShoppingCartRoute> {
   }
 
   _rebuild() {
-    setState(() {});
+    setState(() {
+      getListOfItemsInCart();
+    });
     // build(context);
   }
 

@@ -31,7 +31,15 @@ class DefaultScaffold extends StatefulWidget {
 class _DefaultScaffoldState extends State<DefaultScaffold> {
   TextEditingController questionBarTextController = TextEditingController();
   bool queryAsked = false;
+
+  final preferredProducts = <Widget>[];
+  final top15Choices = <Widget>[];
   List<Widget> resultOfQuery = <Widget>[];
+
+  late Size size;
+  late double width;
+  late double height;
+  late double iconHeight;
   _tappedOutside() {
     setState(() {
       if (resultOfQuery.isNotEmpty) {
@@ -63,34 +71,74 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
     });
   }
 
+  searchDB(String x) {
+    var resultQuery = <Widget>[];
+    query(x).forEach((preference) => {
+          if (resultQuery.length < 8)
+            {
+              resultQuery.add(Column(children: [
+                QuestionBarResult(product: preference),
+                const Divider(
+                  color: Colors.black,
+                  thickness: 3,
+                  indent: 4,
+                  endIndent: 4,
+                )
+              ]))
+            }
+        });
+    return showProducts(resultQuery, x);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _populateFields();
+  }
+
+  void _populateFields() async {
+    var listUserPref = await userPref();
+    var listGetAllDB = await getAllDb();
+
+    setState(() {
+      if (preferredProducts.isEmpty) {
+        for (var preference in listUserPref) {
+          preferredProducts.add(Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: ProductItem(product: preference)));
+        }
+      }
+      if (top15Choices.isEmpty) {
+        for (var preference in listGetAllDB) {
+          {
+            if (top15Choices.length <= 28) {
+              top15Choices.add(Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: ProductItemHorizontal(product: preference)));
+            }
+            if (top15Choices.length < 28) {
+              top15Choices.add(
+                const Divider(
+                  color: dividerColor,
+                  thickness: 3,
+                  indent: 8,
+                  endIndent: 8,
+                ),
+              );
+            }
+          }
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final preferredProducts = <Widget>[];
-    final top15Choices = <Widget>[];
-
-    searchDB(String x) {
-      var resultQuery = <Widget>[];
-      query(x).forEach((preference) => {
-            if (resultQuery.length < 8)
-              {
-                resultQuery.add(Column(children: [
-                  QuestionBarResult(product: preference),
-                  const Divider(
-                    color: Colors.black,
-                    thickness: 3,
-                    indent: 4,
-                    endIndent: 4,
-                  )
-                ]))
-              }
-          });
-      return showProducts(resultQuery, x);
-    }
-
-    var size = MediaQuery.of(context).size;
-    var width = size.width;
-    var height = size.height;
-    var iconHeight = height * 0.033;
+    size = MediaQuery.of(context).size;
+    width = size.width;
+    height = size.height;
+    iconHeight = height * 0.033;
     Widget questionBar = Padding(
         padding: EdgeInsets.only(left: width * 0.125, right: width * 0.02),
         child: Center(
@@ -115,33 +163,6 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
           ),
         ));
 
-    if (preferredProducts.isEmpty) {
-      userPref().forEach((preference) => preferredProducts.add(Padding(
-          padding: EdgeInsets.only(right: width * 0.05),
-          child: ProductItem(product: preference))));
-    }
-    if (top15Choices.isEmpty) {
-      getAllDb().forEach((preference) => {
-            if (top15Choices.length <= 28)
-              {
-                top15Choices.add(Padding(
-                    padding:
-                        EdgeInsets.only(left: width / 20, right: width / 20),
-                    child: ProductItemHorizontal(product: preference)))
-              },
-            if (top15Choices.length < 28)
-              {
-                top15Choices.add(
-                  Divider(
-                    color: dividerColor,
-                    thickness: 3,
-                    indent: width / 20,
-                    endIndent: width / 20,
-                  ),
-                )
-              }
-          });
-    }
     List<Widget> _widgetOptions = <Widget>[
       HomePage(
           top15Choices: top15Choices,
@@ -149,7 +170,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
           width: width,
           height: height),
       const MapContainer(),
-      UserProfileRoute(titleQuestion: 'Search for something new!'),
+      const UserProfileRoute(titleQuestion: 'Search for something new!'),
       const ShoppingCartRoute(
           titleQuestion: 'Do you want to buy something else?'),
     ];

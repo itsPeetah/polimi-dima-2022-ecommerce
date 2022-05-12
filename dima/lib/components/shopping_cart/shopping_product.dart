@@ -48,6 +48,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
       print(exception);
     }
     widget.parentRebuild();
+    setState(() {});
   }
 
   Future<void> _removeFromCart() async {
@@ -63,6 +64,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     quantity = quantity - 2;
 
     /// TODO: why error in the get/set calls to database
+    await Future.delayed(const Duration(milliseconds: 100), () {});
     print('snap');
     print(qt.snapshot);
     print('0.5 seconds passed');
@@ -73,9 +75,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
         .update(Product.toRTDB(widget.product, quantity: quantity));
 
     widget.parentRebuild();
-    // setState(() {
-    //   thisQuantity = quantity + 1;
-    // });
+    setState(() {});
   }
 
   /// TODO: Implement a callback for the builds. This way we build the parent page for every removed item

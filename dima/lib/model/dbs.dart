@@ -1,8 +1,8 @@
 import 'package:dima/model/product.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-query(String s) {
-  var resultList = getAllDb().where((Product product) =>
+query(String s) async {
+  var resultList = (await getAllDb()).where((Product product) =>
       (product.name.toLowerCase()).contains(s.toLowerCase()));
   return resultList;
 }
@@ -11,31 +11,16 @@ getProductInfo(String productId) {
   return query(productId);
 }
 
-getElement(int index) {
-  if (index >= getAllDb().length) {
-    throw Exception(
-        "There is no element at required index:" + index.toString());
-  } else {
-    getAllDb().elementAt(index);
-  }
+Future<List<Product>> userPref() async {
+  List<Product> result = await getAllDb();
+  return result.sublist(0, 3);
 }
 
-fourthChoice() {
-  return getAllDb().elementAt(3);
-}
-
-List<Product> userPref() {
-  List<Product> result = getAllDb();
-  if (result.length > 5) {
-    result = result.getRange(1, 5).toList();
-  } else {
-    result = [];
-  }
-  return result;
-}
-
-List<Product> getAllDb() {
+Future<List<Product>> getAllDb() async {
   List<Product> resultList = [];
+
+  await Future.delayed(const Duration(milliseconds: 100), () {});
+  print('get all db call');
   final productRef = FirebaseDatabase.instance.ref().child('/product');
   productRef.orderByKey().limitToFirst(10).onValue.listen(
     (event) {
