@@ -1,6 +1,22 @@
 import 'package:dima/model/product.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+class FirebaseManager {
+  static bool isInitialized = false;
+
+  static DatabaseReference? productRef;
+  static DatabaseReference? userRef;
+
+  void init() {
+    productRef = FirebaseDatabase.instance.ref().child('/product');
+    userRef = FirebaseDatabase.instance.ref().child('/user');
+
+    isInitialized = true;
+
+    // callback
+  }
+}
+
 query(String s) async {
   var resultList = (await getAllDb()).where((Product product) =>
       (product.name.toLowerCase()).contains(s.toLowerCase()));
@@ -24,14 +40,17 @@ Future<List<Product>> getAllDb() async {
   final productRef = FirebaseDatabase.instance.ref().child('/product');
   productRef.orderByKey().limitToFirst(10).onValue.listen(
     (event) {
+      List<Product> resultList = [];
       final listOfData = event.snapshot.value as List<dynamic>;
       for (Map<dynamic, dynamic> data in listOfData) {
         var datax = Map<String, dynamic>.from(data);
         final productToAppend = Product.fromRTDB(datax);
         resultList.add(productToAppend);
+        // set state
       }
     },
   );
+
   return resultList;
 }
 
