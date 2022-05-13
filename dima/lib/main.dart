@@ -1,7 +1,9 @@
 import 'dart:js';
 
 import 'package:dima/firebase_options.dart';
+import 'package:dima/model/product.dart';
 import 'package:dima/util/authentication/authentication.dart';
+import 'package:dima/util/database/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -47,14 +49,25 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     // Initialize firebase
+    await _initializeFirebase();
+
+    // Listen for auth user changes
+    _subscribeToAuthChanges();
+
+    // Listen for changes to the catalogue
+    _subscribeToProductCatalogue();
+  }
+
+  Future<void> _initializeFirebase() async {
     await Firebase.initializeApp(
             options: DefaultFirebaseOptions.currentPlatform)
         .whenComplete(() {
       _firebaseAvailable = true;
       notifyListeners();
     });
+  }
 
-    // Listen for auth user changes
+  void _subscribeToAuthChanges() {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
@@ -63,5 +76,23 @@ class ApplicationState extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  void _subscribeToProductCatalogue() async {
+    // TODO Make as string
+    final products = await DatabaseManager.product.get();
+    DatabaseManager.updateProductStore(products);
+
+    DatabaseManager.product.onChildChanged.listen((event) {
+      DatabaseManager.updateProduct(event.snapshot);
+      notifyListeners();
+      for (String x in DatabaseManager.allProducts.keys) {
+        print("$x -> ${DatabaseManager.allProducts[x].name}");
+      }
+    });
+
+    for (String x in DatabaseManager.allProducts.keys) {
+      print("$x -> ${DatabaseManager.allProducts[x].name}");
+    }
   }
 }
