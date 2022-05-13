@@ -3,7 +3,10 @@ import 'dart:js';
 import 'package:flutter/material.dart';
 
 class PageNotFound extends StatelessWidget {
-  const PageNotFound({Key? key}) : super(key: key);
+  const PageNotFound({Key? key, this.reason = "Invalid route"})
+      : super(key: key);
+
+  final String reason;
 
   void _goBack(BuildContext context) {
     Navigator.pop(context);
@@ -18,8 +21,8 @@ class PageNotFound extends StatelessWidget {
             "404",
             style: TextStyle(fontSize: 44),
           ),
-          const Text(
-            "Invalid route",
+          Text(
+            reason,
             style: TextStyle(fontSize: 28),
           ),
           Container(
