@@ -1,28 +1,38 @@
+import 'package:dima/main.dart';
 import 'package:dima/model/product.dart';
+import 'package:dima/util/database/database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum ProductCardSize { small, medium, large }
 
 class ProductCard extends StatelessWidget {
   const ProductCard(
-      {Key? key, this.product, this.size = ProductCardSize.medium})
+      {Key? key, required this.productId, this.size = ProductCardSize.medium})
       : super(key: key);
-  final Product? product;
+  final int productId;
   final ProductCardSize size;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: _buildItemBody(),
+    return Consumer<ApplicationState>(
+      builder: (context, appState, child) {
+        if (!appState.firebaseAvailable) {
+          return _buildLoadingIndicator();
+        } else {
+          return _buildItemBody();
+        }
+      },
     );
   }
 
   Widget _buildItemBody() {
-    if (product == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    return Text(product!.name);
+    return Text(DatabaseManager.product.toString());
+  }
+
+  Widget _buildLoadingIndicator() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }

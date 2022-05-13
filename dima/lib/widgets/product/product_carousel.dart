@@ -12,7 +12,7 @@ class ProductCarousel extends StatefulWidget {
 
 class ProductCarouselState extends State<ProductCarousel> {
   int _currentIndex = 0;
-  List productList = [null, null, null, null];
+  List productIds = [1, 2, 3, 4];
 
   List<T> _map<T>(List list, Function handler) {
     List<T> result = [];
@@ -22,6 +22,12 @@ class ProductCarouselState extends State<ProductCarousel> {
     return result;
   }
 
+  void _onPageChange(index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,6 +35,7 @@ class ProductCarouselState extends State<ProductCarousel> {
       children: [
         const TextLarge(text: "Top Items:"),
         CarouselSlider(
+          items: _buildProductCardList(context),
           options: CarouselOptions(
             height: 260.0,
             autoPlay: true,
@@ -36,43 +43,51 @@ class ProductCarouselState extends State<ProductCarousel> {
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
             aspectRatio: 5.0,
-            onPageChanged: (index, _) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
+            onPageChanged: (index, _) => _onPageChange(index),
           ),
-          items: productList.map((product) {
-            return Builder(builder: (BuildContext context) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.30,
-                width: MediaQuery.of(context).size.width,
-                child: Card(
-                  color: Colors.grey[100],
-                  shadowColor: Colors.grey[900],
-                  child: ProductCard(),
-                ),
-              );
-            });
-          }).toList(),
         ),
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: _map<Widget>(productList, (index, url) {
-              return Container(
-                width: 10.0,
-                height: 10.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _currentIndex == index
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey,
-                ),
-              );
-            }))
+            children: _buildDotterIndicator())
       ],
     );
+  }
+
+  List<Widget> _buildProductCardList(BuildContext context) {
+    return productIds.map((product) {
+      return Builder(builder: (BuildContext context) {
+        return _buildProductCard(context, product);
+      });
+    }).toList();
+  }
+
+  Widget _buildProductCard(BuildContext context, int productId) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.30,
+      width: MediaQuery.of(context).size.width,
+      child: Card(
+        color: Colors.grey[100],
+        shadowColor: Colors.grey[900],
+        child: ProductCard(
+          productId: productId,
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildDotterIndicator() {
+    return _map<Widget>(productIds, (index, url) {
+      return Container(
+        width: 10.0,
+        height: 10.0,
+        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: _currentIndex == index
+              ? Theme.of(context).primaryColor
+              : Colors.grey,
+        ),
+      );
+    });
   }
 }
