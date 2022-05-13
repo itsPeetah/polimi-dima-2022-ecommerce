@@ -1,7 +1,5 @@
 import 'package:dima/main.dart';
-import 'package:dima/model/product.dart';
 import 'package:dima/pages/misc/hello.dart';
-import 'package:dima/util/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
