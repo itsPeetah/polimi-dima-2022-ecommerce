@@ -39,8 +39,8 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
-  String _fbAppName = "NA";
-  String get fbAppName => _fbAppName;
+  bool _firebaseAvailable = false;
+  bool get firebaseAvailable => _firebaseAvailable;
 
   ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
   ApplicationLoginState get loginState => _loginState;
@@ -50,7 +50,7 @@ class ApplicationState extends ChangeNotifier {
     await Firebase.initializeApp(
             options: DefaultFirebaseOptions.currentPlatform)
         .whenComplete(() {
-      _fbAppName = Firebase.app().name;
+      _firebaseAvailable = true;
       notifyListeners();
     });
 
