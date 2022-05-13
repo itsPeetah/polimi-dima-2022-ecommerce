@@ -15,10 +15,8 @@ class MainNavigation extends StatefulWidget {
 }
 
 class MainNavigationState extends State<MainNavigation> {
-  // final _pageController = PageController(initialPage: 0);
-  // var _currentTab = TabItem.home;
-  final _pageController = PageController(initialPage: 3);
-  var _currentTab = TabItem.profile;
+  final _pageController = PageController(initialPage: 0);
+  var _currentTab = TabItem.home;
 
   // Navigator key used for nested navigation in the home page
   final _homeNavigatorKey = GlobalKey<NavigatorState>();
@@ -60,7 +58,7 @@ class MainNavigationState extends State<MainNavigation> {
 
   Widget _getAppBarTitle() {
     return Consumer<ApplicationState>(builder: (context, appstate, _) {
-      return Text(appstate.fbAppName);
+      return Text(appstate.loginState.toString());
     });
   }
 

@@ -2,6 +2,7 @@ import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/main.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/navigation/main_routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,12 +35,12 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildLoggedInBody() {
-    // String username = FirebaseAuth.instance.currentUser?.displayName ?? "user";
+    String username = FirebaseAuth.instance.currentUser?.displayName ?? "user";
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const TextLarge(text: "Welcome"),
+        TextLarge(text: "Welcome, $username"),
         TextButtonLarge(
           text: "Sign out",
           onPressed: _signOut,
