@@ -6,7 +6,7 @@ class DatabaseManager {
   static DatabaseReference? _user;
   static DatabaseReference? _product;
 
-  static Map _allProducts = Map();
+  static final Map _allProducts = Map();
   static Map get allProducts => _allProducts;
 
   static DatabaseReference get user {

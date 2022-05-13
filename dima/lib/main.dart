@@ -86,13 +86,6 @@ class ApplicationState extends ChangeNotifier {
     DatabaseManager.product.onChildChanged.listen((event) {
       DatabaseManager.updateProduct(event.snapshot);
       notifyListeners();
-      for (String x in DatabaseManager.allProducts.keys) {
-        print("$x -> ${DatabaseManager.allProducts[x].name}");
-      }
     });
-
-    for (String x in DatabaseManager.allProducts.keys) {
-      print("$x -> ${DatabaseManager.allProducts[x].name}");
-    }
   }
 }
