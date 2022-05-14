@@ -1,7 +1,4 @@
-import 'dart:js';
-
 import 'package:dima/firebase_options.dart';
-import 'package:dima/model/product.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/database/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +8,7 @@ import 'package:dima/util/navigation/main_routes.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  // TODO: Maybe make this a multiprovider
   runApp(ChangeNotifierProvider(
     create: (context) => ApplicationState(),
     builder: (context, _) => const MyApp(),
@@ -79,9 +77,10 @@ class ApplicationState extends ChangeNotifier {
   }
 
   void _subscribeToProductCatalogue() async {
-    // TODO Make as string
+    // TODO Make as stream
     final products = await DatabaseManager.product.get();
     DatabaseManager.updateProductStore(products);
+    notifyListeners();
 
     DatabaseManager.product.onChildChanged.listen((event) {
       DatabaseManager.updateProduct(event.snapshot);
