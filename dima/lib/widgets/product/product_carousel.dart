@@ -12,7 +12,7 @@ class ProductCarousel extends StatefulWidget {
 
 class ProductCarouselState extends State<ProductCarousel> {
   int _currentIndex = 0;
-  List productIds = [1, 2, 3, 4];
+  List productIds = [0, 1, 2, 3, 4];
 
   List<T> _map<T>(List list, Function handler) {
     List<T> result = [];
@@ -33,13 +33,13 @@ class ProductCarouselState extends State<ProductCarousel> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TextLarge(text: "Top Items:"),
+        const TextLarge(text: "Top Items of the week:"),
         CarouselSlider(
           items: _buildProductCardList(context),
           options: CarouselOptions(
             height: 260.0,
             autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayInterval: const Duration(seconds: 4),
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
             aspectRatio: 5.0,
