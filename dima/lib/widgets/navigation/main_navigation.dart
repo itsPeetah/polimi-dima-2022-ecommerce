@@ -1,8 +1,6 @@
-import 'package:dima/main.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/util/navigation/nested_routes.dart';
 import 'package:dima/util/navigation/tab_item.dart';
-import 'package:provider/provider.dart';
 
 import 'bottom_tab_bar.dart';
 import 'nested_navigator.dart';
@@ -26,10 +24,7 @@ class MainNavigationState extends State<MainNavigation> {
 
   void _selectTab(TabItem tabItem) {
     if (tabItem == _currentTab) {
-      /*
-        Clicking the tab item again will bring back to "/".
-        Should not use a single class for the router, make four different ones
-       */
+      // Clicking the tab item again will bring back to "/"
       switch (tabItem) {
         case TabItem.home:
           _homeNavigatorKey.currentState!.popUntil((route) => route.isFirst);
@@ -56,18 +51,16 @@ class MainNavigationState extends State<MainNavigation> {
     _currentTab = tabItem;
   }
 
-  Widget _getAppBarTitle() {
-    return Consumer<ApplicationState>(builder: (context, appstate, _) {
-      return Text(appstate.loginState.toString());
-    });
-  }
+  // Widget _getAppBarTitle() {
+  //   return Consumer<ApplicationState>(builder: (context, appstate, _) {
+  //     return Text(appstate.loginState.toString());
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _getAppBarTitle(),
-      ),
+      appBar: _buildAppBar(),
       body: PageView(
         onPageChanged: (idx) => setState(() {
           _setCurrentTab(TabItem.values[idx]);
@@ -112,6 +105,34 @@ class MainNavigationState extends State<MainNavigation> {
           navigatorKey: _profileNavigatorKey,
           initialRoute: NestedNavigatorRoutes.root,
           onGenerateRoute: NestedNavigatorRouter.generateProfileRoute,
+        );
+    }
+  }
+
+  AppBar _buildAppBar() {
+    switch (_currentTab) {
+      case TabItem.home:
+        return AppBar(
+          title: const Text("App bar not implemented"),
+          leading: const Icon(Icons.ac_unit_outlined),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.shopping_cart),
+                tooltip: 'Open shopping cart',
+                onPressed: () {
+                  // handle the press
+                }),
+            IconButton(
+                icon: const Icon(Icons.shopping_cart),
+                tooltip: 'Open shopping cart',
+                onPressed: () {
+                  // handle the press
+                }),
+          ],
+        );
+      default:
+        return AppBar(
+          title: const Text("App bar not implemented"),
         );
     }
   }
