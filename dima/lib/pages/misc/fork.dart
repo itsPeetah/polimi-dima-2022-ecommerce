@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dima/main.dart';
-import 'package:dima/util/navigation/main_routes.dart';
-import 'package:dima/util/navigation/nested_routes.dart';
+import 'package:dima/util/navigation/navigation_main.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
 
 class ForkPage extends StatelessWidget {
   const ForkPage(
