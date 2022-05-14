@@ -18,6 +18,7 @@ class NestedNavigator extends StatelessWidget {
       key: navigatorKey,
       initialRoute: initialRoute,
       onGenerateRoute: onGenerateRoute,
+      observers: [], // TODO Add observers to change the scaffold's appbar
     );
   }
 }

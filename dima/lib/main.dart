@@ -77,7 +77,6 @@ class ApplicationState extends ChangeNotifier {
   }
 
   void _subscribeToProductCatalogue() async {
-    // TODO Make as stream
     final products = await DatabaseManager.product.get();
     DatabaseManager.updateProductStore(products);
     notifyListeners();
