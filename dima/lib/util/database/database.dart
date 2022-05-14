@@ -1,6 +1,5 @@
 import 'package:dima/model/product.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
 
 class DatabaseManager {
   static DatabaseReference? _user;
@@ -40,10 +39,5 @@ class DatabaseManager {
   static Product? getProduct(String id) {
     if (_allProducts.containsKey(id)) return _allProducts[id];
     return null;
-    // Image img = Image.network("");
-    // String imgLink = "link...";
-    // String name = "Prodotto";
-    // String price = "69¥";
-    // return Product(image: img, name: name, price: price, imageLink: imgLink);
   }
 }
