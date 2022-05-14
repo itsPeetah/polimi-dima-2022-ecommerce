@@ -2,6 +2,7 @@ import 'package:dima/pages/cart.dart';
 import 'package:dima/pages/home.dart';
 import 'package:dima/pages/map.dart';
 import 'package:dima/pages/profile.dart';
+import 'package:dima/util/navigation/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/pages/misc/404.dart';
 import 'package:dima/pages/misc/hello.dart';
@@ -11,6 +12,19 @@ class SecondaryNavigator {
   static final mapNavigatorKey = GlobalKey<NavigatorState>();
   static final cartNavigatorKey = GlobalKey<NavigatorState>();
   static final profileNavigatorKey = GlobalKey<NavigatorState>();
+
+  static NavigatorState of(TabItem navigatorTab) {
+    switch (navigatorTab) {
+      case TabItem.home:
+        return homeNavigatorKey.currentState!;
+      case TabItem.map:
+        return mapNavigatorKey.currentState!;
+      case TabItem.cart:
+        return cartNavigatorKey.currentState!;
+      case TabItem.profile:
+        return profileNavigatorKey.currentState!;
+    }
+  }
 }
 
 class NestedNavigatorRoutes {
@@ -27,29 +41,26 @@ class NestedNavigatorRouter {
     switch (settings.name) {
       case NestedNavigatorRoutes.home:
         return MaterialPageRoute(
-          // builder: (_) => const HelloPage(title: "Home"),
           builder: (_) => const HomePage(),
         );
       case NestedNavigatorRoutes.map:
         return MaterialPageRoute(
-          // builder: (_) => const HelloPage(title: "Map"),
           builder: (_) => const MapPage(),
         );
       case NestedNavigatorRoutes.cart:
         return MaterialPageRoute(
-          // builder: (_) => const HelloPage(title: "Cart"),
           builder: (_) => const CartPage(),
         );
       case NestedNavigatorRoutes.profile:
         return MaterialPageRoute(
-          // builder: (_) => const HelloPage(title: "Profile"),
           builder: (_) => const ProfilePage(),
         );
       case "/":
         return MaterialPageRoute(
-            builder: (_) => const HelloPage(
-                  title: "You shouldn't be here...",
-                ));
+          builder: (_) => const HelloPage(
+            title: "You shouldn't be here...",
+          ),
+        );
       default:
         return MaterialPageRoute(builder: (_) => const PageNotFound());
     }

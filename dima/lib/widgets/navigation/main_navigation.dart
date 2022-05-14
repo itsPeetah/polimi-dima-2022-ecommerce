@@ -18,24 +18,7 @@ class MainNavigationState extends State<MainNavigation> {
   void _selectTab(TabItem tabItem) {
     if (tabItem == _currentTab) {
       // Clicking the tab item again will bring back to "/"
-      switch (tabItem) {
-        case TabItem.home:
-          SecondaryNavigator.homeNavigatorKey.currentState!
-              .popUntil((route) => route.isFirst);
-          break;
-        case TabItem.map:
-          SecondaryNavigator.mapNavigatorKey.currentState!
-              .popUntil((route) => route.isFirst);
-          break;
-        case TabItem.cart:
-          SecondaryNavigator.cartNavigatorKey.currentState!
-              .popUntil((route) => route.isFirst);
-          break;
-        case TabItem.profile:
-          SecondaryNavigator.profileNavigatorKey.currentState!
-              .popUntil((route) => route.isFirst);
-          break;
-      }
+      SecondaryNavigator.of(tabItem).popUntil((route) => route.isFirst);
     } else {
       setState(() {
         _pageController.jumpToPage(tabItem.index);
@@ -47,12 +30,6 @@ class MainNavigationState extends State<MainNavigation> {
   void _setCurrentTab(TabItem tabItem) {
     _currentTab = tabItem;
   }
-
-  // Widget _getAppBarTitle() {
-  //   return Consumer<ApplicationState>(builder: (context, appstate, _) {
-  //     return Text(appstate.loginState.toString());
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +64,9 @@ class MainNavigationState extends State<MainNavigation> {
         );
       case TabItem.map:
         return NestedNavigator(
-          navigatorKey: SecondaryNavigator.mapNavigatorKey,
-          initialRoute: NestedNavigatorRoutes.root,
-          onGenerateRoute: NestedNavigatorRouter.generateMapRoute,
-        );
+            navigatorKey: SecondaryNavigator.mapNavigatorKey,
+            initialRoute: NestedNavigatorRoutes.root,
+            onGenerateRoute: NestedNavigatorRouter.generateMapRoute);
       case TabItem.cart:
         return NestedNavigator(
           navigatorKey: SecondaryNavigator.cartNavigatorKey,
@@ -108,25 +84,6 @@ class MainNavigationState extends State<MainNavigation> {
 
   AppBar _buildAppBar() {
     switch (_currentTab) {
-      case TabItem.home:
-        return AppBar(
-          title: const Text("App bar not implemented"),
-          leading: const Icon(Icons.ac_unit_outlined),
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                tooltip: 'Open shopping cart',
-                onPressed: () {
-                  // handle the press
-                }),
-            IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                tooltip: 'Open shopping cart',
-                onPressed: () {
-                  // handle the press
-                }),
-          ],
-        );
       default:
         return AppBar(
           title: const Text("App bar not implemented"),
