@@ -6,6 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:dima/pages/misc/404.dart';
 import 'package:dima/pages/misc/hello.dart';
 
+class SecondaryNavigator {
+  static final homeNavigatorKey = GlobalKey<NavigatorState>();
+  static final mapNavigatorKey = GlobalKey<NavigatorState>();
+  static final cartNavigatorKey = GlobalKey<NavigatorState>();
+  static final profileNavigatorKey = GlobalKey<NavigatorState>();
+}
+
 class NestedNavigatorRoutes {
   static const String root = "/";
   static const String home = "/home";
