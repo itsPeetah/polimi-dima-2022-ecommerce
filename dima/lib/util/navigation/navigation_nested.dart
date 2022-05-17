@@ -1,6 +1,7 @@
 import 'package:dima/pages/cart.dart';
 import 'package:dima/pages/home.dart';
 import 'package:dima/pages/map.dart';
+import 'package:dima/pages/product.dart';
 import 'package:dima/pages/profile.dart';
 import 'package:dima/util/navigation/tab_item.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,11 @@ class NestedNavigatorRouter {
         return MaterialPageRoute(
           builder: (_) => const ProfilePage(),
         );
+      case NestedNavigatorRoutes.product:
+        // TODO Null check for id arg
+        Map args = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (_) => ProductPage(productId: args["id"]));
       case "/":
         return MaterialPageRoute(
           builder: (_) => const HelloPage(
