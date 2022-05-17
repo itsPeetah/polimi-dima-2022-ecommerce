@@ -23,20 +23,56 @@ class ProductCard extends StatelessWidget {
         if (!appState.firebaseAvailable) {
           return _buildLoadingIndicator();
         } else {
-          return _buildItemBody();
+          return _buildItemBody(context);
         }
       },
     );
   }
 
-  Widget _buildItemBody() {
+  Widget _buildItemBody(BuildContext context) {
     Product? product = DatabaseManager.getProduct("$productId");
 
     if (product == null) {
       return _buildLoadingIndicator();
     }
 
-    return HelloPage(title: product.name);
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Image(
+          image: product.image.image,
+          fit: BoxFit.cover,
+          filterQuality: FilterQuality.low,
+        ),
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.center,
+              colors: <Color>[
+                Color(0x99000000),
+                Color(0x00000000),
+              ],
+              tileMode: TileMode.clamp,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Flex(
+            direction: Axis.vertical,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                product.name,
+                style: TextStyle(fontSize: 28, color: Colors.white),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildLoadingIndicator() {

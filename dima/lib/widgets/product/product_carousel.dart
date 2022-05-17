@@ -65,13 +65,16 @@ class ProductCarouselState extends State<ProductCarousel> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width,
-      child: Card(
-        color: Colors.grey[100],
-        shadowColor: Colors.grey[900],
-        child: ProductCard(
-          productId: productId,
-        ),
+      child: ProductCard(
+        productId: productId,
       ),
+      // child: Card(
+      //   color: Colors.grey[100],
+      //   shadowColor: Colors.grey[900],
+      //   child: ProductCard(
+      //     productId: productId,
+      //   ),
+      // ),
     );
   }
 

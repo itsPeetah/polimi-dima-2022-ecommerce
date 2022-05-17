@@ -64,9 +64,10 @@ class MainNavigationState extends State<MainNavigation> {
         );
       case TabItem.map:
         return NestedNavigator(
-            navigatorKey: SecondaryNavigator.mapNavigatorKey,
-            initialRoute: NestedNavigatorRoutes.root,
-            onGenerateRoute: NestedNavigatorRouter.generateMapRoute);
+          navigatorKey: SecondaryNavigator.mapNavigatorKey,
+          initialRoute: NestedNavigatorRoutes.root,
+          onGenerateRoute: NestedNavigatorRouter.generateMapRoute,
+        );
       case TabItem.cart:
         return NestedNavigator(
           navigatorKey: SecondaryNavigator.cartNavigatorKey,
