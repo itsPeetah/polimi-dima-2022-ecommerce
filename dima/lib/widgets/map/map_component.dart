@@ -91,16 +91,12 @@ class _MapState extends State<MapContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          markers: Set.from(markers.values),
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      markers: Set.from(markers.values),
+      initialCameraPosition: CameraPosition(
+        target: _center,
+        zoom: 11.0,
       ),
     );
   }

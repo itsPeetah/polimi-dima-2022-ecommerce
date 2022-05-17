@@ -28,55 +28,6 @@ class ShoppingCartProduct extends StatefulWidget {
 
 class ShoppingCartProductState extends State<ShoppingCartProduct> {
   int thisQuantity = NO_BUTTON_PRESSED_CODE;
-  Future<void> _addToCart() async {
-    User? thisUser = FirebaseAuth.instance.currentUser;
-    final userFavoritesRef = FirebaseDatabase.instance.ref().child(
-        'user/' + thisUser!.uid + '/favorites' + '/' + widget.product.name);
-    final qt = await userFavoritesRef.child('/quantity').once();
-    var quantity = 0;
-
-    await Future.delayed(const Duration(milliseconds: 100), () {});
-    print('qt.snapshot:' + qt.snapshot.value.toString());
-    if (qt.snapshot.value != null) {
-      quantity = qt.snapshot.value as int;
-    }
-    try {
-      await userFavoritesRef
-          .update(Product.toRTDB(widget.product, quantity: quantity));
-    } on Exception catch (exception) {
-      print('Add-exception:');
-      print(exception);
-    }
-    widget.parentRebuild();
-    setState(() {});
-  }
-
-  Future<void> _removeFromCart() async {
-    User? thisUser = FirebaseAuth.instance.currentUser;
-    final userFavoritesRef = FirebaseDatabase.instance.ref().child(
-        'user/' + thisUser!.uid + '/favorites' + '/' + widget.product.name);
-    final qt = await userFavoritesRef.child('/quantity').once();
-    var quantity = 0;
-    print(qt.snapshot.value);
-    if (qt.snapshot.value != null) {
-      quantity = qt.snapshot.value as int;
-    }
-    quantity = quantity - 2;
-
-    /// TODO: why error in the get/set calls to database
-    await Future.delayed(const Duration(milliseconds: 100), () {});
-    print('snap');
-    print(qt.snapshot);
-    print('0.5 seconds passed');
-    if (quantity <= -1) {
-      await userFavoritesRef.remove();
-    }
-    await userFavoritesRef
-        .update(Product.toRTDB(widget.product, quantity: quantity));
-
-    widget.parentRebuild();
-    setState(() {});
-  }
 
   /// TODO: Implement a callback for the builds. This way we build the parent page for every removed item
   @override
@@ -139,7 +90,10 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                           style: ElevatedButton.styleFrom(
                               minimumSize: Size(width * 0.1, width * 0.05),
                               fixedSize: Size(width * 0.12, width * 0.07)),
-                          onPressed: _removeFromCart,
+                          onPressed: () {
+                            Product.removeFromCart(widget.product.id);
+                            setState(() {});
+                          },
                           child: Icon(
                             Icons.remove,
                             size: width * 0.05,
@@ -155,7 +109,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                                 border: Border.all(color: borderColor),
                               ),
                               child: Text(
-                                thisQuantity.toString(),
+                                widget.product.qty.toString(),
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontFamily: 'Raleway-Regular',
@@ -165,7 +119,10 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                           style: ElevatedButton.styleFrom(
                               minimumSize: Size(width * 0.12, width * 0.07),
                               fixedSize: Size(width * 0.12, width * 0.07)),
-                          onPressed: _addToCart,
+                          onPressed: () {
+                            Product.addToCart(widget.product.id);
+                            setState(() {});
+                          },
                           child: Icon(
                             Icons.add,
                             size: width * 0.05,

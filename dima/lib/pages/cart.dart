@@ -1,4 +1,4 @@
-import 'package:dima/pages/misc/fork.dart';
+import 'package:dima/shopping_cart_route.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatelessWidget {
@@ -6,10 +6,6 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ForkPage(
-      route1: "/profile",
-      route2: "/map",
-      title: "Cart",
-    );
+    return ShoppingCartRoute();
   }
 }

@@ -12,7 +12,7 @@ class ProductCarousel extends StatefulWidget {
 
 class ProductCarouselState extends State<ProductCarousel> {
   int _currentIndex = 0;
-  List productIds = [0, 1, 2, 3, 4];
+  List productIds = ["0", "1", "2", "3", "4"];
 
   List<T> _map<T>(List list, Function handler) {
     List<T> result = [];
@@ -61,7 +61,7 @@ class ProductCarouselState extends State<ProductCarousel> {
     }).toList();
   }
 
-  Widget _buildProductCard(BuildContext context, int productId) {
+  Widget _buildProductCard(BuildContext context, String productId) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width,

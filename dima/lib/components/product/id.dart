@@ -29,25 +29,21 @@ class _ProductFromIDState extends State<ProductFromID> {
     var width = size.width;
     var height = size.height - bottomPadding - topPadding;
     Widget body =
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        ListView(children: [
       ElevatedButton(
           onPressed: () => Navigator.pop(context),
           child: const Text('Go Back')),
-      SizedBox(
-          width: width,
-          height: 0.80 * height,
-          child: ListView(
-            children: [
-              widget.product.image,
-              Text(
-                widget.product.name,
-                style: const TextStyle(
-                    color: headerTextColor, fontSize: productTitleSize),
-              ),
-              const Text(
-                  "Description -- Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum")
-            ],
-          )),
+      widget.product.image,
+      Text(
+        widget.product.name,
+        style:
+            const TextStyle(color: headerTextColor, fontSize: productTitleSize),
+      ),
+      const Text(
+          "Description -- Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"),
+      //   ],
+      // ),
       Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.end,

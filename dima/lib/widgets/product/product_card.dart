@@ -13,7 +13,7 @@ class ProductCard extends StatelessWidget {
       {Key? key, required this.productId, this.size = ProductCardSize.medium})
       : super(key: key);
 
-  final int productId; // TODO CHANGE TO STRING!!!!
+  final String productId;
   final ProductCardSize size;
 
   @override
@@ -31,13 +31,13 @@ class ProductCard extends StatelessWidget {
 
   void _goToProductPage(BuildContext context) {
     RouteSettings rs =
-        RouteSettings(name: "/product", arguments: {"id": "$productId"});
+        RouteSettings(name: "/product", arguments: {"id": productId});
     final Route? r = NestedNavigatorRouter.generateRoute(rs);
     Navigator.of(context).push(r!);
   }
 
   Widget _buildItemBody(BuildContext context) {
-    Product? product = DatabaseManager.getProduct("$productId");
+    Product? product = DatabaseManager.getProduct(productId);
 
     if (product == null) {
       return _buildLoadingIndicator();

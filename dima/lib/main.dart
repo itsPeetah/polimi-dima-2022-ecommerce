@@ -90,5 +90,8 @@ class ApplicationState extends ChangeNotifier {
       DatabaseManager.updateProduct(event.snapshot);
       notifyListeners();
     });
+
+    final shops = await DatabaseManager.shop.get();
+    DatabaseManager.setShops(shops);
   }
 }
