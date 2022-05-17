@@ -1,4 +1,4 @@
-import 'package:dima/pages/misc/fork.dart';
+import 'package:dima/components/map/map_component.dart';
 import 'package:flutter/material.dart';
 
 class MapPage extends StatelessWidget {
@@ -6,10 +6,6 @@ class MapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ForkPage(
-      route1: "/cart",
-      route2: "/hello",
-      title: "Map",
-    );
+    return const MapContainer();
   }
 }
