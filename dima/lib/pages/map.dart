@@ -8,7 +8,7 @@ class MapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ForkPage(
       route1: "/cart",
-      route2: "/home",
+      route2: "/hello",
       title: "Map",
     );
   }

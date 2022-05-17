@@ -2,9 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 enum ApplicationLoginState {
   loggedOut,
-  // emailAddress,
-  // register,
-  // password,
   loggedIn,
 }
 

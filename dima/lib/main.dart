@@ -85,5 +85,10 @@ class ApplicationState extends ChangeNotifier {
       DatabaseManager.updateProduct(event.snapshot);
       notifyListeners();
     });
+
+    DatabaseManager.product.onChildAdded.listen((event) {
+      DatabaseManager.updateProduct(event.snapshot);
+      notifyListeners();
+    });
   }
 }
