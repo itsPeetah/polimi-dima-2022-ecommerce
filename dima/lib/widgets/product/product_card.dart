@@ -1,6 +1,6 @@
 import 'package:dima/main.dart';
-import 'package:dima/pages/misc/hello.dart';
 import 'package:dima/util/database/database.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ class ProductCard extends StatelessWidget {
       {Key? key, required this.productId, this.size = ProductCardSize.medium})
       : super(key: key);
 
-  final int productId;
+  final int productId; // TODO CHANGE TO STRING!!!!
   final ProductCardSize size;
 
   @override
@@ -29,6 +29,13 @@ class ProductCard extends StatelessWidget {
     );
   }
 
+  void _goToProductPage(BuildContext context) {
+    RouteSettings rs =
+        RouteSettings(name: "/product", arguments: {"id": "$productId"});
+    final Route? r = NestedNavigatorRouter.generateRoute(rs);
+    Navigator.of(context).push(r!);
+  }
+
   Widget _buildItemBody(BuildContext context) {
     Product? product = DatabaseManager.getProduct("$productId");
 
@@ -36,42 +43,45 @@ class ProductCard extends StatelessWidget {
       return _buildLoadingIndicator();
     }
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Image(
-          image: product.image.image,
-          fit: BoxFit.cover,
-          filterQuality: FilterQuality.low,
-        ),
-        Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.center,
-              colors: <Color>[
-                Color(0x99000000),
-                Color(0x00000000),
-              ],
-              tileMode: TileMode.clamp,
+    return GestureDetector(
+      onTap: () => _goToProductPage(context),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image(
+            image: product.image.image,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.low,
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.center,
+                colors: <Color>[
+                  Color(0x99000000),
+                  Color(0x00000000),
+                ],
+                tileMode: TileMode.clamp,
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Flex(
-            direction: Axis.vertical,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                product.name,
-                style: TextStyle(fontSize: 28, color: Colors.white),
-              )
-            ],
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Flex(
+              direction: Axis.vertical,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  product.name,
+                  style: TextStyle(fontSize: 28, color: Colors.white),
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

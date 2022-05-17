@@ -18,7 +18,9 @@ class QuestionBarResult extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ProductFromID(product: product))),
+                builder: (context) => ProductFromID(
+                      product: product,
+                    ))),
         child: Container(
             color: questionBarColor,
             child: Flex(

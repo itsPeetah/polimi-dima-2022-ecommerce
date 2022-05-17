@@ -1,14 +1,14 @@
 import 'package:dima/model/product.dart';
-import 'package:dima/default_scaffold.dart';
 import 'package:dima/styles/styleoftext.dart';
-import 'package:dima/user_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 /// Previously called product from id is now simply the page you get redirected when you click on a product link.
 class ProductFromID extends StatefulWidget {
-  const ProductFromID({Key? key, required this.product}) : super(key: key);
+  const ProductFromID({Key? key, this.productId = "0", required this.product})
+      : super(key: key);
+
+  // TODO Avoid duplication!
+  final String productId;
   final Product product;
 
   @override
@@ -18,29 +18,6 @@ class ProductFromID extends StatefulWidget {
 class _ProductFromIDState extends State<ProductFromID> {
   void _buyCallback() {
     true;
-  }
-
-  Future<void> _addToCart() async {
-    User? thisUser = FirebaseAuth.instance.currentUser;
-    if (thisUser == null) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DefaultScaffold(
-                    isDefault: false,
-                    givenBody: const UserProfileRoute(),
-                  )));
-    }
-    final userFavoritesRef = FirebaseDatabase.instance.ref().child(
-        'user/' + thisUser!.uid + '/favorites' + '/' + widget.product.name);
-    final qt = await userFavoritesRef.child('/quantity').once();
-    var quantity = 0;
-    print(qt.snapshot.value);
-    if (qt.snapshot.value != null) {
-      quantity = qt.snapshot.value as int;
-    }
-    await userFavoritesRef
-        .update(Product.toRTDB(widget.product, quantity: quantity));
   }
 
   @override
@@ -82,7 +59,7 @@ class _ProductFromIDState extends State<ProductFromID> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: ElevatedButton(
-                onPressed: _addToCart,
+                onPressed: () => Product.addToCart(widget.productId),
                 child: const Icon(Icons.add_shopping_cart_rounded)),
           ),
           ElevatedButton(
@@ -90,6 +67,6 @@ class _ProductFromIDState extends State<ProductFromID> {
         ],
       )
     ]);
-    return DefaultScaffold(givenBody: body, isDefault: false);
+    return body;
   }
 }
