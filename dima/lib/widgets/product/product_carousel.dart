@@ -39,7 +39,7 @@ class ProductCarouselState extends State<ProductCarousel> {
           options: CarouselOptions(
             height: 260.0,
             autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 4),
+            autoPlayInterval: const Duration(seconds: 8),
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
             aspectRatio: 5.0,

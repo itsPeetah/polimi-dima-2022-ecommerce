@@ -67,7 +67,7 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Flex(
               direction: Axis.vertical,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ class ProductCard extends StatelessWidget {
               children: [
                 Text(
                   product.name,
-                  style: TextStyle(fontSize: 28, color: Colors.white),
+                  style: const TextStyle(fontSize: 28, color: Colors.white),
                 )
               ],
             ),

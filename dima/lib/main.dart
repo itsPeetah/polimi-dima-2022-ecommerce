@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Nested Navigation Tests',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.deepOrange,
       ),
       /* Entry Point -> MainNavigation (tabbed view) */
       initialRoute: MainNavigationRoutes.root,
@@ -92,6 +92,11 @@ class ApplicationState extends ChangeNotifier {
     });
 
     final shops = await DatabaseManager.shop.get();
-    DatabaseManager.setShops(shops);
+    DatabaseManager.updateAllShops(shops);
+    notifyListeners();
+    DatabaseManager.shop.onChildChanged.listen((event) {
+      DatabaseManager.updateProduct(event.snapshot);
+      notifyListeners();
+    });
   }
 }

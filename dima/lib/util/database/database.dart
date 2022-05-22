@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:dima/model/product.dart';
 import 'package:firebase_database/firebase_database.dart';
+
+import '../../model/shop.dart';
 
 class DatabaseManager {
   static DatabaseReference? _user;
@@ -45,8 +49,29 @@ class DatabaseManager {
   }
 
   static Product? getProduct(String id) {
+    /// TODO: why return null? Just populate the product list and throw exception if no data found
     if (_allProducts.containsKey(id)) return _allProducts[id];
     return null;
+  }
+
+  static Shop? getShop(String id) {
+    if (_allShops.containsKey(id)) return _allShops[id];
+    return null;
+  }
+
+  static void updateShop(DataSnapshot dbSnapshot) {
+    final shopData = dbSnapshot.value
+        as Map<String, dynamic>; // TODO Figure out a fix for the exception
+    final shop = Shop.fromRTDB(shopData);
+    _allProducts[dbSnapshot.key] = shop;
+  }
+
+  static void updateAllShops(DataSnapshot dbSnapshot) {
+    for (DataSnapshot sKey in dbSnapshot.children) {
+      final shopData = Map<String, dynamic>.from(sKey.value as Map);
+      final shop = Shop.fromRTDB(shopData);
+      _allShops[shop.name] = shop;
+    }
   }
 
   static setShops(DataSnapshot dbSnapshot) {
