@@ -34,12 +34,14 @@ class MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(_currentTab),
       body: PageView(
         onPageChanged: (idx) => setState(() {
           _setCurrentTab(TabItem.values[idx]);
         }),
         controller: _pageController,
+        physics:
+            const NeverScrollableScrollPhysics(), // avoid scrolling from page to page
         children: [
           _buildNestedNavigator(TabItem.home),
           _buildNestedNavigator(TabItem.map),
@@ -83,8 +85,8 @@ class MainNavigationState extends State<MainNavigation> {
     }
   }
 
-  AppBar _buildAppBar() {
-    switch (_currentTab) {
+  AppBar _buildAppBar(TabItem tab) {
+    switch (tab) {
       default:
         return AppBar(
           title: const Text("App bar not implemented"),

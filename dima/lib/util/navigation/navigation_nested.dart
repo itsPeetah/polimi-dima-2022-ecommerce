@@ -14,6 +14,19 @@ class SecondaryNavigator {
   static final cartNavigatorKey = GlobalKey<NavigatorState>();
   static final profileNavigatorKey = GlobalKey<NavigatorState>();
 
+  static GlobalKey<NavigatorState> keyOf(TabItem navigatorTab) {
+    switch (navigatorTab) {
+      case TabItem.home:
+        return homeNavigatorKey;
+      case TabItem.map:
+        return mapNavigatorKey;
+      case TabItem.cart:
+        return cartNavigatorKey;
+      case TabItem.profile:
+        return profileNavigatorKey;
+    }
+  }
+
   static NavigatorState of(TabItem navigatorTab) {
     switch (navigatorTab) {
       case TabItem.home:

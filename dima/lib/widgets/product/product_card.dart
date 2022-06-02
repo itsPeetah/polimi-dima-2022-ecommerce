@@ -37,9 +37,10 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _buildItemBody(BuildContext context) {
-    Product? product = DatabaseManager.getProduct(productId);
-
-    if (product == null) {
+    Product product;
+    try {
+      product = DatabaseManager.getProduct(productId);
+    } catch (ex) {
       return _buildLoadingIndicator();
     }
 

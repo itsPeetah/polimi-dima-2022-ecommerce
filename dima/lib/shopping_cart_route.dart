@@ -1,6 +1,6 @@
-import 'package:dima/components/shopping_cart/shopping_product.dart';
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/widgets/shopping_cart/shopping_product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';

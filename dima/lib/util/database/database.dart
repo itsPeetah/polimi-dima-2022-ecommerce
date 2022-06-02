@@ -1,24 +1,25 @@
 import 'dart:convert';
 
 import 'package:dima/model/product.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import '../../model/shop.dart';
 
 class DatabaseManager {
-  static DatabaseReference? _user;
+  static DatabaseReference? _users;
   static DatabaseReference? _product;
   static DatabaseReference? _shop;
 
-  static final Map _allProducts = Map();
+  static final Map _allProducts = <String, dynamic>{};
   static Map get allProducts => _allProducts;
 
-  static final Map _allShops = Map();
+  static final Map _allShops = <String, dynamic>{};
   static Map get allShops => _allShops;
 
-  static DatabaseReference get user {
-    _user ??= FirebaseDatabase.instance.ref().child("/user");
-    return _user!;
+  static DatabaseReference get users {
+    _users ??= FirebaseDatabase.instance.ref().child("/user");
+    return _users!;
   }
 
   static DatabaseReference get product {
@@ -48,10 +49,13 @@ class DatabaseManager {
     _allProducts[dbSnapshot.key] = product;
   }
 
-  static Product? getProduct(String id) {
-    /// TODO: why return null? Just populate the product list and throw exception if no data found
-    if (_allProducts.containsKey(id)) return _allProducts[id];
-    return null;
+  static Product getProduct(String id) {
+    if (_allProducts.containsKey(id)) {
+      return _allProducts[id];
+    } else {
+      throw Exception(
+          "[Database Manager] Could not find product with id '$id'.}");
+    }
   }
 
   static Shop? getShop(String id) {

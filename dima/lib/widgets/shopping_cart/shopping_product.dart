@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:dima/components/product/id.dart';
-import 'package:dima/default_scaffold.dart';
+import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
-import 'package:dima/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';

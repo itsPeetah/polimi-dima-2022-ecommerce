@@ -47,10 +47,11 @@ class Product {
     User? thisUser = FirebaseAuth.instance.currentUser;
 
     // TODO Null check?
+    // Use id, fetch product data from database
     Product p = DatabaseManager.getProduct(productId)!;
 
-    final userFavoritesRef =
-        DatabaseManager.user.child(thisUser!.uid + '/favorites' + '/' + p.name);
+    final userFavoritesRef = DatabaseManager.users
+        .child(thisUser!.uid + '/favorites' + '/' + p.name);
 
     final qt = await userFavoritesRef.child('/quantity').get();
     var quantity = 0;
@@ -67,8 +68,8 @@ class Product {
     // TODO Null check?
     Product p = DatabaseManager.getProduct(productId)!;
 
-    final userFavoritesRef =
-        DatabaseManager.user.child(thisUser!.uid + '/favorites' + '/' + p.name);
+    final userFavoritesRef = DatabaseManager.users
+        .child(thisUser!.uid + '/favorites' + '/' + p.name);
     final qt = await userFavoritesRef.child('/quantity').get();
     var quantity = 0;
 
