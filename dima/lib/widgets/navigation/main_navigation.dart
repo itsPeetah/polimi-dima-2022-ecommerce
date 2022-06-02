@@ -36,9 +36,6 @@ class MainNavigationState extends State<MainNavigation> {
     return Scaffold(
       appBar: _buildAppBar(_currentTab),
       body: PageView(
-        onPageChanged: (idx) => setState(() {
-          _setCurrentTab(TabItem.values[idx]);
-        }),
         controller: _pageController,
         physics:
             const NeverScrollableScrollPhysics(), // avoid scrolling from page to page
