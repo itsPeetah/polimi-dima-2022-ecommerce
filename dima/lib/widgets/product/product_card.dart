@@ -30,6 +30,8 @@ class ProductCard extends StatelessWidget {
   }
 
   void _goToProductPage(BuildContext context) {
+    // UNEXPECTED: se pusho la product route da qui lo stack non si preserva
+    // il mio dubbio è che abbia a che fare con il gesture detector
     SecondaryNavigator.push(context, "/product", routeArgs: {"id": productId});
   }
 

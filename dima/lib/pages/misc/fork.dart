@@ -16,6 +16,7 @@ class ForkPage extends StatelessWidget {
 
   void _navigate(BuildContext context, String route) {
     SecondaryNavigator.push(context, route);
+    // UNEXPECTED: se pusho la product route da qui lo stack si preserva
   }
 
   void _goBack(BuildContext context) => SecondaryNavigator.pop(context);
