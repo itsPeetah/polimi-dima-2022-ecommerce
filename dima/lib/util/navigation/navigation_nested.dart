@@ -39,6 +39,18 @@ class SecondaryNavigator {
         return profileNavigatorKey.currentState!;
     }
   }
+
+  static void push(BuildContext context, String routeName,
+      {Object? routeArgs}) {
+    final RouteSettings rs =
+        RouteSettings(name: routeName, arguments: routeArgs);
+    final Route? r = NestedNavigatorRouter.generateRoute(rs);
+    Navigator.push(context, r!);
+  }
+
+  static void pop(BuildContext context) {
+    Navigator.pop(context);
+  }
 }
 
 class NestedNavigatorRoutes {
