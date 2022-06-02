@@ -86,7 +86,7 @@ class MainNavigationState extends State<MainNavigation> {
     switch (tab) {
       default:
         return AppBar(
-          title: const Text("App bar not implemented"),
+          title: Text("$tab"),
         );
     }
   }
