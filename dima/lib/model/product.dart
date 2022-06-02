@@ -48,7 +48,7 @@ class Product {
 
     // TODO Null check?
     // Use id, fetch product data from database
-    Product p = DatabaseManager.getProduct(productId)!;
+    Product p = DatabaseManager.getProduct(productId);
 
     final userFavoritesRef = DatabaseManager.users
         .child(thisUser!.uid + '/favorites' + '/' + p.name);
@@ -66,7 +66,7 @@ class Product {
     User? thisUser = FirebaseAuth.instance.currentUser;
 
     // TODO Null check?
-    Product p = DatabaseManager.getProduct(productId)!;
+    Product p = DatabaseManager.getProduct(productId);
 
     final userFavoritesRef = DatabaseManager.users
         .child(thisUser!.uid + '/favorites' + '/' + p.name);

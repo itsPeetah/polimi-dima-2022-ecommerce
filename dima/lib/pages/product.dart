@@ -1,4 +1,4 @@
-import 'package:dima/components/product/id.dart';
+import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
 import 'package:dima/pages/misc/404.dart';
 import 'package:dima/util/database/database.dart';
