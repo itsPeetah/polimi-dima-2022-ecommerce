@@ -15,15 +15,10 @@ class ForkPage extends StatelessWidget {
   final String route2;
 
   void _navigate(BuildContext context, String route) {
-    final RouteSettings rs = RouteSettings(name: route);
-    final Route? r = NestedNavigatorRouter.generateRoute(rs);
-
-    Navigator.push(context, r!);
+    SecondaryNavigator.push(context, route);
   }
 
-  void _goBack(BuildContext context) {
-    Navigator.pop(context);
-  }
+  void _goBack(BuildContext context) => SecondaryNavigator.pop(context);
 
   void _pushMain() {
     const rs = RouteSettings(name: "/foobar");

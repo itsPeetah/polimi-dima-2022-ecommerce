@@ -30,11 +30,7 @@ class ProductCard extends StatelessWidget {
   }
 
   void _goToProductPage(BuildContext context) {
-    RouteSettings rs =
-        RouteSettings(name: "/product", arguments: {"id": productId});
-    final Route? r = NestedNavigatorRouter.generateRoute(rs);
-
-    Navigator.push(context, r!);
+    SecondaryNavigator.push(context, "/product", routeArgs: {"id": productId});
   }
 
   Widget _buildItemBody(BuildContext context) {

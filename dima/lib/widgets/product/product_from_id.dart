@@ -1,5 +1,6 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:flutter/material.dart';
 
 /// Previously called product from id is now simply the page you get redirected when you click on a product link.
@@ -32,7 +33,7 @@ class _ProductFromIDState extends State<ProductFromID> {
         // Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ListView(children: [
       ElevatedButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => SecondaryNavigator.pop(context),
           child: const Text('Go Back')),
       widget.product.image,
       Text(
