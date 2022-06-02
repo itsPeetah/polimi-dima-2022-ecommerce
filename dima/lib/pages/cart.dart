@@ -1,4 +1,4 @@
-import 'package:dima/shopping_cart_route.dart';
+import 'package:dima/widgets/shopping_cart/shopping_cart_route.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatelessWidget {
