@@ -1,9 +1,12 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/shopping_cart/shopping_product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+
+import 'list_of_products.dart';
 
 class ShoppingCartRoute extends StatefulWidget {
   const ShoppingCartRoute(
@@ -18,7 +21,11 @@ class ShoppingCartRoute extends StatefulWidget {
 class ShoppingCartRouteState extends State<ShoppingCartRoute> {
   List<Widget> children = [];
   bool called = false;
-  void _buyCallback() {}
+  void _buyCallback() {
+    SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
+        routeArgs: {'show': false});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -33,30 +40,7 @@ class ShoppingCartRouteState extends State<ShoppingCartRoute> {
   }
 
   void getListOfItemsInCart() async {
-    User? thisUser = FirebaseAuth.instance.currentUser;
-    final userFavoritesRef = FirebaseDatabase.instance
-        .ref()
-        .child('user/' + thisUser!.uid + '/favorites');
-    List<Product> listOfItems = [];
-    var listOfMapsOfMaps = await userFavoritesRef.orderByKey().once();
-    if (listOfMapsOfMaps.snapshot.value == null) {
-      return;
-    }
-    var productAsMap = listOfMapsOfMaps.snapshot.value as Map<String, dynamic>;
-    for (var key in productAsMap.keys) {
-      listOfItems
-          .add(Product.fromRTDB(productAsMap[key] as Map<String, dynamic>));
-    }
-
-    List<Widget> listOfWidgets = [];
-    for (var product in listOfItems) {
-      listOfWidgets.add(ShoppingCartProduct(
-        product: product,
-        quantity: product.qty,
-        parentRebuild: _rebuild,
-      ));
-      listOfWidgets.add(const Divider());
-    }
+    List<Widget> listOfWidgets = await getItemsInCart();
     setState(() {
       called = true;
       children = listOfWidgets;

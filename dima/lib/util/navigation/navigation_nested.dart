@@ -1,6 +1,7 @@
 import 'package:dima/pages/cart.dart';
 import 'package:dima/pages/home.dart';
 import 'package:dima/pages/map.dart';
+import 'package:dima/pages/payment.dart';
 import 'package:dima/pages/product.dart';
 import 'package:dima/pages/profile.dart';
 import 'package:dima/util/navigation/tab_item.dart';
@@ -60,6 +61,10 @@ class NestedNavigatorRoutes {
   static const String cart = "/cart";
   static const String profile = "/profile";
   static const String product = "/product";
+  // PAYMENT PAGES
+  static const String checkout = "/checkout";
+  static const String personalDetails = "/personalDetails";
+  static const String bankDetails = "/bankDetails";
 }
 
 class NestedNavigatorRouter {
@@ -83,9 +88,26 @@ class NestedNavigatorRouter {
         );
       case NestedNavigatorRoutes.product:
         // TODO Null check for id arg
-        Map args = settings.arguments as Map;
+        Map args = settings.arguments as Map<String, String>;
+        final String argument = args["id"] as String;
         return MaterialPageRoute(
-            builder: (_) => ProductPage(productId: args["id"]));
+            builder: (_) => ProductPage(productId: argument));
+      case NestedNavigatorRoutes.checkout:
+        Object? showPage;
+        if (settings.arguments != null) {
+          Map arguments = settings.arguments as Map<String, Object?>;
+          showPage = arguments['show'] as Object?;
+        }
+
+        // if showPage is null, it sets it to true
+        showPage ??= true;
+        return MaterialPageRoute(
+            builder: (_) => PaymentPage(
+                  showPage: showPage as bool,
+                ));
+      case NestedNavigatorRoutes.bankDetails:
+        return MaterialPageRoute(
+            builder: (_) => const PageNotFound(reason: '500 - Not yet built.'));
       case "/":
         return MaterialPageRoute(
           builder: (_) => const HelloPage(

@@ -15,7 +15,6 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Product product;
-
     try {
       product = DatabaseManager.getProduct(productId);
     } catch (ex) {

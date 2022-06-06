@@ -6,6 +6,6 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShoppingCartRoute();
+    return const ShoppingCartRoute();
   }
 }

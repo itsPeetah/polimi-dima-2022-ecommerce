@@ -18,17 +18,16 @@ class ProductFromID extends StatefulWidget {
 
 class _ProductFromIDState extends State<ProductFromID> {
   void _buyCallback() {
+    try {
+      Product.addToCart(widget.productId);
+    } catch (exception) {}
+    SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
+        routeArgs: {'show': true});
     true;
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
-    final topPadding = MediaQuery.of(context).padding.top;
-
-    var width = size.width;
-    var height = size.height - bottomPadding - topPadding;
     Widget body =
         // Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ListView(children: [
