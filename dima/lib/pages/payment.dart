@@ -1,4 +1,5 @@
 import 'package:dima/model/product.dart';
+import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/main.dart';
@@ -9,8 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../widgets/shopping_cart/shopping_cart_route.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({Key? key, required this.showPage}) : super(key: key);
@@ -32,12 +31,12 @@ class PaymentPageState extends State<PaymentPage> {
   double checkOutSum = 0;
 
   String? _nameValidator(String? str) {
-    return str != null && str.isNotEmpty ? "Your name is a required" : null;
+    return str == null && str!.isEmpty ? "Your name is a required" : null;
   }
 
   String? _locationValidator(String? str) {
-    final bool emailValid = str != null && str.isNotEmpty;
-    return emailValid ? "Your location is required" : null;
+    final bool emailInvalid = str == null && str!.isEmpty;
+    return emailInvalid ? "Your location is required" : null;
   }
 
   String? _passwordValidator(String? str) {
@@ -64,42 +63,58 @@ class PaymentPageState extends State<PaymentPage> {
     const double height = 850;
     String username = FirebaseAuth.instance.currentUser?.displayName ?? "user";
     // getListOfItems();
-    Widget continueButton = TextButtonLarge(
-      text: "Continue",
-      onPressed: _goToBankDetails,
-    );
+    List<Widget> footer = [
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          color: Colors.orange[50],
+          child: Divider(
+            thickness: 2,
+            height: 10,
+            color: Colors.orange[400],
+          ),
+        ),
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Text(
+          'Total cost: ' + checkOutSum.toString() + '\$',
+          style: const TextStyle(fontSize: productTitleSize),
+        ),
+      )
+    ];
 
     setTotalPrice();
     if (widget.showPage) {
       getListOfItems();
-      return ListView(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: listOfItems +
-            [
-              personalInfoForm(),
-              continueButton,
-              const Divider(height: 5),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: height / 4),
-                    child: Text(
-                      checkOutSum.toString() + '\$',
-                    ),
-                  ),
-                ],
-              )
-            ],
+      return Column(
+        children: <Widget>[
+              Expanded(
+                child: ListView(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: listOfItems +
+                      [
+                        personalInfoForm(),
+                      ],
+                ),
+              ),
+            ] +
+            footer,
       );
     } else {
       setTotalPrice();
       return Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          personalInfoForm(),
-          continueButton,
-        ],
+        children: <Widget>[
+              Expanded(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    personalInfoForm(),
+                  ],
+                ),
+              ),
+            ] +
+            footer,
       );
     }
   }
@@ -129,9 +144,13 @@ class PaymentPageState extends State<PaymentPage> {
               controller: _passwordInputController,
             ),
             TextButtonLarge(
+              text: "Continue",
+              onPressed: _goToBankDetails,
+            ),
+            TextButtonLarge(
               text: "Cancel",
               onPressed: () => Navigator.of(context).pop(),
-            ),
+            )
           ],
         ),
       ),
@@ -155,9 +174,13 @@ class PaymentPageState extends State<PaymentPage> {
         listOfMapsOfMaps.snapshot.value as Map<String, dynamic>;
     double sum = 0;
     for (var key in productAsMap.keys) {
-      var priceAsString =
-          Product.fromRTDB(productAsMap[key] as Map<String, dynamic>).price;
-      sum += double.parse(priceAsString.substring(0, priceAsString.length - 1));
+      Product prod =
+          Product.fromRTDB(productAsMap[key] as Map<String, dynamic>);
+      var priceAsString = prod.price;
+      if (prod.qty > 0) {
+        sum += prod.qty *
+            double.parse(priceAsString.substring(0, priceAsString.length - 1));
+      }
     }
     setState(() {
       checkOutSum = sum;

@@ -2,6 +2,7 @@ import 'package:dima/pages/cart.dart';
 import 'package:dima/pages/home.dart';
 import 'package:dima/pages/map.dart';
 import 'package:dima/pages/payment.dart';
+import 'package:dima/pages/paymentdetails.dart';
 import 'package:dima/pages/product.dart';
 import 'package:dima/pages/profile.dart';
 import 'package:dima/util/navigation/tab_item.dart';
@@ -107,7 +108,8 @@ class NestedNavigatorRouter {
                 ));
       case NestedNavigatorRoutes.bankDetails:
         return MaterialPageRoute(
-            builder: (_) => const PageNotFound(reason: '500 - Not yet built.'));
+            builder: (_) => const PaymentDetailsPage(
+                name: 'YOUR NAME', location: 'YOUR LOCATION'));
       case "/":
         return MaterialPageRoute(
           builder: (_) => const HelloPage(

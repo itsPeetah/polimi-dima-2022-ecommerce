@@ -17,8 +17,10 @@ Future<List<Widget>> getItemsInCart() async {
   }
   var productAsMap = listOfMapsOfMaps.snapshot.value as Map<String, dynamic>;
   for (var key in productAsMap.keys) {
-    listOfItems
-        .add(Product.fromRTDB(productAsMap[key] as Map<String, dynamic>));
+    var product = Product.fromRTDB(productAsMap[key] as Map<String, dynamic>);
+    if (product.qty > 0) {
+      listOfItems.add(product);
+    }
   }
 
   List<Widget> listOfWidgets = [];
