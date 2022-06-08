@@ -7,9 +7,9 @@ import '../../model/shop.dart';
 import '../../util/database/database.dart';
 
 class MapContainer extends StatefulWidget {
-  const MapContainer({Key? key, required this.parentSetState})
-      : super(key: key);
-  final Function parentSetState;
+  const MapContainer({
+    Key? key,
+  }) : super(key: key);
   @override
   _MapState createState() => _MapState();
 }
@@ -61,7 +61,7 @@ class _MapState extends State<MapContainer> {
       infoWindow: InfoWindow(title: markerIdVal, snippet: description),
       onTap: () {
         _onShopTapped(markerId);
-        widget.parentSetState();
+        // widget.parentSetState();
       },
     );
 

@@ -73,26 +73,27 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                           )
                         ])),
                 Expanded(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size(width * 0.1, width * 0.05),
-                              fixedSize: Size(width * 0.12, width * 0.07)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CircleAvatar(
+                        // radius: 10,
+                        // backgroundColor: Color,
+                        child: IconButton(
                           onPressed: () {
                             Product.removeFromCart(widget.product.id);
                             setState(() {});
                           },
-                          child: Icon(
+                          icon: const Icon(
                             Icons.remove,
-                            size: width * 0.05,
-                          )),
+                          ),
+                        ),
+                      ),
                       SizedBox(
                           width: width / 10,
                           child: Container(
                               padding: const EdgeInsets.only(
-                                  left: 10, right: 10, top: 4, bottom: 4),
+                                  left: 0, right: 0, top: 5, bottom: 5),
                               decoration: BoxDecoration(
                                 color: const Color.fromARGB(50, 255, 255, 255),
                                 borderRadius: BorderRadius.circular(6),
@@ -105,19 +106,22 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                                     fontFamily: 'Raleway-Regular',
                                     fontSize: productPriceSize),
                               ))),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size(width * 0.12, width * 0.07),
-                              fixedSize: Size(width * 0.12, width * 0.07)),
+                      CircleAvatar(
+                        // radius: 10,
+                        // backgroundColor: Color,
+                        child: IconButton(
                           onPressed: () {
                             Product.addToCart(widget.product.id);
                             setState(() {});
                           },
-                          child: Icon(
+                          icon: const Icon(
                             Icons.add,
-                            size: width * 0.05,
-                          )),
-                    ])),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             )));
   }

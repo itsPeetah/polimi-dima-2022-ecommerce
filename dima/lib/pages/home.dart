@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
     return ListView(
       children: const [
         ProductCarousel(),
-        ForkPage(title: "home", route1: "/map", route2: "/profile"),
         ProductCatalogueList(),
       ],
     );
