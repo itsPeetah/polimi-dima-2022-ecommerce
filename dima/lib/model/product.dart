@@ -44,22 +44,17 @@ class Product {
   }
 
   static Future<void> addToCart(String productId) async {
-    User? thisUser = FirebaseAuth.instance.currentUser;
-
-    // TODO Null check?
-    // Use id, fetch product data from database
-    Product p = DatabaseManager.getProduct(productId);
-
-    final userFavoritesRef = DatabaseManager.users
-        .child(thisUser!.uid + '/favorites' + '/' + p.name);
-
-    final qt = await userFavoritesRef.child('/quantity').get();
-    var quantity = 0;
-
-    if (qt.value != null) {
-      quantity = qt.value as int;
+    print('Old prod is present?');
+    Product? oldProd = DatabaseManager.cart[productId];
+    if (oldProd == null) {
+      oldProd = DatabaseManager.allProducts[productId];
+      oldProd!.qty = 0;
     }
-    await userFavoritesRef.update(Product.toRTDB(p, quantity: quantity + 1));
+    oldProd.qty = oldProd.qty + 1;
+
+    print(oldProd);
+    DatabaseManager.updateUserCartFromProduct(oldProd);
+    return;
   }
 
   static Future<void> removeFromCart(String productId) async {
@@ -82,5 +77,17 @@ class Product {
     } else {
       await userFavoritesRef.update(Product.toRTDB(p, quantity: quantity - 1));
     }
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+
+    return 'Name: ' +
+        name +
+        ', Price: ' +
+        price +
+        ', Quantity: ' +
+        qty.toString();
   }
 }

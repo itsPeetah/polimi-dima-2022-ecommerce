@@ -66,9 +66,20 @@ class ApplicationState extends ChangeNotifier {
   }
 
   void _subscribeToAuthChanges() {
-    FirebaseAuth.instance.userChanges().listen((user) {
+    FirebaseAuth.instance.userChanges().listen((user) async {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
+        // notify changes of user cart on child changed, or added
+        final userCart = await DatabaseManager.userCart.get();
+        DatabaseManager.initUserCart(userCart);
+        DatabaseManager.userCart.onChildChanged.listen((event) {
+          DatabaseManager.updateUserCart(event.snapshot);
+          notifyListeners();
+        });
+        DatabaseManager.userCart.onChildAdded.listen((event) {
+          DatabaseManager.updateUserCart(event.snapshot);
+          notifyListeners();
+        });
       } else {
         _loginState = ApplicationLoginState.loggedOut;
       }

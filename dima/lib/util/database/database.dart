@@ -10,6 +10,7 @@ class DatabaseManager {
   static DatabaseReference? _users;
   static DatabaseReference? _product;
   static DatabaseReference? _shop;
+  static DatabaseReference? _userCart;
 
   static final Map _allProducts = <String, dynamic>{};
   static Map get allProducts => _allProducts;
@@ -17,9 +18,18 @@ class DatabaseManager {
   static final Map _allShops = <String, dynamic>{};
   static Map get allShops => _allShops;
 
+  static final Map _cart = <String, dynamic>{};
+  static Map get cart => _cart;
+
   static DatabaseReference get users {
     _users ??= FirebaseDatabase.instance.ref().child("/user");
     return _users!;
+  }
+
+  static DatabaseReference get userCart {
+    _userCart ??= FirebaseDatabase.instance.ref().child(
+        '/user' + '/' + FirebaseAuth.instance.currentUser!.uid + '/favorites');
+    return _userCart!;
   }
 
   static DatabaseReference get product {
@@ -35,11 +45,38 @@ class DatabaseManager {
   static int get productCount => _allProducts.length;
 
   static void updateProductStore(DataSnapshot dbSnapshot) {
+    print('updateProductStore data runtime type:');
     for (var pData in dbSnapshot.value as List<dynamic>) {
       final productData = Map<String, dynamic>.from(pData);
       final product = Product.fromRTDB(productData);
       _allProducts[product.id] = product;
     }
+  }
+
+  static void initUserCart(DataSnapshot dbSnapshot) {
+    Map<String, dynamic> prodMap = dbSnapshot.value as Map<String, dynamic>;
+    for (var pKey in prodMap.keys) {
+      final product = Product.fromRTDB(prodMap[pKey]);
+      if (product.qty > 0) {
+        _cart[product.id] = product;
+      }
+    }
+  }
+
+  static void updateUserCart(DataSnapshot dbSnapshot) {
+    Map<String, dynamic> prodMap = dbSnapshot.value as Map<String, dynamic>;
+
+    final product = Product.fromRTDB(prodMap);
+    if (product.qty > 0) {
+      _cart[product.id] = product;
+    }
+  }
+
+  static void updateUserCartFromProduct(Product product) {
+    _cart[product.id] = product;
+    _userCart!
+        .child('/' + product.name)
+        .update(Product.toRTDB(product, quantity: product.qty));
   }
 
   static void updateProduct(DataSnapshot dbSnapshot) {

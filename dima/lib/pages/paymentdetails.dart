@@ -1,3 +1,4 @@
+import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/widgets/navigation/main_navigation.dart';
@@ -30,9 +31,7 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
   void _confirmPayment() async {
     bool success = await sendPayment();
     success ? emptyCart() : _doNothing(true);
-
-    /// TODO: Change this to pop until: ...
-    SecondaryNavigator.pop(context);
+    MainNavigator.pop();
   }
 
   emptyCart() {}

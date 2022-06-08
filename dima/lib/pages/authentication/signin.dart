@@ -1,7 +1,11 @@
+import 'package:dima/main.dart';
+import 'package:dima/util/database/database.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatelessWidget {
@@ -13,6 +17,10 @@ class SignInPage extends StatelessWidget {
   final TextEditingController _emailInputController = TextEditingController();
   final TextEditingController _passwordInputController =
       TextEditingController();
+
+  void onSuccess() async {
+    MainNavigator.pop();
+  }
 
   String? _emailValidator(String? str) {
     final bool emailValid = str != null &&
@@ -32,10 +40,6 @@ class SignInPage extends StatelessWidget {
 
     final String email = _emailInputController.text;
     final String password = _passwordInputController.text;
-
-    void onSuccess() {
-      MainNavigator.pop();
-    }
 
     void onFailure(FirebaseAuthException e) {
       print("Error while signing in!");

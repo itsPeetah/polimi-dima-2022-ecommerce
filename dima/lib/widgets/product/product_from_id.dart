@@ -19,8 +19,11 @@ class ProductFromID extends StatefulWidget {
 class _ProductFromIDState extends State<ProductFromID> {
   void _buyCallback() {
     try {
+      // print('Add to cart calling ?');
       Product.addToCart(widget.productId);
-    } catch (exception) {}
+    } catch (exception) {
+      print('Error in ProductFromIDState?');
+    }
     SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
         routeArgs: {'show': true});
     true;
@@ -55,7 +58,10 @@ class _ProductFromIDState extends State<ProductFromID> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: ElevatedButton(
-                onPressed: () => Product.addToCart(widget.productId),
+                onPressed: () {
+                  // return;
+                  Product.addToCart(widget.productId);
+                },
                 child: const Icon(Icons.add_shopping_cart_rounded)),
           ),
           ElevatedButton(

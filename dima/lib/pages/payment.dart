@@ -1,5 +1,6 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/main.dart';
@@ -62,7 +63,7 @@ class PaymentPageState extends State<PaymentPage> {
     const double width = 393;
     const double height = 850;
     String username = FirebaseAuth.instance.currentUser?.displayName ?? "user";
-    // getListOfItems();
+    setTotalPrice();
     List<Widget> footer = [
       Align(
         alignment: Alignment.bottomCenter,
@@ -83,8 +84,6 @@ class PaymentPageState extends State<PaymentPage> {
         ),
       )
     ];
-
-    setTotalPrice();
     if (widget.showPage) {
       getListOfItems();
       return Column(
@@ -102,7 +101,6 @@ class PaymentPageState extends State<PaymentPage> {
             footer,
       );
     } else {
-      setTotalPrice();
       return Column(
         children: <Widget>[
               Expanded(
@@ -147,8 +145,11 @@ class PaymentPageState extends State<PaymentPage> {
               text: "Continue",
               onPressed: _goToBankDetails,
             ),
-            TextButtonLarge(
-              text: "Cancel",
+            TextButton(
+              child: const Text(
+                "Cancel",
+                style: TextStyle(fontSize: smallButtonTextSize),
+              ),
               onPressed: () => Navigator.of(context).pop(),
             )
           ],
@@ -157,33 +158,36 @@ class PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Future<void> getListOfItems() async {
-    List<Widget> listOfWidgets = await getItemsInCart();
-    setState(() {
-      listOfItems = listOfWidgets;
-    });
+  void getListOfItems() {
+    List<Widget> listOfWidgets = getItemsInCart();
+    listOfItems = listOfWidgets;
+    // DatabaseManager.cart.entries
+    // setState(() {});
   }
 
-  Future<void> setTotalPrice() async {
-    User? thisUser = FirebaseAuth.instance.currentUser;
-    final userFavoritesRef = FirebaseDatabase.instance
-        .ref()
-        .child('user/' + thisUser!.uid + '/favorites');
-    var listOfMapsOfMaps = await userFavoritesRef.orderByKey().once();
-    Map<String, dynamic> productAsMap =
-        listOfMapsOfMaps.snapshot.value as Map<String, dynamic>;
+  void setTotalPrice() {
+    print('DatabaseManager.cart?');
+    print(DatabaseManager.cart);
+    print(DatabaseManager.cart.runtimeType.toString());
+    Map<String, dynamic> products =
+        DatabaseManager.cart as Map<String, dynamic>;
+
+    Map<String, dynamic> productAsMap = products;
     double sum = 0;
     for (var key in productAsMap.keys) {
-      Product prod =
-          Product.fromRTDB(productAsMap[key] as Map<String, dynamic>);
+      print('product key:' + key);
+      print(productAsMap[key].name);
+      Product prod = productAsMap[key];
+      print('prod.price: ' + prod.price);
       var priceAsString = prod.price;
       if (prod.qty > 0) {
         sum += prod.qty *
             double.parse(priceAsString.substring(0, priceAsString.length - 1));
       }
     }
-    setState(() {
-      checkOutSum = sum;
-    });
+    print('Sum is: ' + sum.toString());
+    checkOutSum = sum;
+    // setState(() {});
+    print('done:');
   }
 }

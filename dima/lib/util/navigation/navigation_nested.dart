@@ -99,7 +99,6 @@ class NestedNavigatorRouter {
           Map arguments = settings.arguments as Map<String, Object?>;
           showPage = arguments['show'] as Object?;
         }
-
         // if showPage is null, it sets it to true
         showPage ??= true;
         return MaterialPageRoute(

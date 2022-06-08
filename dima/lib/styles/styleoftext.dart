@@ -21,6 +21,8 @@ const double productPriceSize = 15.99;
 
 // Icon or size
 const double buttonSize = 15;
+const double smallButtonTextSize = 18;
+const double bigButtonTextSize = 18;
 
 class Headline extends StatelessWidget {
   const Headline({Key? key, required this.text}) : super(key: key);
