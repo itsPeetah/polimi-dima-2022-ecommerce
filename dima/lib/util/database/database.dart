@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: prefer_adjacent_string_concatenation
 
 import 'package:dima/model/product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,7 +45,6 @@ class DatabaseManager {
   static int get productCount => _allProducts.length;
 
   static void updateProductStore(DataSnapshot dbSnapshot) {
-    print('updateProductStore data runtime type:');
     for (var pData in dbSnapshot.value as List<dynamic>) {
       final productData = Map<String, dynamic>.from(pData);
       final product = Product.fromRTDB(productData);
@@ -80,8 +79,7 @@ class DatabaseManager {
   }
 
   static void updateProduct(DataSnapshot dbSnapshot) {
-    final productData = dbSnapshot.value
-        as Map<String, dynamic>; // TODO Figure out a fix for the exception
+    final productData = dbSnapshot.value as Map<String, dynamic>;
     final product = Product.fromRTDB(productData);
     _allProducts[dbSnapshot.key] = product;
   }
@@ -101,8 +99,7 @@ class DatabaseManager {
   }
 
   static void updateShop(DataSnapshot dbSnapshot) {
-    final shopData = dbSnapshot.value
-        as Map<String, dynamic>; // TODO Figure out a fix for the exception
+    final shopData = dbSnapshot.value as Map<String, dynamic>;
     final shop = Shop.fromRTDB(shopData);
     _allProducts[dbSnapshot.key] = shop;
   }

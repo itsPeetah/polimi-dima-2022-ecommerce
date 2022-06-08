@@ -1,45 +1,37 @@
-import 'dart:async';
-
 import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
-const NO_BUTTON_PRESSED_CODE = -100;
 
 class ShoppingCartProduct extends StatefulWidget {
   const ShoppingCartProduct(
       {Key? key,
       required this.product,
       required this.quantity,
-      required this.parentRebuild})
+      this.parentRebuild})
       : super(key: key);
   final Product product;
   final int quantity;
-  final Function parentRebuild;
+  final dynamic parentRebuild;
 
   @override
   State<ShoppingCartProduct> createState() => ShoppingCartProductState();
 }
 
 class ShoppingCartProductState extends State<ShoppingCartProduct> {
-  int thisQuantity = NO_BUTTON_PRESSED_CODE;
-
-  /// TODO: Implement a callback for the builds. This way we build the parent page for every removed item
   @override
   Widget build(BuildContext context) {
-    if (thisQuantity == NO_BUTTON_PRESSED_CODE) {
-      thisQuantity = widget.quantity;
-    }
-    if (thisQuantity == 0) {
-      return const SizedBox(width: 0, height: 0);
+    return _buildBody();
+  }
+
+  _buildBody() {
+    if (widget.quantity <= 0) {
+      return SizedBox.shrink();
     }
     var size = MediaQuery.of(context).size;
     var width = size.width * .9;
     var height = size.height;
-    var body = GestureDetector(
+    return GestureDetector(
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -128,6 +120,5 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                     ])),
               ],
             )));
-    return body;
   }
 }

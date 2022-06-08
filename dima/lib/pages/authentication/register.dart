@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
-
-  // TODO Move this to its own class to avoid creating a new one each build
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final TextEditingController _nameInputController = TextEditingController();
   final TextEditingController _emailInputController = TextEditingController();
   final TextEditingController _passwordInputController =
@@ -33,8 +30,6 @@ class RegisterPage extends StatelessWidget {
   }
 
   void _signUp() async {
-    print("Signing up...");
-
     final String name = _nameInputController.text;
     final String email = _emailInputController.text;
     final String password = _passwordInputController.text;
@@ -43,10 +38,7 @@ class RegisterPage extends StatelessWidget {
       MainNavigator.pop();
     }
 
-    void onFailure(FirebaseAuthException e) {
-      print(e);
-      print("Error while signing up!");
-    }
+    void onFailure(FirebaseAuthException e) {}
 
     await Authentication.registerAccount(
       email,

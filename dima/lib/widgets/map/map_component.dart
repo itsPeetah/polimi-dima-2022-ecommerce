@@ -23,11 +23,9 @@ class _MapState extends State<MapContainer> {
   void _onShopTapped(MarkerId markerId) {
     final Marker? tappedMarker = markers[markerId];
     if (tappedMarker != null) {
-      print('Tapped marker is not null');
       setState(() {
         final MarkerId? previousMarkerId = selectedMarker;
         if (previousMarkerId != null && markers.containsKey(previousMarkerId)) {
-          print('previousMarkerId is not null');
           final Marker resetOld = markers[previousMarkerId]!
               .copyWith(iconParam: BitmapDescriptor.defaultMarker);
           markers[previousMarkerId] = resetOld;
@@ -156,8 +154,6 @@ class _MapState extends State<MapContainer> {
     //   return <Widget>[];
     // }
     Shop? shop = DatabaseManager.getShop('Luigi Vitonno');
-    print('Shop found: ');
-    print(shop);
     List<Widget> listOfProducts = [];
     for (var productId in shop!.products) {
       listOfProducts.add(SizedBox(

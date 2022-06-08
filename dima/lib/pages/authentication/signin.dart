@@ -1,17 +1,12 @@
-import 'package:dima/main.dart';
-import 'package:dima/util/database/database.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
 
-  // TODO Move this to its own class to avoid creating a new one each build
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailInputController = TextEditingController();
@@ -36,14 +31,10 @@ class SignInPage extends StatelessWidget {
   }
 
   void _signIn() async {
-    print("Signing in...");
-
     final String email = _emailInputController.text;
     final String password = _passwordInputController.text;
 
-    void onFailure(FirebaseAuthException e) {
-      print("Error while signing in!");
-    }
+    void onFailure(FirebaseAuthException e) {}
 
     await Authentication.signInWithEmailAndPassword(
       email,

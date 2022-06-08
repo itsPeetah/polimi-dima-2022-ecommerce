@@ -166,28 +166,19 @@ class PaymentPageState extends State<PaymentPage> {
   }
 
   void setTotalPrice() {
-    print('DatabaseManager.cart?');
-    print(DatabaseManager.cart);
-    print(DatabaseManager.cart.runtimeType.toString());
     Map<String, dynamic> products =
         DatabaseManager.cart as Map<String, dynamic>;
 
     Map<String, dynamic> productAsMap = products;
     double sum = 0;
     for (var key in productAsMap.keys) {
-      print('product key:' + key);
-      print(productAsMap[key].name);
       Product prod = productAsMap[key];
-      print('prod.price: ' + prod.price);
       var priceAsString = prod.price;
       if (prod.qty > 0) {
         sum += prod.qty *
             double.parse(priceAsString.substring(0, priceAsString.length - 1));
       }
     }
-    print('Sum is: ' + sum.toString());
     checkOutSum = sum;
-    // setState(() {});
-    print('done:');
   }
 }

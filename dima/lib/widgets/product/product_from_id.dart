@@ -19,14 +19,12 @@ class ProductFromID extends StatefulWidget {
 class _ProductFromIDState extends State<ProductFromID> {
   void _buyCallback() {
     try {
-      // print('Add to cart calling ?');
       Product.addToCart(widget.productId);
     } catch (exception) {
-      print('Error in ProductFromIDState?');
+      true;
     }
     SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
         routeArgs: {'show': true});
-    true;
   }
 
   @override

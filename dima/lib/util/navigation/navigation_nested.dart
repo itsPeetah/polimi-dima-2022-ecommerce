@@ -88,7 +88,6 @@ class NestedNavigatorRouter {
           builder: (_) => const ProfilePage(),
         );
       case NestedNavigatorRoutes.product:
-        // TODO Null check for id arg
         Map args = settings.arguments as Map<String, String>;
         final String argument = args["id"] as String;
         return MaterialPageRoute(

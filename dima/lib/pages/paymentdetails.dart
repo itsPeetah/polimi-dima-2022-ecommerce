@@ -1,7 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:dima/util/navigation/navigation_main.dart';
-import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
-import 'package:dima/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
 class PaymentDetailsPage extends StatefulWidget {

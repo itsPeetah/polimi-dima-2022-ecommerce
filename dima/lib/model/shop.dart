@@ -1,4 +1,3 @@
-import 'package:dima/model/product.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Shop {

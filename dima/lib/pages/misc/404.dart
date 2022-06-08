@@ -21,7 +21,7 @@ class PageNotFound extends StatelessWidget {
           ),
           Text(
             reason,
-            style: TextStyle(fontSize: 28),
+            style: const TextStyle(fontSize: 28),
           ),
           Container(
             child: _backButton(context),
