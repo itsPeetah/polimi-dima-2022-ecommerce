@@ -105,8 +105,6 @@ class _MapState extends State<MapContainer> {
         SizedBox(
           height: constraints.maxHeight * 0.35,
           width: constraints.maxWidth * 0.85,
-
-          /// TODO: Change listview with sth else
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: _getShopProducts(),
