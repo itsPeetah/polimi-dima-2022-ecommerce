@@ -7,10 +7,13 @@ class MapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Flex(
+      direction: Axis.vertical,
       children: const [
-        ForkPage(title: "home", route1: "/map", route2: "/profile"),
-        MapContainer()
+        Expanded(child: MapContainer()),
+        Expanded(
+          child: ForkPage(title: "home", route1: "/map", route2: "/profile"),
+        ),
       ],
     );
   }

@@ -13,10 +13,8 @@ class ForkPage extends StatelessWidget {
   final String title;
   final String route1;
   final String route2;
-
   void _navigate(BuildContext context, String route) {
     SecondaryNavigator.push(context, route);
-    // UNEXPECTED: se pusho la product route da qui lo stack si preserva
   }
 
   void _goBack(BuildContext context) => SecondaryNavigator.pop(context);
@@ -33,7 +31,11 @@ class ForkPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title, style: const TextStyle(fontSize: 28)),
+          GestureDetector(
+            child: const Text('Gesture detector to second route',
+                style: TextStyle(fontSize: 28)),
+            onTap: () => _navigate(context, route2),
+          ),
           TextButton(
             onPressed: () => _navigate(context, route1),
             child: Text("Go to $route1", style: const TextStyle(fontSize: 28)),

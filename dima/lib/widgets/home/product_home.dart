@@ -18,7 +18,8 @@ class ProductItem extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ProductFromID(product: product))),
+                builder: (context) =>
+                    ProductFromID(productId: product.id, product: product))),
         child: Container(
             color: backgroundItemColor1,
             child: Flex(
@@ -29,8 +30,8 @@ class ProductItem extends StatelessWidget {
                     padding: EdgeInsets.all(width * 0.02),
                     child: SizedBox(
                       child: product.image,
-                      width: width * 0.4,
-                      height: height * 0.25,
+                      width: width * 0.8,
+                      height: height * 0.6,
                     )),
                 Text(
                   product.name,

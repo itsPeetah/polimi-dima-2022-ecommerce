@@ -158,11 +158,26 @@ class PaymentPageState extends State<PaymentPage> {
     );
   }
 
+  bool headlineContained = false;
+  static const Widget _headline =
+      Center(child: Headline(text: 'All the items in check out '));
+
   void getListOfItems() {
+    listOfItems = [];
+    headlineContained = false;
     List<Widget> listOfWidgets = getItemsInCart();
-    listOfItems = listOfWidgets;
-    // DatabaseManager.cart.entries
-    // setState(() {});
+    if (listOfWidgets.isNotEmpty) {
+      if (!headlineContained) {
+        listOfItems.add(_headline);
+        headlineContained = true;
+      }
+    } else {
+      headlineContained = false;
+      listOfItems.remove(_headline);
+    }
+    for (var element in listOfWidgets) {
+      listOfItems.add(element);
+    }
   }
 
   void setTotalPrice() {

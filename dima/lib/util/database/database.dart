@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_adjacent_string_concatenation
 
+import 'dart:convert';
+
 import 'package:dima/model/product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -45,7 +47,8 @@ class DatabaseManager {
   static int get productCount => _allProducts.length;
 
   static void updateProductStore(DataSnapshot dbSnapshot) {
-    for (var pData in dbSnapshot.value as List<dynamic>) {
+    List<dynamic> dataList = jsonDecode(jsonEncode(dbSnapshot.value));
+    for (var pData in dataList) {
       final productData = Map<String, dynamic>.from(pData);
       final product = Product.fromRTDB(productData);
       _allProducts[product.id] = product;
@@ -53,7 +56,7 @@ class DatabaseManager {
   }
 
   static void initUserCart(DataSnapshot dbSnapshot) {
-    Map<String, dynamic> prodMap = dbSnapshot.value as Map<String, dynamic>;
+    Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
     for (var pKey in prodMap.keys) {
       final product = Product.fromRTDB(prodMap[pKey]);
       if (product.qty > 0) {
@@ -63,7 +66,7 @@ class DatabaseManager {
   }
 
   static void updateUserCart(DataSnapshot dbSnapshot) {
-    Map<String, dynamic> prodMap = dbSnapshot.value as Map<String, dynamic>;
+    Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
 
     final product = Product.fromRTDB(prodMap);
     if (product.qty > 0) {
@@ -79,7 +82,7 @@ class DatabaseManager {
   }
 
   static void updateProduct(DataSnapshot dbSnapshot) {
-    final productData = dbSnapshot.value as Map<String, dynamic>;
+    final productData = jsonDecode(jsonEncode(dbSnapshot.value));
     final product = Product.fromRTDB(productData);
     _allProducts[dbSnapshot.key] = product;
   }
@@ -99,7 +102,7 @@ class DatabaseManager {
   }
 
   static void updateShop(DataSnapshot dbSnapshot) {
-    final shopData = dbSnapshot.value as Map<String, dynamic>;
+    final shopData = jsonDecode(jsonEncode(dbSnapshot.value));
     final shop = Shop.fromRTDB(shopData);
     _allProducts[dbSnapshot.key] = shop;
   }

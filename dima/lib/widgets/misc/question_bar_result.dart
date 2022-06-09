@@ -3,6 +3,7 @@ import 'package:dima/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
 
+//@unused
 class QuestionBarResult extends StatelessWidget {
   const QuestionBarResult({
     Key? key,

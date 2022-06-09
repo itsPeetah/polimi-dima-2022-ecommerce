@@ -28,8 +28,12 @@ class ProductCatalogueListState extends State<ProductCatalogueList> {
   }
 
   _getAllProducts() {
-    for (Product key in DatabaseManager.allProducts.values) {
-      allChoices.add(ProductItem(product: key));
+    List<String> keys = [];
+    for (String key in DatabaseManager.allProducts.keys) {
+      keys.add(key);
+    }
+    for (String key in keys.reversed) {
+      allChoices.add(ProductItem(product: DatabaseManager.allProducts[key]));
       allChoices.add(
         const Divider(
           height: 10,
