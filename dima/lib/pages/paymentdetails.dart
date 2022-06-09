@@ -6,12 +6,20 @@ import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 
+import '../model/product.dart';
+
 class PaymentDetailsPage extends StatefulWidget {
   const PaymentDetailsPage(
-      {Key? key, required this.name, required this.location})
+      {Key? key,
+      required this.name,
+      required this.location,
+      this.phone,
+      required this.price})
       : super(key: key);
   final String name;
   final String location;
+  final String? phone;
+  final String price;
   @override
   State<PaymentDetailsPage> createState() => PaymentDetailsPageState();
 }
@@ -23,24 +31,41 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
   final TextEditingController _nameInputController = TextEditingController();
 
   String? _CCValidator(String? string) {
-    return string!.length != 16 ? 'Credit card only has 16 digits' : null;
+    return string!.length != 16 ? 'Credit card number is incorrect.' : null;
   }
 
   String? _CVVValidator(String? string) {
-    return string!.length != 3 ? 'CVV only has 3 digits' : null;
+    return string!.length != 3 ? 'CVV is incorrect.' : null;
   }
 
   void _confirmPayment() async {
+    if (_formKey.currentState!.validate() == false) {
+      return;
+    }
     bool success = await sendPayment();
-    success ? emptyCart() : _doNothing(true);
+    List<Product> listOfProducts = [];
+    for (Product p in DatabaseManager.cart.values) {
+      listOfProducts.add(p);
+    }
+    success ? DatabaseManager.emptyCart() : () {};
     var count = 0;
-    Navigator.popUntil(context, (route) {
-      return count++ == 2;
-    });
+    SecondaryNavigator.push(context, NestedNavigatorRoutes.thankyoupage,
+        routeArgs: {
+          'listOfProducts': listOfProducts,
+          'location': widget.location,
+          'price': widget.price,
+        });
+    // Navigator.popUntil(context, (route) {
+    //   return count++ == 2;
+    // });
   }
 
-  emptyCart() {
-    DatabaseManager.emptyCart();
+  @override
+  void dispose() {
+    _CCController.dispose();
+    _CVVController.dispose();
+    _nameInputController.dispose();
+    super.dispose();
   }
 
   Future<bool> sendPayment() async {
@@ -56,8 +81,9 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
   }
 
   bool checkboxValue = false;
-  void _doNothing(bool? value) {
+  void _setName(bool? value) {
     checkboxValue = !checkboxValue;
+    checkboxValue ? _nameInputController.text = widget.name : () {};
     setState(() {});
   }
 
@@ -81,6 +107,7 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
               controller: _CVVController,
             ),
             TextFormField(
+              enabled: !checkboxValue,
               decoration: const InputDecoration(
                   hintText: "Enter the credit card owner name..."),
               controller: _nameInputController,
@@ -91,7 +118,7 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
             ),
             Align(
                 alignment: Alignment.centerLeft,
-                child: Checkbox(value: checkboxValue, onChanged: _doNothing)),
+                child: Checkbox(value: checkboxValue, onChanged: _setName)),
             TextButtonLarge(
               text: "Continue",
               onPressed: _confirmPayment,

@@ -4,6 +4,8 @@ import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../styles/styleoftext.dart';
+
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
 
@@ -19,18 +21,19 @@ class SignInPage extends StatelessWidget {
 
   String? _emailValidator(String? str) {
     final bool emailValid = str != null &&
-        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        RegExp(r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
             .hasMatch(str);
-    return emailValid ? "Please, enter a valid email addres" : null;
+    return emailValid ? null : "Please enter a valid email addres";
   }
 
   String? _passwordValidator(String? str) {
-    return str != null && str.isNotEmpty
-        ? "Please, enter a longer password"
-        : null;
+    return str == null || str.isEmpty ? "Please enter a longer password" : null;
   }
 
   void _signIn() async {
+    if (_formKey.currentState!.validate() == false) {
+      return;
+    }
     final String email = _emailInputController.text;
     final String password = _passwordInputController.text;
 
@@ -56,12 +59,16 @@ class SignInPage extends StatelessWidget {
             children: [
               TextFormField(
                 validator: _emailValidator,
-                decoration: const InputDecoration(hintText: "email..."),
+                decoration: const InputDecoration(
+                    hintText: "Email",
+                    errorStyle: TextStyle(fontSize: errorTextSize)),
                 controller: _emailInputController,
               ),
               TextFormField(
                 validator: _passwordValidator,
-                decoration: const InputDecoration(hintText: "password..."),
+                decoration: const InputDecoration(
+                    hintText: "Password",
+                    errorStyle: TextStyle(fontSize: errorTextSize)),
                 controller: _passwordInputController,
                 obscureText: true,
               ),

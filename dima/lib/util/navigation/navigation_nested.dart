@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:dima/pages/misc/404.dart';
 import 'package:dima/pages/misc/hello.dart';
 
+import '../../model/product.dart';
+import '../../pages/thankspage.dart';
+
 class SecondaryNavigator {
   static final homeNavigatorKey = GlobalKey<NavigatorState>();
   static final mapNavigatorKey = GlobalKey<NavigatorState>();
@@ -64,7 +67,7 @@ class NestedNavigatorRoutes {
   static const String product = "/product";
   // PAYMENT PAGES
   static const String checkout = "/checkout";
-  static const String personalDetails = "/personalDetails";
+  static const String thankyoupage = "/thankyoupage";
   static const String bankDetails = "/bankDetails";
 }
 
@@ -105,9 +108,25 @@ class NestedNavigatorRouter {
                   showPage: showPage as bool,
                 ));
       case NestedNavigatorRoutes.bankDetails:
+        Map args = settings.arguments as Map<String, String>;
+        String name = args['name'];
+        String location = args['location'];
+        String? phone = args['phone'];
+        String price = args['price'].toString();
         return MaterialPageRoute(
-            builder: (_) => const PaymentDetailsPage(
-                name: 'YOUR NAME', location: 'YOUR LOCATION'));
+            builder: (_) => PaymentDetailsPage(
+                name: name, location: location, phone: phone, price: price));
+      case NestedNavigatorRoutes.thankyoupage:
+        Map args = settings.arguments as Map<String, dynamic>;
+        List<Product> products = args['listOfProducts'];
+        String location = args['location'].toString();
+        String price = args['price'].toString();
+        return MaterialPageRoute(
+            builder: (_) => ThanksPage(
+                  listOfProducts: products,
+                  location: location,
+                  price: price,
+                ));
       case "/":
         return MaterialPageRoute(
           builder: (_) => const HelloPage(

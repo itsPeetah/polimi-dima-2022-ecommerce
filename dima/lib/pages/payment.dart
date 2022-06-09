@@ -21,30 +21,41 @@ class PaymentPageState extends State<PaymentPage> {
   final TextEditingController _nameInputController = TextEditingController();
   final TextEditingController _locationInputController =
       TextEditingController();
-  final TextEditingController _passwordInputController =
-      TextEditingController();
+  final TextEditingController _phoneInputController = TextEditingController();
+
+  @override
+  void dispose() {
+    _phoneInputController.dispose();
+    _locationInputController.dispose();
+    _nameInputController.dispose();
+    super.dispose();
+  }
 
   List<Widget> listOfItems = [];
 
   double checkOutSum = 0;
 
   String? _nameValidator(String? str) {
-    return str == null && str!.isEmpty ? "Your name is a required" : null;
-  }
-
-  String? _locationValidator(String? str) {
-    final bool emailInvalid = str == null && str!.isEmpty;
-    return emailInvalid ? "Your location is required" : null;
-  }
-
-  String? _passwordValidator(String? str) {
-    return str != null && str.isNotEmpty
-        ? "Please, enter a longer password"
+    return str == null || str.isEmpty
+        ? "Please enter the receiver's name."
         : null;
   }
 
+  String? _locationValidator(String? str) {
+    final bool emailInvalid = str == null || str.isEmpty;
+    return emailInvalid ? "Please enter a location." : null;
+  }
+
   void _goToBankDetails() {
-    SecondaryNavigator.push(context, NestedNavigatorRoutes.bankDetails);
+    if (_formKey.currentState!.validate()) {
+      SecondaryNavigator.push(context, NestedNavigatorRoutes.bankDetails,
+          routeArgs: {
+            'name': _nameInputController.text,
+            'location': _locationInputController.text,
+            'phone': _phoneInputController.text,
+            'price': checkOutSum.toString()
+          });
+    }
   }
 
   @override
@@ -123,20 +134,25 @@ class PaymentPageState extends State<PaymentPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              validator: _nameValidator,
-              decoration: const InputDecoration(hintText: "Enter your name..."),
+              validator: (value) {
+                return _nameValidator(value);
+              },
+              decoration: const InputDecoration(
+                  hintText: "Enter your name...",
+                  errorStyle: TextStyle(fontSize: errorTextSize)),
               controller: _nameInputController,
             ),
             TextFormField(
               validator: _locationValidator,
               decoration: const InputDecoration(
-                  hintText: "Enter your desired location..."),
+                  hintText: "Enter your desired location...",
+                  errorStyle: TextStyle(fontSize: errorTextSize)),
               controller: _locationInputController,
             ),
             TextFormField(
               decoration:
                   const InputDecoration(hintText: "Enter your phone number..."),
-              controller: _passwordInputController,
+              controller: _phoneInputController,
             ),
             TextButtonLarge(
               text: "Continue",

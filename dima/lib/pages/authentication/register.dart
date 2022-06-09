@@ -4,6 +4,8 @@ import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../styles/styleoftext.dart';
+
 class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -13,23 +15,24 @@ class RegisterPage extends StatelessWidget {
       TextEditingController();
 
   String? _nameValidator(String? str) {
-    return str != null && str.isNotEmpty ? "Please, enter a longer name" : null;
+    return str == null || str.isEmpty ? "Please enter a longer name" : null;
   }
 
   String? _emailValidator(String? str) {
     final bool emailValid = str != null &&
-        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        RegExp(r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
             .hasMatch(str);
-    return emailValid ? "Please, enter a valid email addres" : null;
+    return emailValid ? null : "Please enter a valid email addres";
   }
 
   String? _passwordValidator(String? str) {
-    return str != null && str.isNotEmpty
-        ? "Please, enter a longer password"
-        : null;
+    return str == null || str.isEmpty ? "Please enter a longer password" : null;
   }
 
   void _signUp() async {
+    if (_formKey.currentState!.validate() == false) {
+      return;
+    }
     final String name = _nameInputController.text;
     final String email = _emailInputController.text;
     final String password = _passwordInputController.text;
@@ -61,17 +64,23 @@ class RegisterPage extends StatelessWidget {
             children: [
               TextFormField(
                 validator: _nameValidator,
-                decoration: const InputDecoration(hintText: "name..."),
+                decoration: const InputDecoration(
+                    hintText: "Full Name",
+                    errorStyle: TextStyle(fontSize: errorTextSize)),
                 controller: _nameInputController,
               ),
               TextFormField(
                 validator: _emailValidator,
-                decoration: const InputDecoration(hintText: "email..."),
+                decoration: const InputDecoration(
+                    hintText: "Email Address",
+                    errorStyle: TextStyle(fontSize: errorTextSize)),
                 controller: _emailInputController,
               ),
               TextFormField(
                 validator: _passwordValidator,
-                decoration: const InputDecoration(hintText: "password..."),
+                decoration: const InputDecoration(
+                    hintText: "Password",
+                    errorStyle: TextStyle(fontSize: errorTextSize)),
                 controller: _passwordInputController,
                 obscureText: true,
               ),

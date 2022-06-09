@@ -24,6 +24,9 @@ const double buttonSize = 15;
 const double smallButtonTextSize = 18;
 const double bigButtonTextSize = 18;
 
+// Error text in form
+const double errorTextSize = 14;
+
 class Headline extends StatelessWidget {
   const Headline({Key? key, required this.text}) : super(key: key);
   final String text;
