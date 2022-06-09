@@ -15,6 +15,8 @@ class ProductItem extends StatelessWidget {
     var width = size.width;
     var height = size.height;
     return GestureDetector(
+
+        /// TODO: change to mainnavigator
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
