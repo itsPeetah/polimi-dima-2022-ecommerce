@@ -76,6 +76,8 @@ class DatabaseManager {
 
   static void updateUserCartFromProduct(Product product) {
     _cart[product.id] = product;
+
+    /// TODO: Check if user is logged in. The _cart can be used as a static cart
     _userCart!
         .child('/' + product.name)
         .update(Product.toRTDB(product, quantity: product.qty));
