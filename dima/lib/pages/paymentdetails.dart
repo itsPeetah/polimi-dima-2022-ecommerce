@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 
@@ -31,10 +33,16 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
   void _confirmPayment() async {
     bool success = await sendPayment();
     success ? emptyCart() : _doNothing(true);
-    MainNavigator.pop();
+    var count = 0;
+    Navigator.popUntil(context, (route) {
+      return count++ == 2;
+    });
   }
 
-  emptyCart() {}
+  emptyCart() {
+    DatabaseManager.emptyCart();
+  }
+
   Future<bool> sendPayment() async {
     await Future.delayed(const Duration(seconds: 1), () => {true});
     return true;

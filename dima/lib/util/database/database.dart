@@ -83,6 +83,16 @@ class DatabaseManager {
         .update(Product.toRTDB(product, quantity: product.qty));
   }
 
+  static void emptyCart() {
+    for (Product product in _cart.values) {
+      product.qty = 0;
+      _cart[product.id] = product;
+      _userCart!
+          .child('/' + product.name)
+          .update(Product.toRTDB(product, quantity: product.qty));
+    }
+  }
+
   static void updateProduct(DataSnapshot dbSnapshot) {
     final productData = jsonDecode(jsonEncode(dbSnapshot.value));
     final product = Product.fromRTDB(productData);

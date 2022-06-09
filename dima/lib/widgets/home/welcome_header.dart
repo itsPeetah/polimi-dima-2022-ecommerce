@@ -9,7 +9,6 @@ class WelcomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var width = size.width;
-    var height = size.height;
     return Stack(
       alignment: Alignment.center,
       children: [

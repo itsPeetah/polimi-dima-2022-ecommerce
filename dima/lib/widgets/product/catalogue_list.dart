@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
-import '../../model/product.dart';
 import '../../styles/styleoftext.dart';
 import '../home/product_home.dart';
 
@@ -19,7 +18,6 @@ class ProductCatalogueListState extends State<ProductCatalogueList> {
 
   @override
   Widget build(BuildContext context) {
-    /// TODO: Implement this
     return Consumer<ApplicationState>(
       builder: ((context, appState, _) {
         return _buildBody(context);
