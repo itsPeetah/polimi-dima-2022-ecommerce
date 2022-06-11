@@ -5,6 +5,7 @@ import 'package:dima/pages/payment.dart';
 import 'package:dima/pages/paymentdetails.dart';
 import 'package:dima/pages/product.dart';
 import 'package:dima/pages/profile.dart';
+import 'package:dima/pages/shopPage.dart';
 import 'package:dima/util/navigation/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/pages/misc/404.dart';
@@ -69,6 +70,8 @@ class NestedNavigatorRoutes {
   static const String checkout = "/checkout";
   static const String thankyoupage = "/thankyoupage";
   static const String bankDetails = "/bankDetails";
+  // Shop Page
+  static const String shop = '/shop';
 }
 
 class NestedNavigatorRouter {
@@ -127,6 +130,11 @@ class NestedNavigatorRouter {
                   location: location,
                   price: price,
                 ));
+      case NestedNavigatorRoutes.shop:
+        Map args = settings.arguments as Map<String, dynamic>;
+        String shopId = args['shopId'];
+        print(shopId);
+        return MaterialPageRoute(builder: (_) => ShopPage(shopId: shopId));
       case "/":
         return MaterialPageRoute(
           builder: (_) => const HelloPage(

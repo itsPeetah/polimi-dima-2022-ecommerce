@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
+import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/widgets/product/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 import '../../model/shop.dart';
 import '../../util/database/database.dart';
+import '../../util/navigation/navigation_main.dart';
 
 class MapContainer extends StatefulWidget {
   const MapContainer({
@@ -20,8 +26,18 @@ class _MapState extends State<MapContainer> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   MarkerId? selectedMarker;
 
+  Location location = Location();
+  late StreamSubscription<LocationData> _locationStream;
+  late LocationData _locationData;
+  String? _locationText;
+  bool rebuild = true;
+  Widget? textWidget;
+  Widget? _googleMap;
+
+  late double _maxHeight;
   void _onShopTapped(MarkerId markerId) {
     final Marker? tappedMarker = markers[markerId];
+    print('MarkerID: ' + markerId.toString());
     if (tappedMarker != null) {
       setState(() {
         final MarkerId? previousMarkerId = selectedMarker;
@@ -33,7 +49,7 @@ class _MapState extends State<MapContainer> {
         selectedMarker = markerId;
         final Marker newMarker = tappedMarker.copyWith(
           iconParam: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueOrange,
+            BitmapDescriptor.hueAzure,
           ),
         );
         markers[markerId] = newMarker;
@@ -43,10 +59,20 @@ class _MapState extends State<MapContainer> {
     }
   }
 
+  void _addAllShops() {
+    for (Shop shop in DatabaseManager.allShops.values) {
+      _add(
+          shopName: shop.name,
+          lat: shop.coords.latitude,
+          long: shop.coords.longitude,
+          description: shop.description);
+    }
+  }
+
   void _add(
-      {latOffset = 0,
-      longOffset = 0,
-      shopName = 'Shop Name #1',
+      {lat = 0,
+      long = 0,
+      shopName,
       description = 'Short Description for shop'}) {
     var markerIdVal = shopName;
     final MarkerId markerId = MarkerId(markerIdVal);
@@ -54,14 +80,10 @@ class _MapState extends State<MapContainer> {
     // creating a new MARKER
     final Marker marker = Marker(
       markerId: markerId,
-      position: LatLng(
-        _center.latitude + latOffset,
-        _center.longitude + longOffset,
-      ),
+      position: LatLng(lat, long),
       infoWindow: InfoWindow(title: markerIdVal, snippet: description),
       onTap: () {
         _onShopTapped(markerId);
-        // widget.parentSetState();
       },
     );
 
@@ -70,7 +92,7 @@ class _MapState extends State<MapContainer> {
     });
   }
 
-  final LatLng _center = const LatLng(45.464664, 9.188540);
+  LatLng _center = const LatLng(45.4642, 9.1900);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -78,9 +100,55 @@ class _MapState extends State<MapContainer> {
 
   @override
   void initState() {
+    _getLocation();
+    _addAllShops();
     super.initState();
-    _add();
-    _add(latOffset: 0.015, longOffset: -0.015, shopName: 'LV');
+  }
+
+  Future<void> _getLocation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    _locationStream = location.onLocationChanged.listen((event) {
+      _locationData = event;
+      _locationText = _locationData.toString();
+      _center = LatLng(_locationData.latitude!, _locationData.longitude!);
+      // textWidget = Text(_locationText.toString());
+      // rebuild the google maps container
+      if (rebuild) {
+        rebuild = false;
+        _googleMap = GoogleMap(
+          onMapCreated: _onMapCreated,
+          markers: Set.from(markers.values),
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        );
+      }
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _locationStream.cancel();
+    super.dispose();
   }
 
   @override
@@ -92,16 +160,23 @@ class _MapState extends State<MapContainer> {
   }
 
   Widget _createBody(BoxConstraints constraints) {
+    _maxHeight = constraints.maxHeight;
     List<Widget> relatedProducts;
     if (selectedMarker != null) {
       relatedProducts = [
-        Center(
-          child: Text(
-              'Shop position:' + markers[selectedMarker]!.position.toString()),
-        ),
-        const Center(
-          child: Text('Shop products:'),
-        ),
+        // Center(
+        //   child: Text(
+        //       'Shop position:' + markers[selectedMarker]!.position.toString()),
+        // ),
+        // const Center(
+        //   child: Text('Shop products:'),
+        // ),
+        const Text('Products that you find in this shop:',
+            style: TextStyle(
+              fontSize: 16,
+              fontFamily: 'Merriweather',
+              // Merriweather or Lato
+            )),
         SizedBox(
           height: constraints.maxHeight * 0.35,
           width: constraints.maxWidth * 0.85,
@@ -109,13 +184,24 @@ class _MapState extends State<MapContainer> {
             scrollDirection: Axis.horizontal,
             children: _getShopProducts(),
           ),
-        )
+        ),
+        TextButtonLarge(
+          text: 'Find more',
+          onPressed: _redirectToShopPage,
+        ),
       ];
     } else {
       relatedProducts = const [SizedBox.shrink()];
     }
+    _googleMap = GoogleMap(
+      onMapCreated: _onMapCreated,
+      markers: Set.from(markers.values),
+      initialCameraPosition: CameraPosition(
+        target: _center,
+        zoom: 11.0,
+      ),
+    );
     List<Widget> allChildren = [
-      const Center(child: Headline(text: 'All the shops close to you')),
       Center(
         child: Padding(
           padding: EdgeInsets.all(constraints.maxWidth * 0.06),
@@ -126,47 +212,50 @@ class _MapState extends State<MapContainer> {
                   color: borderColor),
             ),
             child: SizedBox(
-              height: constraints.maxHeight * 0.50,
-              width: constraints.maxWidth * 0.8,
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                markers: Set.from(markers.values),
-                initialCameraPosition: CameraPosition(
-                  target: _center,
-                  zoom: 11.0,
-                ),
-              ),
+              height: constraints.maxHeight * 0.40,
+              width: constraints.maxWidth * 0.9,
+              child: _googleMap,
             ),
           ),
         ),
       ),
     ];
     allChildren.addAll(relatedProducts);
-    return SizedBox(
+    return Container(
+      color: backgroundAppColor,
       width: constraints.maxWidth,
       height: constraints.maxHeight,
       // scrollDirection: Axis.vertical,
       child: Column(
-        children: allChildren,
+        children: allChildren +
+            <Widget>[
+              if (textWidget != null) textWidget!,
+            ],
       ),
     );
   }
 
   List<Widget> _getShopProducts() {
-    /// TODO: add check that firebase is available and Change shop name from constant to something else
-    // if (!appState.firebaseAvailable) {
-    //   return <Widget>[];
-    // }
-    Shop? shop = DatabaseManager.getShop('Luigi Vitonno');
+    Shop? shop = DatabaseManager.getShop(selectedMarker!.value);
     List<Widget> listOfProducts = [];
+    int counter = 0;
     for (var productId in shop!.products) {
+      counter++;
       listOfProducts.add(SizedBox(
           width: 300,
-          height: 250,
+          height: _maxHeight * 0.4,
           child: ProductCard(
             productId: productId,
           )));
+      if (counter == 5) {
+        break;
+      }
     }
     return listOfProducts;
+  }
+
+  void _redirectToShopPage() {
+    SecondaryNavigator.push(context, NestedNavigatorRoutes.shop,
+        routeArgs: {'shopId': selectedMarker!.value.toString()});
   }
 }

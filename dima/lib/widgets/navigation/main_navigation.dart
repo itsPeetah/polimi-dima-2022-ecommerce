@@ -84,6 +84,8 @@ class MainNavigationState extends State<MainNavigation> {
 
   AppBar _buildAppBar(TabItem tab) {
     switch (tab) {
+      case TabItem.map:
+        return AppBar(title: const Text('All the shops close to you'));
       default:
         return AppBar(
           title: Text("$tab"),

@@ -10,10 +10,7 @@ class MapPage extends StatelessWidget {
     return Flex(
       direction: Axis.vertical,
       children: const [
-        Expanded(child: MapContainer()),
-        Expanded(
-          child: ForkPage(title: "home", route1: "/map", route2: "/profile"),
-        ),
+        Expanded(flex: 3, child: MapContainer()),
       ],
     );
   }

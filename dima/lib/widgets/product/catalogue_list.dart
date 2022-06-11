@@ -7,8 +7,13 @@ import '../../styles/styleoftext.dart';
 import '../home/product_home.dart';
 
 class ProductCatalogueList extends StatefulWidget {
-  const ProductCatalogueList({Key? key}) : super(key: key);
-
+  const ProductCatalogueList(
+      {Key? key,
+      this.onlySelectedProducts = false,
+      this.listOfProducts = const []})
+      : super(key: key);
+  final bool onlySelectedProducts;
+  final List<String> listOfProducts;
   @override
   State<ProductCatalogueList> createState() => ProductCatalogueListState();
 }
@@ -25,10 +30,14 @@ class ProductCatalogueListState extends State<ProductCatalogueList> {
     );
   }
 
-  _getAllProducts() {
+  _getAllProducts(List<String> ids) {
     List<String> keys = [];
-    for (String key in DatabaseManager.allProducts.keys) {
-      keys.add(key);
+    if (ids.isEmpty) {
+      for (String key in DatabaseManager.allProducts.keys) {
+        keys.add(key);
+      }
+    } else {
+      keys = ids;
     }
     for (String key in keys.reversed) {
       allChoices.add(Container(
@@ -48,7 +57,16 @@ class ProductCatalogueListState extends State<ProductCatalogueList> {
   }
 
   Widget _buildBody(context) {
-    _getAllProducts();
+    _getAllProducts(widget.listOfProducts);
+    Widget _headline = const Padding(
+      padding: EdgeInsets.all(25),
+      child: Headline(
+        text: "Explore more",
+      ),
+    );
+    if (widget.onlySelectedProducts) {
+      _headline = const SizedBox.shrink();
+    }
     return Container(
       color: backgroundAppColor,
       child: Column(
@@ -59,12 +77,7 @@ class ProductCatalogueListState extends State<ProductCatalogueList> {
                     Container(
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: const Padding(
-                        padding: EdgeInsets.all(25),
-                        child: Headline(
-                          text: "Explore more",
-                        ),
-                      ),
+                      child: _headline,
                     ),
                   ],
                 ),

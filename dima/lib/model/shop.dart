@@ -5,14 +5,15 @@ class Shop {
     required this.name,
     required this.coords,
     required this.products,
+    required this.description,
   });
 
   final String name;
   final LatLng coords;
   final List<String> products;
+  final String description;
 
   factory Shop.fromRTDB(Map<String, dynamic> data) {
-    // return Shop(coords: LatLng(0, 0), name: 'Test', products: ['0', '1']);
     List<String> listOfProductIDs = [];
     if (data['products'] != null) {
       List<Object?> products = data['products'];
@@ -25,6 +26,7 @@ class Shop {
         name: data['name'],
         coords: LatLng(data['location']['lat'] as double,
             data['location']['long'] as double),
-        products: listOfProductIDs);
+        products: listOfProductIDs,
+        description: data['description']);
   }
 }
