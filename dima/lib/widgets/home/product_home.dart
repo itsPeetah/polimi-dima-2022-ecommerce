@@ -29,16 +29,18 @@ class ProductItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                    padding: EdgeInsets.all(width * 0.02),
+                    padding: EdgeInsets.all(height * 0.005),
                     child: SizedBox(
                       child: product.image,
                       width: width * 0.8,
                       height: height * 0.6,
                     )),
-                Text(
-                  product.name,
+                ProductTitleCard(
+                  text: product.name,
                 ),
-                Text(product.price)
+                Padding(
+                    padding: EdgeInsets.only(bottom: height * 0.008),
+                    child: Text(product.price))
               ],
             )));
   }

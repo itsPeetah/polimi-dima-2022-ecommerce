@@ -77,10 +77,12 @@ class PaymentPageState extends State<PaymentPage> {
         alignment: Alignment.bottomCenter,
         child: Container(
           color: Colors.orange[50],
-          child: Divider(
+          child: const Divider(
             thickness: 2,
+            indent: 5,
+            endIndent: 5,
             height: 10,
-            color: Colors.orange[400],
+            color: dividerColor,
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 
 import '../model/product.dart';
+import '../styles/styleoftext.dart';
 import '../widgets/home/product_home.dart';
 import '../widgets/shopping_cart/shopping_product.dart';
 
@@ -27,20 +28,27 @@ class ThanksPage extends StatelessWidget {
   Widget _createBody(BuildContext context, BoxConstraints constraints) {
     List<Widget> allBought = [];
     for (Product prod in listOfProducts) {
-      print('pog:');
-      print(prod);
-      allBought.add(ProductItem(
-        product: prod,
+      allBought.add(Container(
+        decoration: gradientStyleWhite,
+        child: ProductItem(product: prod),
       ));
     }
     return Column(
       children: <Widget>[
-        const Text('Thank you for choosing our application to buy products!'),
-        Text('The total you paid is:\$' + price + '.'),
-        Text('Your order will be sent in \'' + location + '\', within 3 days'),
+        const Text('Thank you for choosing our application to buy products!\n'),
+        Text('\t' +
+            String.fromCharCode(0x2022) +
+            'The total you paid is:\$' +
+            price +
+            '.\n'),
+        Text('\t' +
+            String.fromCharCode(0x2022) +
+            'Your order will be sent in \'' +
+            location +
+            '\', within 3 days.\n'),
         const Text('All the products that you bought are: \n'),
         SizedBox(
-            height: constraints.maxHeight * 0.8,
+            height: constraints.maxHeight * 0.7,
             width: constraints.maxWidth,
             child: ListView(children: allBought)),
         TextButtonLarge(

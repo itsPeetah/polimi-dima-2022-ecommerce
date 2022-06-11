@@ -1,4 +1,5 @@
 import 'package:dima/model/product.dart';
+import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/database/database.dart';
 import 'package:dima/widgets/shopping_cart/shopping_product.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,12 @@ List<Widget> getItemsInCart() {
         product: product,
         quantity: product.qty,
       ));
-      listOfWidgets.add(const Divider());
+      listOfWidgets.add(const Divider(
+        thickness: 2,
+        indent: 5,
+        endIndent: 5,
+        color: dividerColor,
+      ));
     }
   }
   return listOfWidgets;

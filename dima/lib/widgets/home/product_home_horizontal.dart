@@ -40,9 +40,9 @@ class ProductItemHorizontal extends StatelessWidget {
                 SizedBox(
                     width: width / 2,
                     child: Column(children: [
-                      Text(product.name,
-                          style: const TextStyle(fontSize: productTitleSize),
-                          textAlign: TextAlign.center),
+                      ProductTitleCard(
+                        text: product.name,
+                      ),
                       Text(
                         product.price,
                         textAlign: TextAlign.center,

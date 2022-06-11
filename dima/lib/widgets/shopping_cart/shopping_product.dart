@@ -37,92 +37,101 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
             MaterialPageRoute(
                 builder: (context) => ProductFromID(product: widget.product))),
         child: Container(
-            height: height * 0.15,
+            height: height * 0.25,
             color: backgroundItemColor1,
             child: Flex(
-              direction: Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: width / 6,
-                  child: Padding(
-                      padding: EdgeInsets.all(width * 0.01),
-                      child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: SizedBox(
-                            child: widget.product.image,
-                            // width: width * 0.2,
-                            // height: height * 0.2,
-                          ))),
-                ),
-                SizedBox(
-                    width: 2 * width / 4,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(widget.product.name,
-                              style:
-                                  const TextStyle(fontSize: productTitleSize),
-                              textAlign: TextAlign.center),
-                          Text(
-                            widget.product.price,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontFamily: 'Raleway-Regular',
-                                fontSize: productPriceSize),
-                          )
-                        ])),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircleAvatar(
-                        // radius: 10,
-                        // backgroundColor: Color,
-                        child: IconButton(
-                          onPressed: () {
-                            Product.removeFromCart(widget.product.id);
-                            setState(() {});
-                          },
-                          icon: const Icon(
-                            Icons.remove,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          width: width / 10,
-                          child: Container(
-                              padding: const EdgeInsets.only(
-                                  left: 0, right: 0, top: 5, bottom: 5),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(50, 255, 255, 255),
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: borderColor),
-                              ),
-                              child: Text(
-                                widget.product.qty.toString(),
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontFamily: 'Raleway-Regular',
-                                    fontSize: productPriceSize),
-                              ))),
-                      CircleAvatar(
-                        // radius: 10,
-                        // backgroundColor: Color,
-                        child: IconButton(
-                          onPressed: () {
-                            Product.addToCart(widget.product.id);
-                            setState(() {});
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                          ),
-                        ),
-                      ),
-                    ],
+                direction: Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                        padding: EdgeInsets.all(width * 0.01),
+                        child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: SizedBox(
+                              child: widget.product.image,
+                            ))),
                   ),
+                  Expanded(
+                      flex: 3,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ProductTitleCard(
+                              text: widget.product.name,
+                            ),
+                            Text(
+                              widget.product.price,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontFamily: 'Raleway-Regular',
+                                  fontSize: productPriceSize),
+                            )
+                          ])),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: _listOfButtons(width),
+                    ),
+                  ),
+                ])));
+  }
+
+  List<Widget> _listOfButtons(double width) {
+    return <Widget>[
+      Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            flex: 3,
+            child: CircleAvatar(
+              child: IconButton(
+                onPressed: () {
+                  Product.removeFromCart(widget.product.id);
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.remove,
                 ),
-              ],
-            )));
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+                padding:
+                    const EdgeInsets.only(left: 0, right: 0, top: 5, bottom: 5),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(100, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: borderColor),
+                ),
+                child: Text(
+                  widget.product.qty.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontFamily: 'Raleway-Regular',
+                      fontSize: productPriceSize),
+                )),
+          ),
+          Expanded(
+            flex: 3,
+            child: CircleAvatar(
+              child: IconButton(
+                onPressed: () {
+                  Product.addToCart(widget.product.id);
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.add,
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+    ];
   }
 }

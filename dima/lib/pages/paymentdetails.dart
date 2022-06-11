@@ -45,7 +45,9 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
     bool success = await sendPayment();
     List<Product> listOfProducts = [];
     for (Product p in DatabaseManager.cart.values) {
-      listOfProducts.add(p);
+      if (p.qty > 0) {
+        listOfProducts.add(p);
+      }
     }
     success ? DatabaseManager.emptyCart() : () {};
     var count = 0;

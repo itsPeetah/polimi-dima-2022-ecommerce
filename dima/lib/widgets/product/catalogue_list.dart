@@ -31,9 +31,15 @@ class ProductCatalogueListState extends State<ProductCatalogueList> {
       keys.add(key);
     }
     for (String key in keys.reversed) {
-      allChoices.add(ProductItem(product: DatabaseManager.allProducts[key]));
+      allChoices.add(Container(
+        decoration: gradientStyleWhite,
+        child: ProductItem(product: DatabaseManager.allProducts[key]),
+      ));
       allChoices.add(
         const Divider(
+          color: dividerColor,
+          indent: 5,
+          endIndent: 5,
           height: 10,
           thickness: 5,
         ),
@@ -46,8 +52,6 @@ class ProductCatalogueListState extends State<ProductCatalogueList> {
     return Container(
       color: backgroundAppColor,
       child: Column(
-        // controller: ScrollController(),
-        // scrollDirection: Axis.vertical,
         children: <Widget>[
               Center(
                 child: Column(
