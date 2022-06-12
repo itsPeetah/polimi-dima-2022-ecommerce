@@ -37,7 +37,6 @@ class _MapState extends State<MapContainer> {
   late double _maxHeight;
   void _onShopTapped(MarkerId markerId) {
     final Marker? tappedMarker = markers[markerId];
-    print('MarkerID: ' + markerId.toString());
     if (tappedMarker != null) {
       setState(() {
         final MarkerId? previousMarkerId = selectedMarker;
