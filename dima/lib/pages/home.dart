@@ -14,30 +14,53 @@ class HomePage extends StatelessWidget {
         const SizedBox.expand(
           child: VerticalProductCarousel(),
         ),
-        _buildSearchButton()
+        _buildTopRow()
+      ],
+    );
+  }
+
+  Widget _buildTopRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        // TODO Fix icon spacing in the corners
+        _buildSearchButton(),
+        const Text(
+          "DIMA-Shop",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w100,
+            fontSize: 30,
+          ),
+        ),
+        _buildInfoButton(),
       ],
     );
   }
 
   Widget _buildSearchButton() {
-    return TextButton.icon(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.black.withOpacity(0)),
-        shadowColor: MaterialStateProperty.all(Colors.black.withOpacity(0)),
-        overlayColor: MaterialStateProperty.all(Colors.black.withOpacity(0)),
-        padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
-      ),
+    return IconButton(
       onPressed: () {
-        print("seatching");
+        print("searching");
       },
       icon: const Icon(
-        Icons.search_rounded,
+        Icons.search,
         color: Colors.white,
         size: 40,
       ),
-      label: const Text(
-        "Search...",
-        style: TextStyle(color: Colors.white, fontSize: 20),
+    );
+  }
+
+  Widget _buildInfoButton() {
+    return IconButton(
+      onPressed: () {
+        print("info");
+      },
+      icon: const Icon(
+        Icons.info_outline,
+        color: Colors.white,
+        size: 40,
       ),
     );
   }
