@@ -2,6 +2,7 @@ import 'package:dima/main.dart';
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/product.dart';
@@ -30,8 +31,6 @@ class ProductCard extends StatelessWidget {
   }
 
   void _goToProductPage(BuildContext context) {
-    // UNEXPECTED: se pusho la product route da qui lo stack non si preserva
-    // il mio dubbio è che abbia a che fare con il gesture detector
     SecondaryNavigator.push(context, "/product", routeArgs: {"id": productId});
   }
 
@@ -48,6 +47,7 @@ class ProductCard extends StatelessWidget {
         backgroundColor:
             MaterialStateProperty.all(Colors.black.withOpacity((0))),
         shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+        padding: MaterialStateProperty.all(EdgeInsets.zero),
       ),
       onPressed: () => _goToProductPage(context),
       child: Stack(
