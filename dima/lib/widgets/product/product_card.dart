@@ -64,7 +64,7 @@ class ProductCard extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.center,
                 colors: <Color>[
-                  Color(0x99000000),
+                  Color.fromARGB(170, 0, 0, 0),
                   Color(0x00000000),
                 ],
                 tileMode: TileMode.clamp,
