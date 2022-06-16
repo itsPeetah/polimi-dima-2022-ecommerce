@@ -43,8 +43,13 @@ class ProductCard extends StatelessWidget {
       return _buildLoadingIndicator();
     }
 
-    return GestureDetector(
-      onTap: () => _goToProductPage(context),
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all(Colors.black.withOpacity((0))),
+        shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+      ),
+      onPressed: () => _goToProductPage(context),
       child: Stack(
         fit: StackFit.expand,
         children: [
