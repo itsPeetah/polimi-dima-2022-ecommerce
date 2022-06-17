@@ -20,22 +20,32 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildTopRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        // TODO Fix icon spacing in the corners
-        _buildSearchButton(),
-        const Text(
-          "DIMA-Shop",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w100,
-            fontSize: 30,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.black.withOpacity(0.5), Colors.transparent])),
+      child: Padding(
+        padding: EdgeInsets.only(right: 8, top: 4, bottom: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // TODO Fix icon spacing in the corners
+            _buildSearchButton(),
+            const Text(
+              "DIMA-Shop",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w100,
+                fontSize: 20,
+              ),
+            ),
+            _buildInfoButton(),
+          ],
         ),
-        _buildInfoButton(),
-      ],
+      ),
     );
   }
 
@@ -47,7 +57,7 @@ class HomePage extends StatelessWidget {
       icon: const Icon(
         Icons.search,
         color: Colors.white,
-        size: 40,
+        size: 30,
       ),
     );
   }
@@ -60,7 +70,7 @@ class HomePage extends StatelessWidget {
       icon: const Icon(
         Icons.info_outline,
         color: Colors.white,
-        size: 40,
+        size: 30,
       ),
     );
   }
