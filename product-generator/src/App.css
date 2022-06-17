@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.divider {
+  width: 100%;
+  border: 1px solid black;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.product-container {
+  width: 100vh;
+  border-bottom: 1px solid gray;
+  padding: 0.5rem;
+}
+
+.add-btn {
+  margin: 1rem;
+}
+
+.label {
+  margin: 0.25rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.row-divider {
+  width: 4rem;
+  text-align: center;
+}
+
+.red-btn {
+  color: white;
+  background-color: crimson;
+  font-size: 14px;
+}
