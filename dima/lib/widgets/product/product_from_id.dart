@@ -3,6 +3,8 @@ import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:flutter/material.dart';
 
+import '../../util/database/database.dart';
+
 /// Previously called product from id is now simply the page you get redirected when you click on a product link.
 class ProductFromID extends StatefulWidget {
   const ProductFromID({Key? key, this.productId = "0", required this.product})
@@ -11,7 +13,6 @@ class ProductFromID extends StatefulWidget {
   // TODO Avoid duplication!
   final String productId;
   final Product product;
-
   @override
   State<ProductFromID> createState() => _ProductFromIDState();
 }
@@ -27,8 +28,16 @@ class _ProductFromIDState extends State<ProductFromID> {
         routeArgs: {'show': true});
   }
 
+  final Color pinkHeart = const Color.fromARGB(255, 255, 57, 126);
+  late Color heartColor;
+
   @override
   Widget build(BuildContext context) {
+    heartColor = pinkHeart;
+    if (DatabaseManager.favorites[widget.productId] == null ||
+        DatabaseManager.favorites[widget.productId].qty == 0) {
+      heartColor = Colors.white;
+    }
     Widget body =
         // Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ListView(children: [
@@ -58,6 +67,15 @@ class _ProductFromIDState extends State<ProductFromID> {
             child: ElevatedButton(
                 onPressed: () {
                   // return;
+                  removeOrAddFav();
+                },
+                child: Icon(Icons.favorite, color: heartColor)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  // return;
                   Product.addToCart(widget.productId);
                 },
                 child: const Icon(Icons.add_shopping_cart_rounded)),
@@ -68,5 +86,21 @@ class _ProductFromIDState extends State<ProductFromID> {
       )
     ]);
     return body;
+  }
+
+  void removeOrAddFav() {
+    if (DatabaseManager.favorites[widget.productId] == null ||
+        DatabaseManager.favorites[widget.productId].qty == 0) {
+      Product.addToFavorites(widget.productId);
+
+      setState(() {
+        heartColor = Colors.white;
+      });
+    } else {
+      Product.removeFromFavorites(widget.productId);
+      setState(() {
+        heartColor = pinkHeart;
+      });
+    }
   }
 }

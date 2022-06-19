@@ -60,6 +60,24 @@ class Product {
     return;
   }
 
+  static void addToFavorites(String productId) {
+    Product? oldProd = DatabaseManager.favorites[productId];
+    if (oldProd == null) {
+      oldProd = DatabaseManager.allProducts[productId];
+      oldProd!.qty = 0;
+    }
+    oldProd.qty = 1;
+    DatabaseManager.updateFavoritesFromProduct(oldProd);
+    return;
+  }
+
+  static void removeFromFavorites(String productId) {
+    Product oldProd = DatabaseManager.favorites[productId];
+    oldProd.qty = 0;
+    DatabaseManager.updateFavoritesFromProduct(oldProd);
+    return;
+  }
+
   @override
   String toString() {
     return 'Name: ' +

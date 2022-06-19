@@ -45,12 +45,14 @@ class ShoppingCartRouteState extends State<ShoppingCartRoute> {
 
     return Column(children: [
       headline,
-      Expanded(
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: children,
-        ),
-      ),
+      children.isEmpty
+          ? const SizedBox(width: 10, height: 10)
+          : Expanded(
+              child: ListView(
+                scrollDirection: Axis.vertical,
+                children: children,
+              ),
+            ),
       if (children.isNotEmpty)
         TextButtonLarge(text: 'Check out', onPressed: _buyCallback),
     ]);

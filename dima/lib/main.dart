@@ -76,6 +76,10 @@ class ApplicationState extends ChangeNotifier {
           DatabaseManager.updateUserCart(event.snapshot);
           notifyListeners();
         });
+        DatabaseManager.favoritesRef.onChildChanged.listen((event) {
+          DatabaseManager.updateFavorites(event.snapshot);
+          notifyListeners();
+        });
         DatabaseManager.userCart.onChildAdded.listen((event) {
           DatabaseManager.updateUserCart(event.snapshot);
           notifyListeners();

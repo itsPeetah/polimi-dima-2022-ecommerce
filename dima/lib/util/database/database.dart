@@ -13,6 +13,7 @@ class DatabaseManager {
   static DatabaseReference? _product;
   static DatabaseReference? _shop;
   static DatabaseReference? _userCart;
+  static DatabaseReference? _favoritesRef;
 
   static final Map _allProducts = <String, dynamic>{};
   static Map get allProducts => _allProducts;
@@ -23,6 +24,9 @@ class DatabaseManager {
   static final Map _cart = <String, dynamic>{};
   static Map get cart => _cart;
 
+  static final Map _favorites = <String, dynamic>{};
+  static Map get favorites => _favorites;
+
   static DatabaseReference get users {
     _users ??= FirebaseDatabase.instance.ref().child("/user");
     return _users!;
@@ -30,8 +34,14 @@ class DatabaseManager {
 
   static DatabaseReference get userCart {
     _userCart ??= FirebaseDatabase.instance.ref().child(
-        '/user' + '/' + FirebaseAuth.instance.currentUser!.uid + '/favorites');
+        '/user' + '/' + FirebaseAuth.instance.currentUser!.uid + '/cart');
     return _userCart!;
+  }
+
+  static DatabaseReference get favoritesRef {
+    _favoritesRef ??= FirebaseDatabase.instance.ref().child(
+        '/user' + '/' + FirebaseAuth.instance.currentUser!.uid + '/favorites');
+    return _favoritesRef!;
   }
 
   static DatabaseReference get product {
@@ -46,6 +56,32 @@ class DatabaseManager {
 
   static int get productCount => _allProducts.length;
 
+  static void initUserCart(DataSnapshot dbSnapshot) {
+    Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
+    for (var pKey in prodMap.keys) {
+      final product = Product.fromRTDB(prodMap[pKey]);
+      if (product.qty > 0) {
+        _cart[product.id] = product;
+      }
+    }
+  }
+
+  //////          Getters         //////
+  static Product getProduct(String id) {
+    if (_allProducts.containsKey(id)) {
+      return _allProducts[id];
+    } else {
+      throw Exception(
+          "[Database Manager] Could not find product with id '$id'.}");
+    }
+  }
+
+  static Shop? getShop(String id) {
+    if (_allShops.containsKey(id)) return _allShops[id];
+    return null;
+  }
+
+  //////        UPDATERS          /////
   static void updateProductStore(DataSnapshot dbSnapshot) {
     List<dynamic> dataList = jsonDecode(jsonEncode(dbSnapshot.value));
     for (var pData in dataList) {
@@ -55,13 +91,12 @@ class DatabaseManager {
     }
   }
 
-  static void initUserCart(DataSnapshot dbSnapshot) {
+  static void updateFavorites(DataSnapshot dbSnapshot) {
     Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
-    for (var pKey in prodMap.keys) {
-      final product = Product.fromRTDB(prodMap[pKey]);
-      if (product.qty > 0) {
-        _cart[product.id] = product;
-      }
+
+    final product = Product.fromRTDB(prodMap);
+    if (product.qty > 0) {
+      _favorites[product.id] = product;
     }
   }
 
@@ -83,6 +118,15 @@ class DatabaseManager {
         .update(Product.toRTDB(product, quantity: product.qty));
   }
 
+  static void updateFavoritesFromProduct(Product product) {
+    _favorites[product.id] = product;
+
+    /// TODO: Check if user is logged in. The _cart can be used as a static cart
+    _favoritesRef!
+        .child('/' + product.name)
+        .update(Product.toRTDB(product, quantity: product.qty));
+  }
+
   static void emptyCart() {
     for (Product product in _cart.values) {
       product.qty = 0;
@@ -97,20 +141,6 @@ class DatabaseManager {
     final productData = jsonDecode(jsonEncode(dbSnapshot.value));
     final product = Product.fromRTDB(productData);
     _allProducts[dbSnapshot.key] = product;
-  }
-
-  static Product getProduct(String id) {
-    if (_allProducts.containsKey(id)) {
-      return _allProducts[id];
-    } else {
-      throw Exception(
-          "[Database Manager] Could not find product with id '$id'.}");
-    }
-  }
-
-  static Shop? getShop(String id) {
-    if (_allShops.containsKey(id)) return _allShops[id];
-    return null;
   }
 
   static void updateShop(DataSnapshot dbSnapshot) {
