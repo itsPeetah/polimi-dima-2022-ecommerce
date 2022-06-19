@@ -1,4 +1,5 @@
 import 'package:dima/util/database/database.dart';
+import 'package:dima/util/user/cart_manager.dart';
 import 'package:flutter/cupertino.dart';
 
 class Product {
@@ -43,21 +44,23 @@ class Product {
   }
 
   static void addToCart(String productId) {
-    Product? oldProd = DatabaseManager.cart[productId];
-    if (oldProd == null) {
-      oldProd = DatabaseManager.allProducts[productId];
-      oldProd!.qty = 0;
-    }
-    oldProd.qty = oldProd.qty + 1;
-    DatabaseManager.updateUserCartFromProduct(oldProd);
-    return;
+    // Product? oldProd = DatabaseManager.cart[productId];
+    // if (oldProd == null) {
+    //   oldProd = DatabaseManager.allProducts[productId];
+    //   oldProd!.qty = 0;
+    // }
+    // oldProd.qty = oldProd.qty + 1;
+    // DatabaseManager.updateUserCartFromProduct(oldProd);
+    // return;
+    CartManager.instance.addToCart(productId);
   }
 
   static void removeFromCart(String productId) {
-    Product oldProd = DatabaseManager.cart[productId];
-    oldProd.qty = oldProd.qty - 1;
-    DatabaseManager.updateUserCartFromProduct(oldProd);
-    return;
+    // Product oldProd = DatabaseManager.cart[productId];
+    // oldProd.qty = oldProd.qty - 1;
+    // DatabaseManager.updateUserCartFromProduct(oldProd);
+    // return;
+    CartManager.instance.removeFromCart(productId);
   }
 
   @override

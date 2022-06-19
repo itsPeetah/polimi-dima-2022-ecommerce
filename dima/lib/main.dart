@@ -1,6 +1,7 @@
 import 'package:dima/firebase_options.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/database/database.dart';
+import 'package:dima/util/user/cart_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,9 @@ class ApplicationState extends ChangeNotifier {
 
     // Listen for changes to the catalogue
     _subscribeToProductCatalogue();
+
+    // Load shared preferences
+    CartManager.instance.init();
   }
 
   Future<void> _initializeFirebase() async {
