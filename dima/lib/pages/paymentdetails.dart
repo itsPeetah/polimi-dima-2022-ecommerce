@@ -49,7 +49,14 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
         listOfProducts.add(p);
       }
     }
-    success ? DatabaseManager.emptyCart() : () {};
+    if (success) {
+      for (Product p in DatabaseManager.cart.values) {
+        if (p.qty > 0) {
+          DatabaseManager.updateUserHistoryFromProduct(p);
+        }
+      }
+      DatabaseManager.emptyCart();
+    }
     var count = 0;
     SecondaryNavigator.push(context, NestedNavigatorRoutes.thankyoupage,
         routeArgs: {

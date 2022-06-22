@@ -1,4 +1,5 @@
 import 'package:dima/pages/cart.dart';
+import 'package:dima/pages/favorites.dart';
 import 'package:dima/pages/home.dart';
 import 'package:dima/pages/map.dart';
 import 'package:dima/pages/payment.dart';
@@ -12,6 +13,7 @@ import 'package:dima/pages/misc/404.dart';
 import 'package:dima/pages/misc/hello.dart';
 
 import '../../model/product.dart';
+import '../../pages/history.dart';
 import '../../pages/thankspage.dart';
 
 class SecondaryNavigator {
@@ -72,6 +74,9 @@ class NestedNavigatorRoutes {
   static const String bankDetails = "/bankDetails";
   // Shop Page
   static const String shop = '/shop';
+  // Purchase History and favorites
+  static const String favorites = '/favorites';
+  static const String history = '/history';
 }
 
 class NestedNavigatorRouter {
@@ -135,6 +140,10 @@ class NestedNavigatorRouter {
         String shopId = args['shopId'];
         print(shopId);
         return MaterialPageRoute(builder: (_) => ShopPage(shopId: shopId));
+      case NestedNavigatorRoutes.history:
+        return MaterialPageRoute(builder: (_) => const HistoryPage());
+      case NestedNavigatorRoutes.favorites:
+        return MaterialPageRoute(builder: (_) => const FavoritesPage());
       case "/":
         return MaterialPageRoute(
           builder: (_) => const HelloPage(

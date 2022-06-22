@@ -14,6 +14,8 @@ class DatabaseManager {
   static DatabaseReference? _shop;
   static DatabaseReference? _userCart;
   static DatabaseReference? _favoritesRef;
+  static DatabaseReference? _boughtRef;
+  static DatabaseReference? _numTransactionsRef;
 
   static final Map _allProducts = <String, dynamic>{};
   static Map get allProducts => _allProducts;
@@ -26,6 +28,12 @@ class DatabaseManager {
 
   static final Map _favorites = <String, dynamic>{};
   static Map get favorites => _favorites;
+
+  static final Map _bought = <String, dynamic>{};
+  static Map get bought => _bought;
+
+  static int? _numTransactions;
+  static int get numTransactions => _numTransactions!;
 
   static DatabaseReference get users {
     _users ??= FirebaseDatabase.instance.ref().child("/user");
@@ -44,6 +52,20 @@ class DatabaseManager {
     return _favoritesRef!;
   }
 
+  static DatabaseReference get numTransactionsRef {
+    _numTransactionsRef ??= FirebaseDatabase.instance.ref().child('/user' +
+        '/' +
+        FirebaseAuth.instance.currentUser!.uid +
+        '/numTransactions');
+    return _numTransactionsRef!;
+  }
+
+  static DatabaseReference get boughtRef {
+    _boughtRef ??= FirebaseDatabase.instance.ref().child(
+        '/user' + '/' + FirebaseAuth.instance.currentUser!.uid + '/bought');
+    return _boughtRef!;
+  }
+
   static DatabaseReference get product {
     _product ??= FirebaseDatabase.instance.ref().child("/product");
     return _product!;
@@ -57,13 +79,84 @@ class DatabaseManager {
   static int get productCount => _allProducts.length;
 
   static void initUserCart(DataSnapshot dbSnapshot) {
+    if (dbSnapshot.value == null) {
+      print('No data in user cart');
+      return;
+    }
+    if (jsonDecode(jsonEncode(dbSnapshot.value)) is! Map<String, dynamic>) {
+      print('Init user cart instance is not Map string dynamic');
+      return;
+    }
     Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
+
     for (var pKey in prodMap.keys) {
       final product = Product.fromRTDB(prodMap[pKey]);
       if (product.qty > 0) {
         _cart[product.id] = product;
       }
     }
+  }
+
+  static void initFavorites(DataSnapshot dbSnapshot) {
+    if (dbSnapshot.value == null) {
+      print('No data in user initFavorites');
+      return;
+    }
+    if (jsonDecode(jsonEncode(dbSnapshot.value)) is! Map<String, dynamic>) {
+      print('initFavorites is not Map string dynamic');
+      return;
+    }
+    Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
+
+    for (var pKey in prodMap.keys) {
+      final product = Product.fromRTDB(prodMap[pKey]);
+      if (product.qty > 0) {
+        _favorites[product.id] = product;
+      }
+    }
+  }
+
+  static void initUserHistory(DataSnapshot dbSnapshot) {
+    if (dbSnapshot.value == null) {
+      print('No data in user history');
+      return;
+    }
+
+    if (jsonDecode(jsonEncode(dbSnapshot.value)) is List) {
+      List<dynamic> listProdMap = jsonDecode(jsonEncode(dbSnapshot.value));
+      print(listProdMap);
+      List<dynamic> filteredList = [];
+      for (var map in listProdMap) {
+        if (map != null) {
+          filteredList.add(map);
+        }
+      }
+      int j = 0;
+      for (Map<String, dynamic> prodMap in filteredList) {
+        _bought[j.toString()] = Product.fromRTDB(prodMap);
+        j++;
+      }
+      if (j != _numTransactions) {
+        print(
+            'Error not enough products in the user history to be equal to the history list');
+        print(j.toString());
+        print('NUM TRANS: ' + _numTransactions.toString());
+      }
+      return;
+    }
+    Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
+
+    for (var pKey in prodMap.keys) {
+      final product = Product.fromRTDB(prodMap[pKey]);
+      if (product.qty > 0) {
+        _favorites[product.id] = product;
+      }
+    }
+  }
+
+  static void initUserTransactions(DataSnapshot dbSnapshot) {
+    _numTransactions = jsonDecode(jsonEncode(dbSnapshot.value));
+    _numTransactions ??= 0;
   }
 
   //////          Getters         //////
@@ -116,6 +209,22 @@ class DatabaseManager {
     _userCart!
         .child('/' + product.name)
         .update(Product.toRTDB(product, quantity: product.qty));
+  }
+
+  static void updateUserHistoryFromProduct(Product product) {
+    print('updateUserHistoryFromProduct got product: ' + product.toString());
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
+
+    _bought[_numTransactions!.toString()] = Product.fromRTDB(
+        Product.toRTDB(product, quantity: product.qty, orderedDate: date));
+
+    _boughtRef!
+        // define random key
+        .child('/' + _numTransactions!.toString() + '/')
+        .set(Product.toRTDB(product, quantity: product.qty, orderedDate: date));
+    _numTransactions = _numTransactions! + 1;
+    _numTransactionsRef!.set(_numTransactions);
   }
 
   static void updateFavoritesFromProduct(Product product) {

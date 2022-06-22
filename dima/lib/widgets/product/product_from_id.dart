@@ -94,12 +94,12 @@ class _ProductFromIDState extends State<ProductFromID> {
       Product.addToFavorites(widget.productId);
 
       setState(() {
-        heartColor = Colors.white;
+        heartColor = pinkHeart;
       });
     } else {
       Product.removeFromFavorites(widget.productId);
       setState(() {
-        heartColor = pinkHeart;
+        heartColor = Colors.white;
       });
     }
   }

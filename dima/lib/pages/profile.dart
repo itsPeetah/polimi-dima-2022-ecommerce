@@ -1,3 +1,4 @@
+import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/main.dart';
 import 'package:dima/util/authentication/authentication.dart';
@@ -6,15 +7,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<ProfilePage> createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
   void _goToSignIn() {
     MainNavigator.push("/signin");
   }
 
   void _goToSignUp() {
     MainNavigator.push("/register");
+  }
+
+  void _goToFavoriteList() {
+    SecondaryNavigator.push(context, NestedNavigatorRoutes.favorites);
+  }
+
+  void _goToHistoryPurchase() {
+    SecondaryNavigator.push(context, NestedNavigatorRoutes.history);
   }
 
   void _signOut() {
@@ -41,6 +55,14 @@ class ProfilePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextLarge(text: "Welcome, $username"),
+        TextButtonLarge(
+          text: "Your favorites",
+          onPressed: _goToFavoriteList,
+        ),
+        TextButtonLarge(
+          text: "Purchase history",
+          onPressed: _goToHistoryPurchase,
+        ),
         TextButtonLarge(
           text: "Sign out",
           onPressed: _signOut,

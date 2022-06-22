@@ -14,8 +14,13 @@ class ProductItemHorizontal extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var width = size.width * .9;
     var height = size.height;
-    return GestureDetector(
-        onTap: () => Navigator.push(
+    return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all(Colors.black.withOpacity((0))),
+          shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+        ),
+        onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ProductFromID(product: product))),

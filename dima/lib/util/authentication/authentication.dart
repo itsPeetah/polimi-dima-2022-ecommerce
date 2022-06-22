@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 enum ApplicationLoginState {
   loggedOut,
@@ -46,5 +47,12 @@ class Authentication {
 
   static void _createUserEntryInDatabase() {
     // TODO IMPLEMENT THIS URGENTLY
+    FirebaseDatabase.instance
+        .ref()
+        .child('/user' +
+            '/' +
+            FirebaseAuth.instance.currentUser!.uid +
+            '/numTransactions')
+        .set(0);
   }
 }

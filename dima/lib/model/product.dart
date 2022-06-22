@@ -7,20 +7,30 @@ class Product {
   final String name;
   final String price;
   final String imageLink;
+  DateTime? orderedDate;
   int qty;
-
   Product(
       {required this.id,
       required this.name,
       required this.price,
       required this.image,
       required this.imageLink,
-      this.qty = 0});
+      this.qty = 0,
+      this.orderedDate});
 
   factory Product.fromRTDB(Map<String, dynamic> data) {
     int quantity = 0;
     if (data['quantity'] != null) {
       quantity = data['quantity'];
+    }
+    if (data['orderedDate'] == null) {
+      return Product(
+          id: data['id'].toString(),
+          image: Image.network(data['link']),
+          imageLink: data['link'],
+          name: data['name'],
+          price: data['price'].toString() + '\$',
+          qty: quantity);
     }
     return Product(
         id: data['id'].toString(),
@@ -28,17 +38,31 @@ class Product {
         imageLink: data['link'],
         name: data['name'],
         price: data['price'].toString() + '\$',
-        qty: quantity);
+        qty: quantity,
+        orderedDate: DateTime.parse(data['orderedDate']));
   }
 
-  static Map<String, dynamic> toRTDB(Product p, {int quantity = 0}) {
-    Map<String, dynamic> result = {
-      'id': p.id,
-      'link': p.imageLink,
-      'name': p.name,
-      'price': p.price.substring(0, p.price.length - 1),
-      'quantity': quantity
-    };
+  static Map<String, dynamic> toRTDB(Product p,
+      {int quantity = 0, DateTime? orderedDate}) {
+    Map<String, dynamic> result;
+    if (orderedDate == null) {
+      result = {
+        'id': p.id,
+        'link': p.imageLink,
+        'name': p.name,
+        'price': p.price.substring(0, p.price.length - 1),
+        'quantity': quantity
+      };
+    } else {
+      result = {
+        'id': p.id,
+        'link': p.imageLink,
+        'name': p.name,
+        'price': p.price.substring(0, p.price.length - 1),
+        'quantity': quantity,
+        'orderedDate': orderedDate.toString()
+      };
+    }
     return result;
   }
 

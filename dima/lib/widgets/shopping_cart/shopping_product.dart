@@ -1,19 +1,23 @@
+import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ShoppingCartProduct extends StatefulWidget {
   const ShoppingCartProduct(
       {Key? key,
       required this.product,
       required this.quantity,
-      this.parentRebuild})
+      this.typeOfPage = 'product'})
       : super(key: key);
   final Product product;
   final int quantity;
-  final dynamic parentRebuild;
-
+  final dynamic typeOfPage;
+  static const String productSimple = "product";
+  static const String favorites = "favorites";
+  static const String history = "history";
   @override
   State<ShoppingCartProduct> createState() => ShoppingCartProductState();
 }
@@ -24,15 +28,55 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     return _buildBody();
   }
 
+  removeThisProduct() {
+    Product.removeFromFavorites(widget.product.id);
+    setState(() {});
+  }
+
   _buildBody() {
     if (widget.quantity <= 0) {
-      return SizedBox.shrink();
+      return const SizedBox(width: 10, height: 10);
     }
+    List<Widget> listOfButtons = [];
     var size = MediaQuery.of(context).size;
     var width = size.width * .9;
     var height = size.height;
-    return GestureDetector(
-        onTap: () => Navigator.push(
+    if (widget.typeOfPage == ShoppingCartProduct.favorites) {
+      // TODO: implement cart and heart
+      Color pinkHeart = const Color.fromARGB(255, 255, 57, 126);
+      listOfButtons = [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: ElevatedButton(
+            onPressed: removeThisProduct,
+            child: Icon(
+              Icons.favorite,
+              color: pinkHeart,
+            ),
+          ),
+        ),
+        ElevatedButton(
+            onPressed: () => Product.addToCart(widget.product.id),
+            child: const Icon(Icons.add_shopping_cart))
+      ];
+    } else if (widget.typeOfPage == ShoppingCartProduct.history) {
+      String formatter = DateFormat('yMd').format(widget.product.orderedDate!);
+      listOfButtons = [
+        Text(
+          'Ordered the: ' + formatter,
+          style: const TextStyle(color: Colors.black),
+        )
+      ];
+    } else {
+      listOfButtons = _listOfButtons(width);
+    }
+    return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all(Colors.black.withOpacity((0))),
+          shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+        ),
+        onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ProductFromID(product: widget.product))),
@@ -65,6 +109,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                               widget.product.price,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
+                                  color: Colors.black,
                                   fontFamily: 'Raleway-Regular',
                                   fontSize: productPriceSize),
                             )
@@ -73,7 +118,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                     flex: 3,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: _listOfButtons(width),
+                      children: listOfButtons,
                     ),
                   ),
                 ])));
@@ -112,6 +157,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                   widget.product.qty.toString(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Raleway-Regular',
                       fontSize: productPriceSize),
                 )),

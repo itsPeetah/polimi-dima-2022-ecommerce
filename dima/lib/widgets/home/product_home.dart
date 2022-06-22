@@ -14,10 +14,13 @@ class ProductItem extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var width = size.width;
     var height = size.height;
-    return GestureDetector(
-
-        /// TODO: change to mainnavigator
-        onTap: () => Navigator.push(
+    return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all(Colors.black.withOpacity((0))),
+          shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+        ),
+        onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) =>

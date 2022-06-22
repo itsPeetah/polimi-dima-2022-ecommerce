@@ -5,7 +5,7 @@ import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'list_of_products.dart';
+import '../../util/database/list_of_products.dart';
 
 class ShoppingCartRoute extends StatefulWidget {
   const ShoppingCartRoute(

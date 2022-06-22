@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Nested Navigation Tests',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.green,
       ),
       /* Entry Point -> MainNavigation (tabbed view) */
       initialRoute: MainNavigationRoutes.root,
@@ -71,11 +71,26 @@ class ApplicationState extends ChangeNotifier {
         _loginState = ApplicationLoginState.loggedIn;
         // notify changes of user cart on child changed, or added
         final userCart = await DatabaseManager.userCart.get();
+        final boughtRef = await DatabaseManager.boughtRef.get();
+        final favoritesRef = await DatabaseManager.favoritesRef.get();
+        final numTransactionsRef =
+            await DatabaseManager.numTransactionsRef.get();
         DatabaseManager.initUserCart(userCart);
+        DatabaseManager.initUserTransactions(numTransactionsRef);
+        DatabaseManager.initUserHistory(boughtRef);
+        DatabaseManager.initFavorites(favoritesRef);
         DatabaseManager.userCart.onChildChanged.listen((event) {
           DatabaseManager.updateUserCart(event.snapshot);
           notifyListeners();
         });
+        // DatabaseManager.boughtRef.onChildAdded.listen((event) {
+        //   DatabaseManager.updateHistory(event.snapshot);
+        //   notifyListeners();
+        // });
+        // DatabaseManager.boughtRef.onChildChanged.listen((event) {
+        //   DatabaseManager.updateHistory(event.snapshot);
+        //   notifyListeners();
+        // });
         DatabaseManager.favoritesRef.onChildChanged.listen((event) {
           DatabaseManager.updateFavorites(event.snapshot);
           notifyListeners();
