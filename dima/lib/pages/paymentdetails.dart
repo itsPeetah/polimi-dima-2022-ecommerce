@@ -35,7 +35,7 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
   }
 
   String? _CVVValidator(String? string) {
-    return string!.length != 3 ? 'CVV is incorrect.' : null;
+    return string!.length < 3 || string.length > 4 ? 'CVV is incorrect.' : null;
   }
 
   void _confirmPayment() async {
