@@ -37,6 +37,7 @@ class Authentication {
       successCallback();
       _createUserEntryInDatabase();
     } on FirebaseAuthException catch (e) {
+      // TODO:: Show on screen the error
       errorCallback(e);
     }
   }
@@ -46,7 +47,6 @@ class Authentication {
   }
 
   static void _createUserEntryInDatabase() {
-    // TODO IMPLEMENT THIS URGENTLY
     FirebaseDatabase.instance
         .ref()
         .child('/user' +
