@@ -84,10 +84,30 @@ class MainNavigationState extends State<MainNavigation> {
 
   AppBar? _buildAppBar(TabItem tab) {
     switch (tab) {
+      case TabItem.home:
+        return AppBar(
+          title: const Text("DIMA-eShop"),
+          leading: IconButton(
+            icon: const Icon(Icons.search_rounded),
+            onPressed: () {
+              SecondaryNavigator.push(
+                  SecondaryNavigator.homeNavigatorKey.currentContext!,
+                  "/search"); // TODO Add
+            },
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.info_outline_rounded),
+              onPressed: () {
+                SecondaryNavigator.push(
+                    SecondaryNavigator.homeNavigatorKey.currentContext!,
+                    "/appInfo"); // TODO Add
+              },
+            ),
+          ],
+        );
       case TabItem.map:
         return AppBar(title: const Text('All the shops close to you'));
-      case TabItem.home:
-        return null;
       default:
         return AppBar(
           title: Text("$tab"),

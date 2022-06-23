@@ -40,7 +40,7 @@ class VerticalProductCarouselState extends State<VerticalProductCarousel> {
         options: CarouselOptions(
           scrollDirection: Axis.vertical,
           aspectRatio: MediaQuery.of(context).size.aspectRatio,
-          viewportFraction: 1.0,
+          viewportFraction: 1,
           autoPlay: true,
           autoPlayInterval: const Duration(seconds: 8),
           autoPlayAnimationDuration: const Duration(milliseconds: 800),
