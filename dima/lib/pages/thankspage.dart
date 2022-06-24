@@ -56,7 +56,6 @@ class ThanksPage extends StatelessWidget {
             onPressed: () {
               var count = 0;
               // pop 3 pages
-              // TODO: empty cart if coming from cart
               return Navigator.popUntil(context, (route) {
                 return count++ == 3;
               });
