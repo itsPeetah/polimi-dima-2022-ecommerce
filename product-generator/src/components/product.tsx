@@ -36,9 +36,7 @@ export default function ProductInspector(props: {
           <input
             type="number"
             value={product.price}
-            onChange={(e) =>
-              setProduct({ ...product, price: parseFloat(e.target.value) })
-            }
+            onChange={(e) => setProduct({ ...product, price: e.target.value })}
           />
         </div>
         <div>
