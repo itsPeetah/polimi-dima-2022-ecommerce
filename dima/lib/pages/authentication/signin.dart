@@ -6,14 +6,23 @@ import 'package:flutter/material.dart';
 
 import '../../styles/styleoftext.dart';
 
-class SignInPage extends StatelessWidget {
-  SignInPage({Key? key}) : super(key: key);
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  // SignInPage({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailInputController = TextEditingController();
   final TextEditingController _passwordInputController =
       TextEditingController();
+
+  var _hasError = false;
 
   void onSuccess() async {
     MainNavigator.pop();
@@ -37,7 +46,11 @@ class SignInPage extends StatelessWidget {
     final String email = _emailInputController.text;
     final String password = _passwordInputController.text;
 
-    void onFailure(FirebaseAuthException e) {}
+    void onFailure(FirebaseAuthException e) {
+      setState(() {
+        _hasError = true;
+      });
+    }
 
     await Authentication.signInWithEmailAndPassword(
       email,
@@ -72,6 +85,7 @@ class SignInPage extends StatelessWidget {
                 controller: _passwordInputController,
                 obscureText: true,
               ),
+              _buildErrorLabel(),
               TextButtonLarge(text: "Sign In", onPressed: _signIn),
               TextButtonLarge(
                 text: "Cancel",
@@ -81,6 +95,17 @@ class SignInPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildErrorLabel() {
+    final style = _hasError
+        ? TextStyle(color: Colors.red)
+        : TextStyle(color: Colors.transparent);
+
+    return Text(
+      "Invalid credentials...",
+      style: style,
     );
   }
 }
