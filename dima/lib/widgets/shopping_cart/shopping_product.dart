@@ -42,7 +42,6 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     var width = size.width * .9;
     var height = size.height;
     if (widget.typeOfPage == ShoppingCartProduct.favorites) {
-      // TODO: implement cart and heart
       Color pinkHeart = const Color.fromARGB(255, 255, 57, 126);
       listOfButtons = [
         Padding(
@@ -62,10 +61,12 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     } else if (widget.typeOfPage == ShoppingCartProduct.history) {
       String formatter = DateFormat('yMd').format(widget.product.orderedDate!);
       listOfButtons = [
-        Text(
-          'Ordered the: ' + formatter,
-          style: const TextStyle(color: Colors.black),
-        )
+        Center(
+          child: Text(
+            'Purchased the: ' + formatter,
+            style: const TextStyle(color: Colors.black),
+          ),
+        ),
       ];
     } else {
       listOfButtons = _listOfButtons(width);

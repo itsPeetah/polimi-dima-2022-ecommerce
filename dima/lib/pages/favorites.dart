@@ -40,14 +40,7 @@ class FavoritesPageState extends State<FavoritesPage> {
         Expanded(
             child: ListView(
                 // mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                      const Center(
-                          child: Icon(
-                        Icons.favorite,
-                        color: Colors.pink,
-                      ))
-                    ] +
-                    listOfItems))
+                children: listOfItems))
       ],
     );
   }
