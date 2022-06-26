@@ -138,7 +138,6 @@ class NestedNavigatorRouter {
       case NestedNavigatorRoutes.shop:
         Map args = settings.arguments as Map<String, dynamic>;
         String shopId = args['shopId'];
-        print(shopId);
         return MaterialPageRoute(builder: (_) => ShopPage(shopId: shopId));
       case NestedNavigatorRoutes.history:
         return MaterialPageRoute(builder: (_) => const HistoryPage());

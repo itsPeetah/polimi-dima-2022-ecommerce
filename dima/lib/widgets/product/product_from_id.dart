@@ -4,6 +4,7 @@ import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:flutter/material.dart';
 
 import '../../util/database/database.dart';
+import '../../util/navigation/navigation_main.dart';
 
 /// Previously called product from id is now simply the page you get redirected when you click on a product link.
 class ProductFromID extends StatefulWidget {
@@ -24,8 +25,14 @@ class _ProductFromIDState extends State<ProductFromID> {
     } catch (exception) {
       true;
     }
-    SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
-        routeArgs: {'show': true});
+
+    // final r = MainNavigatorRouter.generateRoute(const RouteSettings(
+    //     name: MainNavigationRoutes.checkout, arguments: {'show': false}));
+    MainNavigator.push(MainNavigationRoutes.checkout,
+        arguments: {'show': false});
+    // MainNavigator.mainNavigatorKey.currentState!.push(r!);
+    // SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
+    //     routeArgs: {'show': true});
   }
 
   final Color pinkHeart = const Color.fromARGB(255, 255, 57, 126);

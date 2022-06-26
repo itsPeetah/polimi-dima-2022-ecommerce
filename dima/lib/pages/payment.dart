@@ -1,6 +1,7 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/database/database.dart';
+import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/main.dart';
@@ -48,13 +49,21 @@ class PaymentPageState extends State<PaymentPage> {
 
   void _goToBankDetails() {
     if (_formKey.currentState!.validate()) {
-      SecondaryNavigator.push(context, NestedNavigatorRoutes.bankDetails,
-          routeArgs: {
-            'name': _nameInputController.text,
-            'location': _locationInputController.text,
-            'phone': _phoneInputController.text,
-            'price': checkOutSum.toString()
-          });
+      final r = MainNavigatorRouter.generateRoute(
+          RouteSettings(name: MainNavigationRoutes.bankDetails, arguments: {
+        'name': _nameInputController.text,
+        'location': _locationInputController.text,
+        'phone': _phoneInputController.text,
+        'price': checkOutSum.toString()
+      }));
+      MainNavigator.mainNavigatorKey.currentState!.push(r!);
+      // SecondaryNavigator.push(context, NestedNavigatorRoutes.bankDetails,
+      //     routeArgs: {
+      //       'name': _nameInputController.text,
+      //       'location': _locationInputController.text,
+      //       'phone': _phoneInputController.text,
+      //       'price': checkOutSum.toString()
+      //     });
     }
   }
 

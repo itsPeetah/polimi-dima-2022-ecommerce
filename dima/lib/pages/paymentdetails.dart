@@ -29,7 +29,7 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
   final TextEditingController _CCController = TextEditingController();
   final TextEditingController _CVVController = TextEditingController();
   final TextEditingController _nameInputController = TextEditingController();
-
+  TextStyle _style = TextStyle(color: Colors.transparent);
   String? _CCValidator(String? string) {
     return string!.length != 16 ? 'Credit card number is incorrect.' : null;
   }
@@ -56,14 +56,31 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
         }
       }
       DatabaseManager.emptyCart();
+    } else {
+      // TODO: Show error
+      setState(() {
+        _style = const TextStyle(color: Colors.red);
+      });
+      return;
     }
+
+    setState(() {
+      _style = const TextStyle(color: Colors.transparent);
+    });
     var count = 0;
-    SecondaryNavigator.push(context, NestedNavigatorRoutes.thankyoupage,
-        routeArgs: {
-          'listOfProducts': listOfProducts,
-          'location': widget.location,
-          'price': widget.price,
-        });
+    final r = MainNavigatorRouter.generateRoute(
+        RouteSettings(name: MainNavigationRoutes.bankDetails, arguments: {
+      'listOfProducts': listOfProducts,
+      'location': widget.location,
+      'price': widget.price,
+    }));
+    MainNavigator.mainNavigatorKey.currentState!.push(r!);
+    // SecondaryNavigator.push(context, NestedNavigatorRoutes.thankyoupage,
+    //     routeArgs: {
+    //       'listOfProducts': listOfProducts,
+    //       'location': widget.location,
+    //       'price': widget.price,
+    //     });
     // Navigator.popUntil(context, (route) {
     //   return count++ == 2;
     // });
@@ -128,6 +145,10 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
             Align(
                 alignment: Alignment.centerLeft,
                 child: Checkbox(value: checkboxValue, onChanged: _setName)),
+            Text(
+              'Payment was not successful',
+              style: _style,
+            ),
             TextButtonLarge(
               text: "Continue",
               onPressed: _confirmPayment,

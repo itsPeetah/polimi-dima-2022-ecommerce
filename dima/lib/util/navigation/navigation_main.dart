@@ -1,16 +1,19 @@
 import 'package:dima/pages/authentication/register.dart';
 import 'package:dima/pages/authentication/signin.dart';
+import 'package:dima/pages/payment.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/widgets/navigation/main_navigation.dart';
 import 'package:dima/pages/misc/404.dart';
 
+import '../../pages/paymentdetails.dart';
+
 class MainNavigator {
   static final mainNavigatorKey = GlobalKey<NavigatorState>();
 
-  static Future<void> push(String route) {
+  static Future<void> push(String route, {arguments}) {
     if (route[0] != "/") route = "/" + route;
     final rs = RouteSettings(name: route);
-    final r = MainNavigatorRouter.generateRoute(rs);
+    Route? r = MainNavigatorRouter.generateRoute(rs);
     return mainNavigatorKey.currentState!.push(r!);
   }
 
@@ -23,7 +26,7 @@ class MainNavigationRoutes {
   static const String root = "/";
   static const String checkout = "/checkout";
   static const String payment = "/payment";
-  static const String checkoutResult = "/checkoutResult";
+  static const String bankDetails = "/bankDetails";
   static const String signin = "/signin";
   static const String register = "/register";
 }
@@ -32,13 +35,35 @@ class MainNavigationRoutes {
 class MainNavigatorRouter {
   static Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      /* Put here the cases for checkout, payment... */
       case MainNavigationRoutes.root:
         return MaterialPageRoute(builder: (_) => const MainNavigation());
       case MainNavigationRoutes.signin:
-        return MaterialPageRoute(builder: (_) => SignInPage());
+        return MaterialPageRoute(builder: (_) => const SignInPage());
       case MainNavigationRoutes.register:
         return MaterialPageRoute(builder: (_) => RegisterPage());
+      case MainNavigationRoutes.checkout:
+        Object? showPage;
+        if (settings.arguments != null) {
+          print('HEREREE:::::: : ' + settings.arguments.toString());
+          Map arguments = settings.arguments as Map<String, Object?>;
+          showPage = arguments['show'] as Object?;
+          print('showPage:::::: : ' + showPage.toString());
+        }
+        // if showPage is null, it sets it to true
+        showPage ??= true;
+        return MaterialPageRoute(
+            builder: (_) => PaymentPage(
+                  showPage: showPage as bool,
+                ));
+      case MainNavigationRoutes.bankDetails:
+        Map args = settings.arguments as Map<String, String>;
+        String name = args['name'];
+        String location = args['location'];
+        String? phone = args['phone'];
+        String price = args['price'].toString();
+        return MaterialPageRoute(
+            builder: (_) => PaymentDetailsPage(
+                name: name, location: location, phone: phone, price: price));
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(body: PageNotFound()));

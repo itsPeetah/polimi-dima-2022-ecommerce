@@ -1,5 +1,6 @@
 import 'package:dima/main.dart';
 import 'package:dima/styles/styleoftext.dart';
+import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,13 @@ class ShoppingCartRoute extends StatefulWidget {
 class ShoppingCartRouteState extends State<ShoppingCartRoute> {
   List<Widget> children = [];
   void _buyCallback() {
-    SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
-        routeArgs: {'show': false});
+    // final r = MainNavigatorRouter.generateRoute(const RouteSettings(
+    //     name: MainNavigationRoutes.checkout, arguments: {'show': false}));
+    // MainNavigator.mainNavigatorKey.currentState!.push(r!);
+    MainNavigator.push(MainNavigationRoutes.checkout,
+        arguments: {'show': false});
+    // SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
+    //     routeArgs: {'show': false});
   }
 
   void getListOfItemsInCart() {
