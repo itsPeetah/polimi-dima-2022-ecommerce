@@ -1,6 +1,8 @@
+import 'package:dima/model/product.dart';
 import 'package:dima/pages/authentication/register.dart';
 import 'package:dima/pages/authentication/signin.dart';
 import 'package:dima/pages/payment.dart';
+import 'package:dima/pages/thankspage.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/widgets/navigation/main_navigation.dart';
 import 'package:dima/pages/misc/404.dart';
@@ -12,7 +14,7 @@ class MainNavigator {
 
   static Future<void> push(String route, {arguments}) {
     if (route[0] != "/") route = "/" + route;
-    final rs = RouteSettings(name: route);
+    final rs = RouteSettings(name: route, arguments: arguments);
     Route? r = MainNavigatorRouter.generateRoute(rs);
     return mainNavigatorKey.currentState!.push(r!);
   }
@@ -27,6 +29,7 @@ class MainNavigationRoutes {
   static const String checkout = "/checkout";
   static const String payment = "/payment";
   static const String bankDetails = "/bankDetails";
+  static const String thankYouPage = "/thankyou";
   static const String signin = "/signin";
   static const String register = "/register";
 }
@@ -52,9 +55,12 @@ class MainNavigatorRouter {
         // if showPage is null, it sets it to true
         showPage ??= true;
         return MaterialPageRoute(
-            builder: (_) => PaymentPage(
-                  showPage: showPage as bool,
-                ));
+          builder: (_) => Scaffold(
+            body: PaymentPage(
+              showPage: showPage as bool,
+            ),
+          ),
+        );
       case MainNavigationRoutes.bankDetails:
         Map args = settings.arguments as Map<String, String>;
         String name = args['name'];
@@ -62,8 +68,22 @@ class MainNavigatorRouter {
         String? phone = args['phone'];
         String price = args['price'].toString();
         return MaterialPageRoute(
-            builder: (_) => PaymentDetailsPage(
-                name: name, location: location, phone: phone, price: price));
+          builder: (_) => Scaffold(
+            body: PaymentDetailsPage(
+                name: name, location: location, phone: phone, price: price),
+          ),
+        );
+      case MainNavigationRoutes.thankYouPage:
+        Map args = settings.arguments as Map<String, dynamic>;
+        List<Product> lop = args["listOfProducts"];
+        String location = args["location"];
+        String price = args["price"];
+        return MaterialPageRoute(
+          builder: (_) => Scaffold(
+            body: ThanksPage(
+                listOfProducts: lop, location: location, price: price),
+          ),
+        );
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(body: PageNotFound()));

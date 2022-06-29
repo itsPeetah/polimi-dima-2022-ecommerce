@@ -68,13 +68,18 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
       _style = const TextStyle(color: Colors.transparent);
     });
     var count = 0;
-    final r = MainNavigatorRouter.generateRoute(
-        RouteSettings(name: MainNavigationRoutes.bankDetails, arguments: {
+    // final r = MainNavigatorRouter.generateRoute(
+    //     RouteSettings(name: MainNavigationRoutes.bankDetails, arguments: {
+    //   'listOfProducts': listOfProducts,
+    //   'location': widget.location,
+    //   'price': widget.price,
+    // }));
+    MainNavigator.push(MainNavigationRoutes.thankYouPage, arguments: {
       'listOfProducts': listOfProducts,
       'location': widget.location,
-      'price': widget.price,
-    }));
-    MainNavigator.mainNavigatorKey.currentState!.push(r!);
+      'price': widget.price
+    });
+    // MainNavigator.mainNavigatorKey.currentState!.push(r!);
     // SecondaryNavigator.push(context, NestedNavigatorRoutes.thankyoupage,
     //     routeArgs: {
     //       'listOfProducts': listOfProducts,
