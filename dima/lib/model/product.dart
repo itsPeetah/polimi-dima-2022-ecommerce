@@ -1,6 +1,7 @@
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/user/cart_manager.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Product {
   final String id;
@@ -10,6 +11,23 @@ class Product {
   final String imageLink;
   DateTime? orderedDate;
   int qty;
+
+  // static final dynamic _loadingBuilder = loadingBuilderFunction;
+  static Widget loadingBuilderFunction(
+      BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+    if (loadingProgress == null) {
+      return child;
+    }
+    return Center(
+      child: CircularProgressIndicator(
+        value: loadingProgress.expectedTotalBytes != null
+            ? loadingProgress.cumulativeBytesLoaded /
+                loadingProgress.expectedTotalBytes!
+            : null,
+      ),
+    );
+  }
+
   Product(
       {required this.id,
       required this.name,
@@ -27,7 +45,8 @@ class Product {
     if (data['orderedDate'] == null) {
       return Product(
           id: data['id'].toString(),
-          image: Image.network(data['link']),
+          image: Image.network(data['link'],
+              loadingBuilder: loadingBuilderFunction),
           imageLink: data['link'],
           name: data['name'],
           price: data['price'].toString() + '\$',
@@ -35,7 +54,8 @@ class Product {
     }
     return Product(
         id: data['id'].toString(),
-        image: Image.network(data['link']),
+        image:
+            Image.network(data['link'], loadingBuilder: loadingBuilderFunction),
         imageLink: data['link'],
         name: data['name'],
         price: data['price'].toString() + '\$',

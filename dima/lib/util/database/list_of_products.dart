@@ -10,16 +10,37 @@ List<Widget> getItemsInCart() {
   List<Widget> listOfWidgets = [];
   for (Product product in productAsMap.values) {
     if (product.qty > 0) {
-      listOfWidgets.add(ShoppingCartProduct(
-        product: product,
-        quantity: product.qty,
+      listOfWidgets.add(Column(
+        children: [
+          ShoppingCartProduct(
+            product: product,
+            quantity: product.qty,
+          ),
+          const Divider(
+            thickness: 2,
+            indent: 5,
+            endIndent: 5,
+            color: dividerColor,
+          )
+        ],
       ));
-      listOfWidgets.add(const Divider(
-        thickness: 2,
-        indent: 5,
-        endIndent: 5,
-        color: dividerColor,
-      ));
+    }
+  }
+  return listOfWidgets;
+}
+
+List<Widget> getItemsOnly(_maxHeight) {
+  Map<String, dynamic> productAsMap =
+      DatabaseManager.cart as Map<String, dynamic>;
+  List<Widget> listOfWidgets = [];
+  for (Product product in productAsMap.values) {
+    if (product.qty > 0) {
+      listOfWidgets.add(
+        ShoppingCartProduct(
+          product: product,
+          quantity: product.qty,
+        ),
+      );
     }
   }
   return listOfWidgets;
@@ -39,7 +60,7 @@ List<Widget> getItemsInFavorites() {
   Map<String, dynamic> productAsMap =
       DatabaseManager.favorites as Map<String, dynamic>;
   List<Widget> listOfWidgets = [];
-  print('Favorites:: ' + productAsMap.values.toString());
+  // print('Favorites:: ' + productAsMap.values.toString());
   for (Product product in productAsMap.values) {
     if (product.qty > 0) {
       listOfWidgets.add(ShoppingCartProduct(
@@ -63,7 +84,7 @@ List<Widget> getItemsInBought() {
       DatabaseManager.bought as Map<String, dynamic>;
   List<Widget> listOfWidgets = [];
 
-  print('Boughtss:: ' + productAsMap.values.toString());
+  // print('Boughtss:: ' + productAsMap.values.toString());
   for (Product product in productAsMap.values) {
     if (product.qty > 0) {
       listOfWidgets.add(ShoppingCartProduct(

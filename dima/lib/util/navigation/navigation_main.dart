@@ -47,10 +47,10 @@ class MainNavigatorRouter {
       case MainNavigationRoutes.checkout:
         Object? showPage;
         if (settings.arguments != null) {
-          print('HEREREE:::::: : ' + settings.arguments.toString());
+          // print('HEREREE:::::: : ' + settings.arguments.toString());
           Map arguments = settings.arguments as Map<String, Object?>;
           showPage = arguments['show'] as Object?;
-          print('showPage:::::: : ' + showPage.toString());
+          // print('showPage:::::: : ' + showPage.toString());
         }
         // if showPage is null, it sets it to true
         showPage ??= true;

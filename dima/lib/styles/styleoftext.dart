@@ -72,9 +72,12 @@ class Headline extends StatelessWidget {
 }
 
 class ProductTitleCard extends StatelessWidget {
-  const ProductTitleCard({Key? key, required this.text}) : super(key: key);
+  const ProductTitleCard(
+      {Key? key, required this.text, this.alignment = TextAlign.center})
+      : super(key: key);
   final String text;
   final Color color = titleTextColor;
+  final alignment;
   @override
   Widget build(BuildContext context) {
     return Text(text,
@@ -84,6 +87,6 @@ class ProductTitleCard extends StatelessWidget {
           fontFamily: 'Merriweather',
           // Merriweather or Lato
         ),
-        textAlign: TextAlign.center);
+        textAlign: alignment);
   }
 }

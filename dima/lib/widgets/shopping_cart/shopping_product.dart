@@ -27,7 +27,9 @@ class ShoppingCartProduct extends StatefulWidget {
 class ShoppingCartProductState extends State<ShoppingCartProduct> {
   @override
   Widget build(BuildContext context) {
-    return _buildBody();
+    return LayoutBuilder(builder: (context, constraints) {
+      return _buildBody(constraints);
+    });
   }
 
   removeThisProduct() {
@@ -35,14 +37,37 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     setState(() {});
   }
 
-  _buildBody() {
+  _buildBody(BoxConstraints constraints) {
     if (widget.quantity <= 0) {
       return const SizedBox(width: 10, height: 10);
     }
     List<Widget> listOfButtons = [];
     var size = MediaQuery.of(context).size;
-    var width = size.width * .9;
-    var height = size.height;
+    final _maxWidth = constraints.maxWidth;
+    final _maxHeight = constraints.maxHeight;
+    var textAlignment = TextAlign.center;
+    var _alignment = MainAxisAlignment.center;
+    var _imageFlex = 1;
+    var _textFlex = 1;
+    var _buttonFlex = 1;
+    var _tileHeight = min(_maxHeight, 260) as double;
+    var _tileWidth = _maxWidth;
+    var _crossAxisAlignment = CrossAxisAlignment.center;
+    var _tabletMode = false;
+    if (_maxWidth >= tabletWidth * 0.8) {
+      print('Tablet mode?');
+      _tabletMode = true;
+      textAlignment = TextAlign.left;
+      _imageFlex = 3;
+      _textFlex = 5;
+      _buttonFlex = 2;
+      _tileHeight = _maxHeight * 0.8;
+      _tileWidth = _maxWidth;
+      _alignment = MainAxisAlignment.center;
+      _crossAxisAlignment = CrossAxisAlignment.start;
+    }
+    var width = size.width * 0.9;
+    var height = size.height * 1;
     if (widget.typeOfPage == ShoppingCartProduct.favorites) {
       Color pinkHeart = const Color.fromARGB(255, 255, 57, 126);
       listOfButtons = [
@@ -71,61 +96,82 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
         ),
       ];
     } else {
-      listOfButtons = _listOfButtons(width);
+      listOfButtons = _listOfButtons(_maxWidth);
     }
-    var paddingWidth = min(width * 0.01, 20) as double;
-    return ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all(Colors.black.withOpacity((0))),
-          shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+    var paddingWidth = min(height * 0.06, 6) as double;
+    var _buttonStyle = ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+      shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
+    );
+    Expanded image = Expanded(
+      flex: _imageFlex,
+      child: Padding(
+        padding: EdgeInsets.only(left: paddingWidth),
+        child: SizedBox.expand(
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: Image.network(widget.product.imageLink,
+                loadingBuilder: Product.loadingBuilderFunction),
+          ),
         ),
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductFromID(product: widget.product))),
-        child: Container(
-            height: height * 0.25,
-            color: backgroundItemColor1,
-            child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                        padding: EdgeInsets.all(paddingWidth),
-                        child: FittedBox(
-                            fit: BoxFit.fill,
-                            child: SizedBox(
-                              child: widget.product.image,
-                            ))),
-                  ),
-                  Expanded(
-                      flex: 3,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ProductTitleCard(
-                              text: widget.product.name,
-                            ),
-                            Text(
-                              widget.product.price,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Raleway-Regular',
-                                  fontSize: productPriceSize),
-                            )
-                          ])),
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: listOfButtons,
-                    ),
-                  ),
-                ])));
+      ),
+    );
+    Expanded ex2 = Expanded(
+      flex: _textFlex,
+      child: SizedBox(
+        height: _tileHeight,
+        child: Column(
+          mainAxisAlignment: _alignment,
+          crossAxisAlignment: _crossAxisAlignment,
+          children: [
+            ProductTitleCard(
+              text: widget.product.name,
+              alignment: textAlignment,
+            ),
+            Text(
+              widget.product.price,
+              textAlign: textAlignment,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Raleway-Regular',
+                  fontSize: productPriceSize),
+            )
+          ],
+        ),
+      ),
+    );
+    Expanded buttons = Expanded(
+      flex: _buttonFlex,
+      child: Container(
+        height: _tileHeight,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: listOfButtons,
+        ),
+      ),
+    );
+    return ElevatedButton(
+      style: _buttonStyle,
+      onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProductFromID(product: widget.product))),
+      child: Container(
+        height: _tileHeight,
+        width: _tileWidth,
+        color: backgroundItemColor1,
+        child: Flex(
+          direction: Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Text('FUCK')
+            image,
+            ex2,
+            buttons
+          ],
+        ),
+      ),
+    );
   }
 
   List<Widget> _listOfButtons(double width) {

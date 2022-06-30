@@ -80,11 +80,11 @@ class DatabaseManager {
 
   static void initUserCart(DataSnapshot dbSnapshot) {
     if (dbSnapshot.value == null) {
-      print('No data in user cart');
+      // print('No data in user cart');
       return;
     }
     if (jsonDecode(jsonEncode(dbSnapshot.value)) is! Map<String, dynamic>) {
-      print('Init user cart instance is not Map string dynamic');
+      // print('Init user cart instance is not Map string dynamic');
       return;
     }
     Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
@@ -99,11 +99,11 @@ class DatabaseManager {
 
   static void initFavorites(DataSnapshot dbSnapshot) {
     if (dbSnapshot.value == null) {
-      print('No data in user initFavorites');
+      // print('No data in user initFavorites');
       return;
     }
     if (jsonDecode(jsonEncode(dbSnapshot.value)) is! Map<String, dynamic>) {
-      print('initFavorites is not Map string dynamic');
+      // print('initFavorites is not Map string dynamic');
       return;
     }
     Map<String, dynamic> prodMap = jsonDecode(jsonEncode(dbSnapshot.value));
@@ -118,13 +118,13 @@ class DatabaseManager {
 
   static void initUserHistory(DataSnapshot dbSnapshot) {
     if (dbSnapshot.value == null) {
-      print('No data in user history');
+      // print('No data in user history');
       return;
     }
 
     if (jsonDecode(jsonEncode(dbSnapshot.value)) is List) {
       List<dynamic> listProdMap = jsonDecode(jsonEncode(dbSnapshot.value));
-      print(listProdMap);
+      // print(listProdMap);
       List<dynamic> filteredList = [];
       for (var map in listProdMap) {
         if (map != null) {
@@ -137,10 +137,10 @@ class DatabaseManager {
         j++;
       }
       if (j != _numTransactions) {
-        print(
-            'Error not enough products in the user history to be equal to the history list');
-        print(j.toString());
-        print('NUM TRANS: ' + _numTransactions.toString());
+        // print(
+        //     'Error not enough products in the user history to be equal to the history list');
+        // print(j.toString());
+        // print('NUM TRANS: ' + _numTransactions.toString());
       }
       return;
     }
@@ -212,7 +212,7 @@ class DatabaseManager {
   }
 
   static void updateUserHistoryFromProduct(Product product) {
-    print('updateUserHistoryFromProduct got product: ' + product.toString());
+    // print('updateUserHistoryFromProduct got product: ' + product.toString());
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
 

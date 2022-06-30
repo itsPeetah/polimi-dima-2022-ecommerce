@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
@@ -47,7 +49,6 @@ class _ProductFromIDState extends State<ProductFromID> {
         builder: (BuildContext context, BoxConstraints constraints) {
       return _createBody(context, constraints);
     });
-    ;
   }
 
   Widget _createBody(BuildContext context, BoxConstraints constraints) {
