@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
@@ -10,7 +11,6 @@ import 'package:location/location.dart';
 
 import '../../model/shop.dart';
 import '../../util/database/database.dart';
-import '../../util/navigation/navigation_main.dart';
 
 class MapContainer extends StatefulWidget {
   const MapContainer({
@@ -160,16 +160,23 @@ class _MapState extends State<MapContainer> {
 
   Widget _createBody(BoxConstraints constraints) {
     _maxHeight = constraints.maxHeight;
+    var _maxWidth = constraints.maxWidth;
+    var _scrollDirection = Axis.horizontal;
+    var _scrollHeight = constraints.maxHeight * 0.35;
+    var _scrollWidth = constraints.maxWidth * 0.85;
+    var _mapHeight = constraints.maxHeight * 0.40;
+    var _mapWidth = constraints.maxWidth * 0.9;
+    if (_maxWidth >= tabletWidth) {
+      _scrollDirection = Axis.vertical;
+      _scrollHeight = constraints.maxHeight * 0.89;
+      _scrollWidth = constraints.maxWidth * 0.52;
+      _mapHeight = constraints.maxHeight * 0.75;
+      _mapWidth = constraints.maxWidth * 0.40;
+    }
     List<Widget> relatedProducts;
+    // Case in which a shop has been pressed and we show all items of shop
     if (selectedMarker != null) {
       relatedProducts = [
-        // Center(
-        //   child: Text(
-        //       'Shop position:' + markers[selectedMarker]!.position.toString()),
-        // ),
-        // const Center(
-        //   child: Text('Shop products:'),
-        // ),
         const Text('Products that you find in this shop:',
             style: TextStyle(
               fontSize: 16,
@@ -177,10 +184,10 @@ class _MapState extends State<MapContainer> {
               // Merriweather or Lato
             )),
         SizedBox(
-          height: constraints.maxHeight * 0.35,
-          width: constraints.maxWidth * 0.85,
+          height: _scrollHeight,
+          width: _scrollWidth,
           child: ListView(
-            scrollDirection: Axis.horizontal,
+            scrollDirection: _scrollDirection,
             children: _getShopProducts(),
           ),
         ),
@@ -203,35 +210,41 @@ class _MapState extends State<MapContainer> {
     List<Widget> allChildren = [
       Center(
         child: Padding(
-          padding: EdgeInsets.all(constraints.maxWidth * 0.06),
+          padding: EdgeInsets.all(max(6, constraints.maxWidth * 0.02)),
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                  width: constraints.maxWidth < 600 ? 4 : 8,
+                  width: constraints.maxWidth < tabletWidth ? 4 : 6,
                   color: borderColor),
             ),
             child: SizedBox(
-              height: constraints.maxHeight * 0.40,
-              width: constraints.maxWidth * 0.9,
+              height: _mapHeight,
+              width: _mapWidth,
               child: _googleMap,
             ),
           ),
         ),
       ),
     ];
-    allChildren.addAll(relatedProducts);
-    return Container(
-      color: backgroundAppColor,
-      width: constraints.maxWidth,
-      height: constraints.maxHeight,
-      // scrollDirection: Axis.vertical,
-      child: Column(
+    Widget _desposition;
+    if (_maxWidth >= tabletWidth) {
+      Column columnWrapper = Column(children: relatedProducts);
+      _desposition = Row(children: allChildren + [columnWrapper]);
+    } else {
+      allChildren.addAll(relatedProducts);
+      _desposition = Column(
         children: allChildren +
             <Widget>[
               if (textWidget != null) textWidget!,
             ],
-      ),
-    );
+      );
+    }
+
+    return Container(
+        color: backgroundAppColor,
+        width: constraints.maxWidth,
+        height: constraints.maxHeight,
+        child: _desposition);
   }
 
   List<Widget> _getShopProducts() {

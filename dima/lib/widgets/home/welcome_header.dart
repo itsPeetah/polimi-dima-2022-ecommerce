@@ -1,6 +1,7 @@
+// Deprecated
+/*
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
-
 class WelcomeHeader extends StatelessWidget {
   const WelcomeHeader({
     Key? key,
@@ -32,3 +33,4 @@ class WelcomeHeader extends StatelessWidget {
     );
   }
 }
+*/

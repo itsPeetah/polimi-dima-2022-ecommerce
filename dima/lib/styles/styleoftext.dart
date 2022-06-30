@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// Tablet:
+const double tabletWidth = 600;
 // COLORS
 const Color backgroundColor1 = Color.fromARGB(207, 58, 114, 147);
 const Color backgroundItemColor1 = Color.fromARGB(103, 255, 187, 118);
@@ -18,6 +20,7 @@ const Color bottomBarColor = Color.fromARGB(255, 255, 143, 0);
 
 // FONT Properties
 const double productTitleSize = 22;
+const double productTitleSizeTablet = 22 + 13;
 const double productPriceSize = 15.99;
 const double headerSize = 28;
 

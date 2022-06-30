@@ -29,7 +29,7 @@ class _ProductFromIDState extends State<ProductFromID> {
     // final r = MainNavigatorRouter.generateRoute(const RouteSettings(
     //     name: MainNavigationRoutes.checkout, arguments: {'show': false}));
     MainNavigator.push(MainNavigationRoutes.checkout,
-        arguments: {'show': false});
+        arguments: {'show': true});
     // MainNavigator.mainNavigatorKey.currentState!.push(r!);
     // SecondaryNavigator.push(context, NestedNavigatorRoutes.checkout,
     //     routeArgs: {'show': true});
@@ -41,24 +41,50 @@ class _ProductFromIDState extends State<ProductFromID> {
   @override
   Widget build(BuildContext context) {
     heartColor = pinkHeart;
+    // var width = context.size.width;
+
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return _createBody(context, constraints);
+    });
+    ;
+  }
+
+  Widget _createBody(BuildContext context, BoxConstraints constraints) {
+    var width = constraints.maxWidth;
+    var height = constraints.maxHeight;
+    var imageHeight = height * 0.8;
     if (DatabaseManager.favorites[widget.productId] == null ||
         DatabaseManager.favorites[widget.productId].qty == 0) {
       heartColor = Colors.white;
     }
-    Widget body =
-        // Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        ListView(children: [
+    Widget body = ListView(children: [
       ElevatedButton(
           onPressed: () => SecondaryNavigator.pop(context),
           child: const Text('Go Back')),
-      widget.product.image,
+      SizedBox(
+          child: FittedBox(
+            child: Image.network(
+              widget.product.imageLink,
+            ),
+          ),
+          width: width,
+          height: imageHeight),
       Text(
         widget.product.name,
         style:
-            const TextStyle(color: headerTextColor, fontSize: productTitleSize),
+            // TODO: ADAPT SIZE OF FONT
+            TextStyle(
+                color: headerTextColor,
+                fontSize: constraints.maxWidth <= tabletWidth
+                    ? productTitleSize
+                    : productTitleSizeTablet),
       ),
-      const Text(
-          "Description -- Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"),
+      Text(
+        "Description -- Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+        style:
+            TextStyle(fontSize: constraints.maxWidth <= tabletWidth ? 12 : 18),
+      ),
       //   ],
       // ),
       Flex(
@@ -67,25 +93,27 @@ class _ProductFromIDState extends State<ProductFromID> {
         children: [
           Text(
             widget.product.price,
-            style: const TextStyle(fontSize: 17),
+            // TODO: ADAPT SIZE OF FONT
+            style: TextStyle(
+                fontSize: constraints.maxWidth <= tabletWidth ? 17 : 17 + 13),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: ElevatedButton(
                 onPressed: () {
-                  // return;
                   removeOrAddFav();
                 },
                 child: Icon(Icons.favorite, color: heartColor)),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  // return;
-                  Product.addToCart(widget.productId);
-                },
-                child: const Icon(Icons.add_shopping_cart_rounded)),
+            child:
+                // TODO: ADAPT SIZE OF BUTTON FOR TABLET
+                ElevatedButton(
+                    onPressed: () {
+                      Product.addToCart(widget.productId);
+                    },
+                    child: const Icon(Icons.add_shopping_cart_rounded)),
           ),
           ElevatedButton(
               onPressed: _buyCallback, child: const Text('Buy this product'))

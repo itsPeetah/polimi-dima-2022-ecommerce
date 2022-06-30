@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/styles/styleoftext.dart';
 
+// Used in Thankyou page and payment recap page
 class ProductItem extends StatelessWidget {
   const ProductItem({
     Key? key,
@@ -14,6 +17,7 @@ class ProductItem extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var width = size.width;
     var height = size.height;
+    var bottomPadding = min(30, height * 0.008) as double;
     return ElevatedButton(
         style: ButtonStyle(
           backgroundColor:
@@ -42,8 +46,9 @@ class ProductItem extends StatelessWidget {
                   text: product.name,
                 ),
                 Padding(
-                    padding: EdgeInsets.only(bottom: height * 0.008),
-                    child: Text(product.price))
+                    padding: EdgeInsets.only(bottom: bottomPadding),
+                    child: Text(product.price,
+                        style: const TextStyle(color: Colors.black)))
               ],
             )));
   }

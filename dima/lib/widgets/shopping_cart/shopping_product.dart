@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
@@ -71,6 +73,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     } else {
       listOfButtons = _listOfButtons(width);
     }
+    var paddingWidth = min(width * 0.01, 20) as double;
     return ElevatedButton(
         style: ButtonStyle(
           backgroundColor:
@@ -91,7 +94,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
                   Expanded(
                     flex: 3,
                     child: Padding(
-                        padding: EdgeInsets.all(width * 0.01),
+                        padding: EdgeInsets.all(paddingWidth),
                         child: FittedBox(
                             fit: BoxFit.fill,
                             child: SizedBox(

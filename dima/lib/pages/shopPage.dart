@@ -17,10 +17,7 @@ class ShopPage extends StatelessWidget {
   }
 
   Widget _createBody(BoxConstraints constraints) {
-    print('Shop id: ' + shopId);
-    // return Text('shopId: ');
     Shop? shop = DatabaseManager.getShop(shopId);
-
     return SizedBox(
         width: constraints.maxWidth * 0.9,
         height: constraints.maxHeight * 0.9,

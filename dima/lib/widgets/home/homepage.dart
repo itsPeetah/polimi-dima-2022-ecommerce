@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// Deprecated
 
+/*
 import 'package:flutter/cupertino.dart';
-
 import '../../styles/styleoftext.dart';
 import 'welcome_header.dart';
-
 class HomePage extends StatelessWidget {
   const HomePage(
       {Key? key,
@@ -70,3 +69,4 @@ class HomePage extends StatelessWidget {
                 ])));
   }
 }
+*/

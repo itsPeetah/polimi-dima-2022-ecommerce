@@ -1,3 +1,5 @@
+//Deprecated
+
 import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
 import 'package:flutter/material.dart';
