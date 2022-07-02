@@ -4,6 +4,8 @@ import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../styles/styleoftext.dart';
+
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({
     Key? key,
@@ -19,28 +21,38 @@ class FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Consumer<ApplicationState>(
       builder: ((context, appState, _) {
-        return _buildShoppingBody();
+        return LayoutBuilder(builder: (context, BoxConstraints constraints) {
+          return _buildShoppingBody(constraints);
+        });
       }),
     );
   }
 
-  _getItemsInFavorites() {
+  _getItemsInFavorites(bool wantDividers) {
     listOfItems = [];
-    var listFavs = getItemsInFavorites();
+    var listFavs = getItemsInFavorites(dividers: wantDividers);
     for (var fav in listFavs) {
       listOfItems.add(fav);
     }
   }
 
-  Widget _buildShoppingBody() {
-    _getItemsInFavorites();
+  Widget _buildShoppingBody(BoxConstraints constraints) {
+    bool wantDividers = constraints.maxWidth < tabletWidth;
+    _getItemsInFavorites(wantDividers);
+    Widget _viewMode = ListView(children: listOfItems);
+    if (!wantDividers) {
+      _viewMode = GridView.count(
+          childAspectRatio: 16 / 8,
+          padding: const EdgeInsets.all(0),
+          crossAxisCount: 2,
+          mainAxisSpacing: 22,
+          scrollDirection: Axis.vertical,
+          children: listOfItems);
+    }
     return Column(
       children: [
         const TextLarge(text: 'Your favorite products are:'),
-        Expanded(
-            child: ListView(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: listOfItems))
+        Expanded(child: _viewMode)
       ],
     );
   }

@@ -62,9 +62,9 @@ class ShoppingCartRouteState extends State<ShoppingCartRoute> {
       print('Tablet mode');
       var _gridComponent = GridView.count(
           childAspectRatio: 16 / 8,
-          padding: const EdgeInsets.all(2),
+          padding: const EdgeInsets.all(0),
           crossAxisCount: 2,
-          mainAxisSpacing: 5,
+          mainAxisSpacing: 22,
           scrollDirection: Axis.vertical,
           children: children);
       // int limit = children.length ~/ 2;

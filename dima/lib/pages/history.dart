@@ -1,4 +1,5 @@
 import 'package:dima/main.dart';
+import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/database/list_of_products.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
@@ -19,27 +20,37 @@ class HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Consumer<ApplicationState>(
       builder: ((context, appState, _) {
-        return _buildShoppingBody();
+        return LayoutBuilder(builder: (context, BoxConstraints constraints) {
+          return _buildShoppingBody(constraints);
+        });
       }),
     );
   }
 
-  _getItemsInBought() {
-    var listFavs = getItemsInBought();
-    for (var fav in listFavs) {
-      listOfItems.add(fav);
+  _getItemsInBought(bool wantDividers) {
+    var listHistory = getItemsInBought(dividers: wantDividers);
+    for (var history in listHistory) {
+      listOfItems.add(history);
     }
   }
 
-  Widget _buildShoppingBody() {
-    _getItemsInBought();
+  Widget _buildShoppingBody(BoxConstraints constraints) {
+    bool wantDividers = constraints.maxWidth < tabletWidth;
+    _getItemsInBought(wantDividers);
+    Widget _viewMode = ListView(children: listOfItems);
+    if (!wantDividers) {
+      _viewMode = GridView.count(
+          childAspectRatio: 16 / 8,
+          padding: const EdgeInsets.all(0),
+          crossAxisCount: 2,
+          mainAxisSpacing: 22,
+          scrollDirection: Axis.vertical,
+          children: listOfItems);
+    }
     return Column(
       children: [
         const TextLarge(text: 'Last purchased:'),
-        Expanded(
-            child: ListView(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: listOfItems))
+        Expanded(child: _viewMode)
       ],
     );
   }

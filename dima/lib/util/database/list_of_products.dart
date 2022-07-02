@@ -56,7 +56,7 @@ List<Product> getProductsInCart() {
   return listOfProducts;
 }
 
-List<Widget> getItemsInFavorites() {
+List<Widget> getItemsInFavorites({bool dividers = true}) {
   Map<String, dynamic> productAsMap =
       DatabaseManager.favorites as Map<String, dynamic>;
   List<Widget> listOfWidgets = [];
@@ -68,18 +68,20 @@ List<Widget> getItemsInFavorites() {
         quantity: product.qty,
         typeOfPage: ShoppingCartProduct.favorites,
       ));
-      listOfWidgets.add(const Divider(
-        thickness: 2,
-        indent: 5,
-        endIndent: 5,
-        color: dividerColor,
-      ));
+      if (dividers) {
+        listOfWidgets.add(const Divider(
+          thickness: 2,
+          indent: 5,
+          endIndent: 5,
+          color: dividerColor,
+        ));
+      }
     }
   }
   return listOfWidgets;
 }
 
-List<Widget> getItemsInBought() {
+List<Widget> getItemsInBought({bool dividers = true}) {
   Map<String, dynamic> productAsMap =
       DatabaseManager.bought as Map<String, dynamic>;
   List<Widget> listOfWidgets = [];
@@ -92,12 +94,14 @@ List<Widget> getItemsInBought() {
         quantity: product.qty,
         typeOfPage: ShoppingCartProduct.history,
       ));
-      listOfWidgets.add(const Divider(
-        thickness: 2,
-        indent: 5,
-        endIndent: 5,
-        color: dividerColor,
-      ));
+      if (dividers) {
+        listOfWidgets.add(const Divider(
+          thickness: 2,
+          indent: 5,
+          endIndent: 5,
+          color: dividerColor,
+        ));
+      }
     }
   }
   return listOfWidgets;

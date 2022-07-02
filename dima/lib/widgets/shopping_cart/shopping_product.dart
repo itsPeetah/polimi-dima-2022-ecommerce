@@ -54,7 +54,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     var _tileWidth = _maxWidth;
     var _crossAxisAlignment = CrossAxisAlignment.center;
     var _tabletMode = false;
-    if (_maxWidth >= tabletWidth * 0.8) {
+    if (_maxWidth >= tabletWidth) {
       print('Tablet mode?');
       _tabletMode = true;
       textAlignment = TextAlign.left;
@@ -142,7 +142,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     );
     Expanded buttons = Expanded(
       flex: _buttonFlex,
-      child: Container(
+      child: SizedBox(
         height: _tileHeight,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
