@@ -100,8 +100,8 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _buildErrorLabel() {
     final style = _hasError
-        ? TextStyle(color: Colors.red)
-        : TextStyle(color: Colors.transparent);
+        ? const TextStyle(color: Colors.red)
+        : const TextStyle(color: Colors.transparent);
 
     return Text(
       "Invalid credentials...",

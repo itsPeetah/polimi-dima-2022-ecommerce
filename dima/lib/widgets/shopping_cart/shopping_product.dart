@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
@@ -53,10 +52,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     var _tileHeight = min(_maxHeight, 260) as double;
     var _tileWidth = _maxWidth;
     var _crossAxisAlignment = CrossAxisAlignment.center;
-    var _tabletMode = false;
     if (_maxWidth >= tabletWidth) {
-      print('Tablet mode?');
-      _tabletMode = true;
       textAlignment = TextAlign.left;
       _imageFlex = 3;
       _textFlex = 5;
@@ -66,7 +62,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
       _alignment = MainAxisAlignment.center;
       _crossAxisAlignment = CrossAxisAlignment.start;
     }
-    var width = size.width * 0.9;
+    // var width = size.width * 0.9;
     var height = size.height * 1;
     if (widget.typeOfPage == ShoppingCartProduct.favorites) {
       Color pinkHeart = const Color.fromARGB(255, 255, 57, 126);

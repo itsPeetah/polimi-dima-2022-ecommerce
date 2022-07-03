@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/map/map_component.dart';
-import 'misc/fork.dart';
 
 class MapPage extends StatelessWidget {
   const MapPage({Key? key}) : super(key: key);

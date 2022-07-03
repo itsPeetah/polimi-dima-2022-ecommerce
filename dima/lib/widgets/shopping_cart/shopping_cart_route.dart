@@ -1,12 +1,11 @@
 import 'package:dima/main.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
-import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../util/database/list_of_products.dart';
+import 'package:dima/util/database/list_of_products.dart';
 
 class ShoppingCartRoute extends StatefulWidget {
   const ShoppingCartRoute(
@@ -59,7 +58,6 @@ class ShoppingCartRouteState extends State<ShoppingCartRoute> {
     );
     // var size_ = MediaQuery.of(context).size;
     if (_maxWidth >= tabletWidth) {
-      print('Tablet mode');
       var _gridComponent = GridView.count(
           childAspectRatio: 16 / 8,
           padding: const EdgeInsets.all(0),

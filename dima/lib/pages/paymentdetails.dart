@@ -2,7 +2,6 @@
 
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
-import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +28,7 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
   final TextEditingController _CCController = TextEditingController();
   final TextEditingController _CVVController = TextEditingController();
   final TextEditingController _nameInputController = TextEditingController();
-  TextStyle _style = TextStyle(color: Colors.transparent);
+  TextStyle _style = const TextStyle(color: Colors.transparent);
   String? _CCValidator(String? string) {
     return string!.length != 16 ? 'Credit card number is incorrect.' : null;
   }
@@ -57,7 +56,6 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
       }
       DatabaseManager.emptyCart();
     } else {
-      // TODO: Show error
       setState(() {
         _style = const TextStyle(color: Colors.red);
       });
@@ -67,28 +65,11 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
     setState(() {
       _style = const TextStyle(color: Colors.transparent);
     });
-    var count = 0;
-    // final r = MainNavigatorRouter.generateRoute(
-    //     RouteSettings(name: MainNavigationRoutes.bankDetails, arguments: {
-    //   'listOfProducts': listOfProducts,
-    //   'location': widget.location,
-    //   'price': widget.price,
-    // }));
     MainNavigator.push(MainNavigationRoutes.thankYouPage, arguments: {
       'listOfProducts': listOfProducts,
       'location': widget.location,
       'price': widget.price
     });
-    // MainNavigator.mainNavigatorKey.currentState!.push(r!);
-    // SecondaryNavigator.push(context, NestedNavigatorRoutes.thankyoupage,
-    //     routeArgs: {
-    //       'listOfProducts': listOfProducts,
-    //       'location': widget.location,
-    //       'price': widget.price,
-    //     });
-    // Navigator.popUntil(context, (route) {
-    //   return count++ == 2;
-    // });
   }
 
   @override

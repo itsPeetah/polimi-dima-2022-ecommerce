@@ -205,7 +205,6 @@ class DatabaseManager {
   static void updateUserCartFromProduct(Product product) {
     _cart[product.id] = product;
 
-    /// TODO: Check if user is logged in. The _cart can be used as a static cart
     _userCart!
         .child('/' + product.name)
         .update(Product.toRTDB(product, quantity: product.qty));
@@ -230,7 +229,6 @@ class DatabaseManager {
   static void updateFavoritesFromProduct(Product product) {
     _favorites[product.id] = product;
 
-    /// TODO: Check if user is logged in. The _cart can be used as a static cart
     _favoritesRef!
         .child('/' + product.name)
         .update(Product.toRTDB(product, quantity: product.qty));
@@ -266,7 +264,5 @@ class DatabaseManager {
     }
   }
 
-  static setShops(DataSnapshot dbSnapshot) {
-    // TODO Implement: add shops to _allShops
-  }
+  static setShops(DataSnapshot dbSnapshot) {}
 }

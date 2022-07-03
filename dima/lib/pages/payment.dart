@@ -2,11 +2,9 @@ import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
-import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/main.dart';
 import 'package:dima/util/database/list_of_products.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

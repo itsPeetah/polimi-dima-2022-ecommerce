@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'package:dima/util/database/database.dart';
 import 'package:dima/widgets/product/catalogue_list.dart';
 import 'package:flutter/widgets.dart';

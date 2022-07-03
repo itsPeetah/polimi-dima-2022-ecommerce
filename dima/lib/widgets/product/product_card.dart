@@ -2,7 +2,6 @@ import 'package:dima/main.dart';
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/product.dart';
@@ -85,11 +84,11 @@ class ProductCard extends StatelessWidget {
                 Text(
                   "Lorem ipsum dolor sit amet...",
                   style: TextStyle(fontSize: 20, color: Colors.grey[400]),
-                ), // TODO: product descriptio
+                ),
                 Text(
                   "(view more)",
                   style: TextStyle(fontSize: 20, color: Colors.grey[400]),
-                ), // TODO: product descriptio
+                ),
               ],
             ),
           ),

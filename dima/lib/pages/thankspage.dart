@@ -1,11 +1,9 @@
-import 'package:dima/widgets/home/product_home_horizontal.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 
 import '../model/product.dart';
 import '../styles/styleoftext.dart';
 import '../widgets/home/product_home.dart';
-import '../widgets/shopping_cart/shopping_product.dart';
 
 class ThanksPage extends StatelessWidget {
   const ThanksPage(

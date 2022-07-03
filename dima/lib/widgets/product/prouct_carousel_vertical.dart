@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dima/main.dart';
 import 'package:dima/util/database/database.dart';
-import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:dima/widgets/product/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
@@ -13,7 +11,6 @@ class ProductFromID extends StatefulWidget {
   const ProductFromID({Key? key, this.productId = "0", required this.product})
       : super(key: key);
 
-  // TODO Avoid duplication!
   final String productId;
   final Product product;
   @override

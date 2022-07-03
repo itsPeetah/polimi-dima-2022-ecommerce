@@ -63,7 +63,6 @@ class ProductCarouselState extends State<ProductCarousel> {
 
   Widget _buildProductCard(BuildContext context, String productId) {
     return SizedBox(
-      /// TODO: size.height * 0.30 only if in vertical view
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width,
       child: ProductCard(

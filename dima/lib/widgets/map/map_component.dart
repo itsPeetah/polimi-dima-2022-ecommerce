@@ -29,7 +29,6 @@ class _MapState extends State<MapContainer> {
   Location location = Location();
   late StreamSubscription<LocationData> _locationStream;
   late LocationData _locationData;
-  String? _locationText;
   bool rebuild = true;
   Widget? textWidget;
   Widget? _googleMap;
@@ -123,7 +122,6 @@ class _MapState extends State<MapContainer> {
     }
     _locationStream = location.onLocationChanged.listen((event) {
       _locationData = event;
-      _locationText = _locationData.toString();
       _center = LatLng(_locationData.latitude!, _locationData.longitude!);
       // textWidget = Text(_locationText.toString());
       // rebuild the google maps container

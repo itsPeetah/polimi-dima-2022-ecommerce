@@ -1,6 +1,5 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
-import 'package:dima/util/database/database.dart';
 import 'package:dima/util/user/cart_manager.dart';
 import 'package:dima/widgets/shopping_cart/shopping_product.dart';
 import 'package:flutter/material.dart';

@@ -49,8 +49,7 @@ class Authentication {
   static void _createUserEntryInDatabase() {
     FirebaseDatabase.instance
         .ref()
-        .child('/user' +
-            '/' +
+        .child('/user' '/' +
             FirebaseAuth.instance.currentUser!.uid +
             '/numTransactions')
         .set(0);
