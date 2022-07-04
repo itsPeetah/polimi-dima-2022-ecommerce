@@ -1,6 +1,5 @@
 // PaymentPage
 import 'package:dima/main.dart';
-import 'package:dima/pages/payment.dart';
 import 'package:dima/pages/paymentdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
