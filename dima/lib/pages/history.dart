@@ -28,7 +28,13 @@ class HistoryPageState extends State<HistoryPage> {
   }
 
   _getItemsInBought(bool wantDividers) {
-    var listHistory = getItemsInBought(dividers: wantDividers);
+    listOfItems = [];
+    List<Widget> listHistory;
+    if (wantDividers) {
+      listHistory = getItemsInBought(dividers: wantDividers);
+    } else {
+      listHistory = getOnlyItemsInBought();
+    }
     for (var history in listHistory) {
       listOfItems.add(history);
     }

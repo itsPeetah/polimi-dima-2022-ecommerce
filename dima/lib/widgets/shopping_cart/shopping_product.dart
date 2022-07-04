@@ -49,7 +49,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     var _imageFlex = 1;
     var _textFlex = 1;
     var _buttonFlex = 1;
-    var _tileHeight = min(_maxHeight, 260) as double;
+    var _tileHeight = min(_maxHeight, 260).toDouble();
     var _tileWidth = _maxWidth;
     var _crossAxisAlignment = CrossAxisAlignment.center;
     if (_maxWidth >= tabletWidth) {
@@ -94,7 +94,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
     } else {
       listOfButtons = _listOfButtons(_maxWidth);
     }
-    var paddingWidth = min(height * 0.06, 6) as double;
+    var paddingWidth = min(height * 0.06, 6).toDouble();
     var _buttonStyle = ButtonStyle(
       backgroundColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),
       shadowColor: MaterialStateProperty.all(Colors.black.withOpacity((0))),

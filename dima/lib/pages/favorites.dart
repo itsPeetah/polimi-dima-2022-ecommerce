@@ -30,7 +30,12 @@ class FavoritesPageState extends State<FavoritesPage> {
 
   _getItemsInFavorites(bool wantDividers) {
     listOfItems = [];
-    var listFavs = getItemsInFavorites(dividers: wantDividers);
+    List<Widget> listFavs;
+    if (wantDividers) {
+      listFavs = getItemsInFavorites();
+    } else {
+      listFavs = getOnlyItemsInFavorites();
+    }
     for (var fav in listFavs) {
       listOfItems.add(fav);
     }

@@ -17,7 +17,7 @@ class ProductItem extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var width = size.width;
     var height = size.height;
-    var bottomPadding = min(30, height * 0.008) as double;
+    var bottomPadding = min(30, height * 0.008).toDouble();
     return ElevatedButton(
         style: ButtonStyle(
           backgroundColor:

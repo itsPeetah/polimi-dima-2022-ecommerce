@@ -81,6 +81,23 @@ List<Widget> getItemsInFavorites({bool dividers = true}) {
   return listOfWidgets;
 }
 
+List<Widget> getOnlyItemsInFavorites() {
+  Map<String, dynamic> productAsMap =
+      DatabaseManager.favorites as Map<String, dynamic>;
+  List<Widget> listOfWidgets = [];
+  // print('Favorites:: ' + productAsMap.values.toString());
+  for (Product product in productAsMap.values) {
+    if (product.qty > 0) {
+      listOfWidgets.add(ShoppingCartProduct(
+        product: product,
+        quantity: product.qty,
+        typeOfPage: ShoppingCartProduct.favorites,
+      ));
+    }
+  }
+  return listOfWidgets;
+}
+
 List<Widget> getItemsInBought({bool dividers = true}) {
   Map<String, dynamic> productAsMap =
       DatabaseManager.bought as Map<String, dynamic>;
@@ -102,6 +119,24 @@ List<Widget> getItemsInBought({bool dividers = true}) {
           color: dividerColor,
         ));
       }
+    }
+  }
+  return listOfWidgets;
+}
+
+List<Widget> getOnlyItemsInBought({bool dividers = true}) {
+  Map<String, dynamic> productAsMap =
+      DatabaseManager.bought as Map<String, dynamic>;
+  List<Widget> listOfWidgets = [];
+
+  // print('Boughtss:: ' + productAsMap.values.toString());
+  for (Product product in productAsMap.values) {
+    if (product.qty > 0) {
+      listOfWidgets.add(ShoppingCartProduct(
+        product: product,
+        quantity: product.qty,
+        typeOfPage: ShoppingCartProduct.history,
+      ));
     }
   }
   return listOfWidgets;
