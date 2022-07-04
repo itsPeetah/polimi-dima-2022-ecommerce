@@ -166,12 +166,14 @@ class _MapState extends State<MapContainer> {
     var _mapWidth = constraints.maxWidth * 0.9;
     if (_maxWidth >= tabletWidth) {
       _scrollDirection = Axis.vertical;
-      _scrollHeight = constraints.maxHeight * 0.89;
+      _scrollHeight = constraints.maxHeight * 0.68;
       _scrollWidth = constraints.maxWidth * 0.52;
       _mapHeight = constraints.maxHeight * 0.75;
       _mapWidth = constraints.maxWidth * 0.40;
     }
     List<Widget> relatedProducts;
+    Widget _padding =
+        Expanded(child: Container(color: const Color.fromARGB(0, 0, 0, 0)));
     // Case in which a shop has been pressed and we show all items of shop
     if (selectedMarker != null) {
       relatedProducts = [
@@ -189,6 +191,7 @@ class _MapState extends State<MapContainer> {
             children: _getShopProducts(),
           ),
         ),
+        _padding,
         TextButtonLarge(
           text: 'Find more',
           onPressed: _redirectToShopPage,
@@ -229,9 +232,11 @@ class _MapState extends State<MapContainer> {
       Column columnWrapper = Column(children: relatedProducts);
       _desposition = Row(children: allChildren + [columnWrapper]);
     } else {
-      allChildren.addAll(relatedProducts);
+      // allChildren.addAll(relatedProducts);
       _desposition = Column(
         children: allChildren +
+            [_padding] +
+            relatedProducts +
             <Widget>[
               if (textWidget != null) textWidget!,
             ],
