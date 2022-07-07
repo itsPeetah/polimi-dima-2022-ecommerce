@@ -4,6 +4,7 @@ import 'package:dima/util/database/database.dart';
 import 'package:dima/util/user/cart_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,19 @@ class MyApp extends StatelessWidget {
 }
 
 class ApplicationState extends ChangeNotifier {
-  ApplicationState() {
-    init();
+  ApplicationState({FirebaseDatabase? initializer}) {
+    if (null != initializer) {
+      _testSetup(initializer);
+    } else {
+      init();
+    }
+  }
+  _testSetup(FirebaseDatabase initializer) async {
+    // final products = await DatabaseManager.product.get();
+    final productNode = initializer.ref().child('product/');
+    final databaseEvent = await productNode.once();
+    DatabaseManager.updateProductTester(databaseEvent.snapshot);
+    notifyListeners();
   }
 
   bool _firebaseAvailable = false;

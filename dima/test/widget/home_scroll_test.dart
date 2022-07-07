@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dima/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -11,7 +12,6 @@ void main() {
       create: (context) => ApplicationState(),
       builder: (context, _) => const MyApp(),
     ));
-
     expect(find.byIcon(Icons.home), findsOneWidget);
     expect(find.byIcon(Icons.map_outlined), findsOneWidget);
     expect(find.byIcon(Icons.shopping_cart), findsOneWidget);

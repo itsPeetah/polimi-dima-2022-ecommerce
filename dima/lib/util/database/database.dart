@@ -265,4 +265,13 @@ class DatabaseManager {
   }
 
   static setShops(DataSnapshot dbSnapshot) {}
+
+  static void updateProductTester(DataSnapshot dbSnapshot) {
+    List<dynamic> dataList = jsonDecode(jsonEncode(dbSnapshot.value));
+    for (var pData in dataList) {
+      final productData = Map<String, dynamic>.from(pData);
+      final product = Product.fromTest(productData);
+      _allProducts['0'] = product;
+    }
+  }
 }
