@@ -140,7 +140,7 @@ void main() {
 
   testWidgets('Mocked test for buying ', (WidgetTester tester) async {
     tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
-// Suppose we have one item in the cart and we want to check out
+    // Suppose we have one item in the cart and we want to check out
     DatabaseManager.updateCartTester();
     MyApp _myApp = const MyApp();
     await tester.runAsync(() async {
@@ -230,14 +230,6 @@ void main() {
       }
     }
     await tester.tap(find.byType(Checkbox));
-    for (final element
-        in find.textContaining('Continue', skipOffstage: false).evaluate()) {
-      await tester.runAsync(() async {
-        await tester
-            .ensureVisible(find.byWidget(element.widget, skipOffstage: false));
-        await tester.tap(find.byWidget(element.widget, skipOffstage: false));
-      });
-    }
     for (final element
         in find.textContaining('Continue', skipOffstage: false).evaluate()) {
       await tester.runAsync(() async {
