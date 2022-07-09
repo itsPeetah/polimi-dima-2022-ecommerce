@@ -29,4 +29,13 @@ class Shop {
         products: listOfProductIDs,
         description: data['description']);
   }
+
+  factory Shop.fromTest() {
+    return Shop(
+      name: 'Luigi Vitonno',
+      description: 'Lorem Ipsum',
+      products: ['0'],
+      coords: LatLng(45.0, 9.0),
+    );
+  }
 }

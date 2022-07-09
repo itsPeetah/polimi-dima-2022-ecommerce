@@ -63,14 +63,14 @@ class Product {
         orderedDate: DateTime.parse(data['orderedDate']));
   }
 
-  factory Product.fromTest(Map<String, dynamic> data) {
+  factory Product.fromTest({Map<String, dynamic>? data}) {
     return Product(
         id: '0',
         image: Image.asset('images/twoMenShakingHands.jpg'),
         imageLink: 'images / twoMenShakingHands.jpg',
         name: 'Chuwi',
         price: '16.00\$',
-        qty: 0);
+        qty: 1);
   }
   static Map<String, dynamic> toRTDB(Product p,
       {int quantity = 0, DateTime? orderedDate}) {

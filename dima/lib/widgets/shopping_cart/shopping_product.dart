@@ -106,8 +106,7 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
         child: SizedBox.expand(
           child: FittedBox(
             fit: BoxFit.contain,
-            child: Image.network(widget.product.imageLink,
-                loadingBuilder: Product.loadingBuilderFunction),
+            child: widget.product.image,
           ),
         ),
       ),
