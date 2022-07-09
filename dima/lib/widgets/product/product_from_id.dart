@@ -61,11 +61,7 @@ class _ProductFromIDState extends State<ProductFromID> {
           onPressed: () => SecondaryNavigator.pop(context),
           child: const Text('Go Back')),
       SizedBox(
-          child: FittedBox(
-            child: Image.network(
-              widget.product.imageLink,
-            ),
-          ),
+          child: FittedBox(child: widget.product.image),
           width: width,
           height: imageHeight),
       Text(

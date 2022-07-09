@@ -27,7 +27,7 @@ class _MapState extends State<MapContainer> {
   MarkerId? selectedMarker;
 
   Location location = Location();
-  late StreamSubscription<LocationData> _locationStream;
+  StreamSubscription<LocationData>? _locationStream;
   late LocationData _locationData;
   bool rebuild = true;
   Widget? textWidget;
@@ -123,8 +123,6 @@ class _MapState extends State<MapContainer> {
     _locationStream = location.onLocationChanged.listen((event) {
       _locationData = event;
       _center = LatLng(_locationData.latitude!, _locationData.longitude!);
-      // textWidget = Text(_locationText.toString());
-      // rebuild the google maps container
       if (rebuild) {
         rebuild = false;
         _googleMap = GoogleMap(
@@ -144,7 +142,7 @@ class _MapState extends State<MapContainer> {
 
   @override
   void dispose() {
-    _locationStream.cancel();
+    _locationStream?.cancel();
     super.dispose();
   }
 

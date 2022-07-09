@@ -37,18 +37,19 @@ class MyApp extends StatelessWidget {
 }
 
 class ApplicationState extends ChangeNotifier {
-  ApplicationState({FirebaseDatabase? initializer}) {
+  ApplicationState({Function? initializer}) {
     if (null != initializer) {
-      _testSetup(initializer);
+      // Does not work either way
+      initializer();
+      _testSetup();
     } else {
       init();
     }
   }
-  _testSetup(FirebaseDatabase initializer) async {
+  _testSetup() async {
     // final products = await DatabaseManager.product.get();
-    final productNode = initializer.ref().child('product/');
-    final databaseEvent = await productNode.once();
-    DatabaseManager.updateProductTester(databaseEvent.snapshot);
+    DatabaseManager.updateProductTester();
+    DatabaseManager.updateShopTester();
     notifyListeners();
   }
 

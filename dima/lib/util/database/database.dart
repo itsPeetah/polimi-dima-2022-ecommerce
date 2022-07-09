@@ -266,12 +266,20 @@ class DatabaseManager {
 
   static setShops(DataSnapshot dbSnapshot) {}
 
-  static void updateProductTester(DataSnapshot dbSnapshot) {
-    List<dynamic> dataList = jsonDecode(jsonEncode(dbSnapshot.value));
-    for (var pData in dataList) {
-      final productData = Map<String, dynamic>.from(pData);
-      final product = Product.fromTest(productData);
-      _allProducts['0'] = product;
-    }
+  static void updateProductTester() {
+    final product = Product.fromTest();
+    _allProducts['0'] = product;
+  }
+
+  static void updateShopTester() {
+    final product = Shop.fromTest();
+    _allProducts['0'] = product;
+    allProducts['0'] = _allProducts['0'];
+  }
+
+  static void updateCartTester() {
+    updateProductTester();
+    _cart['0'] = _allProducts['0'];
+    cart['0'] = _cart['0'];
   }
 }
