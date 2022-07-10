@@ -1,6 +1,5 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
-import 'package:dima/util/database/database.dart';
 import 'package:dima/util/user/cart_manager.dart';
 import 'package:dima/util/user/favorites_manager.dart';
 import 'package:dima/util/user/purchase_history_manager.dart';

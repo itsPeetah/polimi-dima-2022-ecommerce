@@ -2,6 +2,8 @@ import 'package:dima/firebase_options.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/user/cart_manager.dart';
+import 'package:dima/util/user/favorites_manager.dart';
+import 'package:dima/util/user/purchase_history_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -71,6 +73,8 @@ class ApplicationState extends ChangeNotifier {
 
     // Load shared preferences
     CartManager.instance.init();
+    FavoritesManager.instance.init();
+    PurchaseHistoryManager.instance.init();
   }
 
   Future<void> _initializeFirebase() async {

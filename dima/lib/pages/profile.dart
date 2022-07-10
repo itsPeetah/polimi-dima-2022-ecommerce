@@ -84,6 +84,14 @@ class ProfilePageState extends State<ProfilePage> {
           onPressed: _goToSignUp,
           text: "Sign Up",
         ),
+        TextButtonLarge(
+          text: "Your favorites",
+          onPressed: _goToFavoriteList,
+        ),
+        TextButtonLarge(
+          text: "Purchase history",
+          onPressed: _goToHistoryPurchase,
+        ),
       ],
     );
   }

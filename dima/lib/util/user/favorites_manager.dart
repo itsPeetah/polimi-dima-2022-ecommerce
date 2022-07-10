@@ -26,6 +26,7 @@ class FavoritesManager {
   }
 
   Map<String, dynamic> getItems() {
+    print("Yo");
     if (FirebaseAuth.instance.currentUser != null) {
       return DatabaseManager.favorites as Map<String, dynamic>;
     } else {
