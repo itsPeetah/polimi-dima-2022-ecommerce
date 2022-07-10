@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.0.15
   network_image_mock: ^2.1.1
   firebase_database_mocks: ^0.3.2
+  flutter_launcher_icons: ^0.9.3
 
 dev_dependencies:
   flutter_test:
