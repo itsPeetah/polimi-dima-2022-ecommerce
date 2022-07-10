@@ -164,7 +164,7 @@ class _MapState extends State<MapContainer> {
     var _mapWidth = constraints.maxWidth * 0.9;
     if (_maxWidth >= tabletWidth) {
       _scrollDirection = Axis.vertical;
-      _scrollHeight = constraints.maxHeight * 0.68;
+      _scrollHeight = constraints.maxHeight * 0.82;
       _scrollWidth = constraints.maxWidth * 0.52;
       _mapHeight = constraints.maxHeight * 0.75;
       _mapWidth = constraints.maxWidth * 0.40;
@@ -179,8 +179,8 @@ class _MapState extends State<MapContainer> {
             style: TextStyle(
               fontSize: 16,
               fontFamily: 'Merriweather',
-              // Merriweather or Lato
             )),
+        _padding,
         SizedBox(
           height: _scrollHeight,
           width: _scrollWidth,

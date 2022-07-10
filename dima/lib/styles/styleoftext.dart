@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 // Tablet:
-const double tabletWidth = 600;
+const double tabletWidth = 850;
 // COLORS
 const Color backgroundColor1 = Color.fromARGB(207, 58, 114, 147);
 const Color backgroundItemColor1 = Color.fromARGB(103, 255, 187, 118);
