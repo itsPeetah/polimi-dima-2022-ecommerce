@@ -100,11 +100,11 @@ class ApplicationState extends ChangeNotifier {
           DatabaseManager.updateUserCart(event.snapshot);
           notifyListeners();
         });
+        DatabaseManager.userCart.onChildAdded.listen((event) {
+          DatabaseManager.updateUserCart(event.snapshot);
+          notifyListeners();
+        });
         // DatabaseManager.boughtRef.onChildAdded.listen((event) {
-        //   DatabaseManager.updateHistory(event.snapshot);
-        //   notifyListeners();
-        // });
-        // DatabaseManager.boughtRef.onChildChanged.listen((event) {
         //   DatabaseManager.updateHistory(event.snapshot);
         //   notifyListeners();
         // });
@@ -112,8 +112,8 @@ class ApplicationState extends ChangeNotifier {
           DatabaseManager.updateFavorites(event.snapshot);
           notifyListeners();
         });
-        DatabaseManager.userCart.onChildAdded.listen((event) {
-          DatabaseManager.updateUserCart(event.snapshot);
+        DatabaseManager.favoritesRef.onChildAdded.listen((event) {
+          DatabaseManager.updateFavorites(event.snapshot);
           notifyListeners();
         });
       } else {

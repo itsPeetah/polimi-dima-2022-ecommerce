@@ -212,8 +212,9 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
             child: CircleAvatar(
               child: IconButton(
                 onPressed: () {
-                  Product.addToCart(widget.product.id);
-                  setState(() {});
+                  setState(() {
+                    Product.addToCart(widget.product.id);
+                  });
                 },
                 icon: const Icon(
                   Icons.add,

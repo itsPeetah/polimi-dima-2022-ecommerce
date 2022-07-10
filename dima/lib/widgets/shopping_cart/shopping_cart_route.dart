@@ -1,10 +1,11 @@
+import 'package:dima/main.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 import 'package:dima/util/database/list_of_products.dart';
+import 'package:provider/provider.dart';
 
 class ShoppingCartRoute extends StatefulWidget {
   const ShoppingCartRoute(
@@ -32,10 +33,12 @@ class ShoppingCartRouteState extends State<ShoppingCartRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return _buildBody(constraints);
-    });
+    return Consumer<ApplicationState>(builder: ((context, appState, _) {
+      return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        return _buildBody(constraints);
+      });
+    }));
   }
 
   _buildBody(BoxConstraints constraints) {
