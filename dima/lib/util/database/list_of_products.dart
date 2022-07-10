@@ -1,12 +1,16 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/database/database.dart';
+import 'package:dima/util/user/cart_manager.dart';
+import 'package:dima/util/user/favorites_manager.dart';
+import 'package:dima/util/user/purchase_history_manager.dart';
 import 'package:dima/widgets/shopping_cart/shopping_product.dart';
 import 'package:flutter/material.dart';
 
 List<Widget> getItemsInCart() {
-  Map<String, dynamic> productAsMap =
-      DatabaseManager.cart as Map<String, dynamic>;
+  // Map<String, dynamic> productAsMap =
+  //     DatabaseManager.cart as Map<String, dynamic>;
+  Map<String, dynamic> productAsMap = CartManager.instance.getItems();
   List<Widget> listOfWidgets = [];
   for (Product product in productAsMap.values) {
     if (product.qty > 0) {
@@ -30,8 +34,9 @@ List<Widget> getItemsInCart() {
 }
 
 List<Widget> getItemsOnly(_maxHeight) {
-  Map<String, dynamic> productAsMap =
-      DatabaseManager.cart as Map<String, dynamic>;
+  // Map<String, dynamic> productAsMap =
+  //     DatabaseManager.cart as Map<String, dynamic>;
+  Map<String, dynamic> productAsMap = CartManager.instance.getItems();
   List<Widget> listOfWidgets = [];
   for (Product product in productAsMap.values) {
     if (product.qty > 0) {
@@ -47,8 +52,9 @@ List<Widget> getItemsOnly(_maxHeight) {
 }
 
 List<Product> getProductsInCart() {
-  Map<String, dynamic> productAsMap =
-      DatabaseManager.cart as Map<String, dynamic>;
+  // Map<String, dynamic> productAsMap =
+  //     DatabaseManager.cart as Map<String, dynamic>;
+  Map<String, dynamic> productAsMap = CartManager.instance.getItems();
   List<Product> listOfProducts = [];
   for (Product product in productAsMap.values) {
     listOfProducts.add(product);
@@ -57,8 +63,9 @@ List<Product> getProductsInCart() {
 }
 
 List<Widget> getItemsInFavorites({bool dividers = true}) {
-  Map<String, dynamic> productAsMap =
-      DatabaseManager.favorites as Map<String, dynamic>;
+  // Map<String, dynamic> productAsMap =
+  //     DatabaseManager.favorites as Map<String, dynamic>;
+  Map<String, dynamic> productAsMap = FavoritesManager.instance.getItems();
   List<Widget> listOfWidgets = [];
   // print('Favorites:: ' + productAsMap.values.toString());
   for (Product product in productAsMap.values) {
@@ -82,8 +89,9 @@ List<Widget> getItemsInFavorites({bool dividers = true}) {
 }
 
 List<Widget> getOnlyItemsInFavorites() {
-  Map<String, dynamic> productAsMap =
-      DatabaseManager.favorites as Map<String, dynamic>;
+  // Map<String, dynamic> productAsMap =
+  //     DatabaseManager.favorites as Map<String, dynamic>;
+  Map<String, dynamic> productAsMap = FavoritesManager.instance.getItems();
   List<Widget> listOfWidgets = [];
   // print('Favorites:: ' + productAsMap.values.toString());
   for (Product product in productAsMap.values) {
@@ -99,8 +107,10 @@ List<Widget> getOnlyItemsInFavorites() {
 }
 
 List<Widget> getItemsInBought({bool dividers = true}) {
+  // Map<String, dynamic> productAsMap =
+  //     DatabaseManager.bought as Map<String, dynamic>;
   Map<String, dynamic> productAsMap =
-      DatabaseManager.bought as Map<String, dynamic>;
+      PurchaseHistoryManager.instance.getItems();
   List<Widget> listOfWidgets = [];
 
   // print('Boughtss:: ' + productAsMap.values.toString());
@@ -125,8 +135,10 @@ List<Widget> getItemsInBought({bool dividers = true}) {
 }
 
 List<Widget> getOnlyItemsInBought({bool dividers = true}) {
+  // Map<String, dynamic> productAsMap =
+  //     DatabaseManager.bought as Map<String, dynamic>;
   Map<String, dynamic> productAsMap =
-      DatabaseManager.bought as Map<String, dynamic>;
+      PurchaseHistoryManager.instance.getItems();
   List<Widget> listOfWidgets = [];
 
   // print('Boughtss:: ' + productAsMap.values.toString());

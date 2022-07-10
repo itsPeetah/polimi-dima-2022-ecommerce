@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dima/util/user/product_map_prefs_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,17 +8,20 @@ import '../../model/product.dart';
 import '../database/database.dart';
 
 class CartManager {
+  static const String _PREFSKEY = "localCart";
+
   static CartManager instance = CartManager();
   late Map<String, dynamic> content;
 
   void init() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? jsonStr = prefs.getString("localCart");
+    final String? jsonStr = prefs.getString(_PREFSKEY);
 
     if (jsonStr == null) {
       content = <String, dynamic>{};
     } else {
-      content = jsonDecode(jsonStr) as Map<String, dynamic>;
+      // content = jsonDecode(jsonStr) as Map<String, dynamic>;
+      content = parseContent(jsonDecode(jsonStr) as Map<String, dynamic>);
     }
   }
 
@@ -44,6 +48,14 @@ class CartManager {
       _removeFromCartRemote(productId);
     } else {
       _removeFromCartLocal(productId);
+    }
+  }
+
+  void emptyCart() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      _emptyCartRemote();
+    } else {
+      _emptyCartLocal();
     }
   }
 
@@ -85,9 +97,20 @@ class CartManager {
     _saveLocalCart();
   }
 
+  void _emptyCartRemote() {
+    DatabaseManager.emptyCart();
+  }
+
+  void _emptyCartLocal() {
+    // TODO Notify listeners (also on favs and history)
+    content = <String, dynamic>{};
+    _saveLocalCart();
+  }
+
   void _saveLocalCart() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = jsonEncode(content);
-    await prefs.setString("localCart", jsonString);
+    final stringContent = stringifyContent(content);
+    final jsonString = jsonEncode(stringContent);
+    await prefs.setString(_PREFSKEY, jsonString);
   }
 }

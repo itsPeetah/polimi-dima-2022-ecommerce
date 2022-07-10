@@ -1,5 +1,6 @@
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/user/cart_manager.dart';
+import 'package:dima/util/user/favorites_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -117,21 +118,23 @@ class Product {
   }
 
   static void addToFavorites(String productId) {
-    Product? oldProd = DatabaseManager.favorites[productId];
-    if (oldProd == null) {
-      oldProd = DatabaseManager.allProducts[productId];
-      oldProd!.qty = 0;
-    }
-    oldProd.qty = 1;
-    DatabaseManager.updateFavoritesFromProduct(oldProd);
-    return;
+    // Product? oldProd = DatabaseManager.favorites[productId];
+    // if (oldProd == null) {
+    //   oldProd = DatabaseManager.allProducts[productId];
+    //   oldProd!.qty = 0;
+    // }
+    // oldProd.qty = 1;
+    // DatabaseManager.updateFavoritesFromProduct(oldProd);
+    // return;
+    FavoritesManager.instance.addToFavorites(productId);
   }
 
   static void removeFromFavorites(String productId) {
-    Product oldProd = DatabaseManager.favorites[productId];
-    oldProd.qty = 0;
-    DatabaseManager.updateFavoritesFromProduct(oldProd);
-    return;
+    // Product oldProd = DatabaseManager.favorites[productId];
+    // oldProd.qty = 0;
+    // DatabaseManager.updateFavoritesFromProduct(oldProd);
+    // return;
+    FavoritesManager.instance.removeFromFavorites(productId);
   }
 
   @override

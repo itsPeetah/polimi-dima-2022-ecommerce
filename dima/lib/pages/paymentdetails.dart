@@ -2,6 +2,8 @@
 
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
+import 'package:dima/util/user/cart_manager.dart';
+import 'package:dima/util/user/purchase_history_manager.dart';
 import 'package:dima/widgets/misc/textWidgets.dart';
 import 'package:flutter/material.dart';
 
@@ -51,10 +53,12 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
     if (success) {
       for (Product p in DatabaseManager.cart.values) {
         if (p.qty > 0) {
-          DatabaseManager.updateUserHistoryFromProduct(p);
+          // DatabaseManager.updateUserHistoryFromProduct(p);
+          PurchaseHistoryManager.instance.addToPurchaseHistory(p);
         }
       }
-      DatabaseManager.emptyCart();
+      // DatabaseManager.emptyCart();
+      CartManager.instance.emptyCart();
     } else {
       setState(() {
         _style = const TextStyle(color: Colors.red);
