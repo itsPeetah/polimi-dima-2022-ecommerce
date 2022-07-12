@@ -1,9 +1,11 @@
+import 'package:dima/main.dart';
 import 'package:dima/model/product.dart';
 import 'package:dima/pages/authentication/signin.dart';
 import 'package:dima/widgets/product/product_from_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   testWidgets('Check that the product page is correctly instantiated',
@@ -18,15 +20,20 @@ void main() {
       ),
       imageLink: 'https://picsum.photos/250?image=9',
     );
-
-    await mockNetworkImagesFor(() async => await tester.pumpWidget(MaterialApp(
-        home: SizedBox.expand(
-            child: Container(
-                color: Colors.black,
-                child: ProductFromID(
-                  product: product,
-                  productId: product.id,
-                ))))));
+    Widget _widget = ChangeNotifierProvider(
+        create: (context) => ApplicationState(initializer: () {
+              print('Testing... Testing...');
+              return;
+            }),
+        builder: (context, _) => MaterialApp(
+            home: SizedBox.expand(
+                child: Container(
+                    color: Colors.black,
+                    child: ProductFromID(
+                      product: product,
+                      productId: product.id,
+                    )))));
+    await mockNetworkImagesFor(() async => await tester.pumpWidget(_widget));
     expect(find.byIcon(Icons.favorite, skipOffstage: false), findsOneWidget);
     expect(find.byIcon(Icons.add_shopping_cart_rounded, skipOffstage: false),
         findsOneWidget);
