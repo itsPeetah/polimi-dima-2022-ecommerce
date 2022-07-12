@@ -202,22 +202,22 @@ class DatabaseManager {
     }
   }
 
-  static void updateUserCartFromProduct(Product product) {
+  static void updateUserCartFromProduct(Product product, {save = true}) {
     _cart[product.id] = product;
-
+    if (save == false) return;
     _userCart!
         .child('/' + product.name)
         .update(Product.toRTDB(product, quantity: product.qty));
   }
 
-  static void updateUserHistoryFromProduct(Product product) {
+  static void updateUserHistoryFromProduct(Product product, {save = true}) {
     // print('updateUserHistoryFromProduct got product: ' + product.toString());
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
 
     _bought[_numTransactions!.toString()] = Product.fromRTDB(
         Product.toRTDB(product, quantity: product.qty, orderedDate: date));
-
+    if (save == false) return;
     _boughtRef!
         // define random key
         .child('/' + _numTransactions!.toString() + '/')
@@ -226,21 +226,23 @@ class DatabaseManager {
     _numTransactionsRef!.set(_numTransactions);
   }
 
-  static void updateFavoritesFromProduct(Product product) {
+  static void updateFavoritesFromProduct(Product product, {save = true}) {
     _favorites[product.id] = product;
-
+    if (save == false) return;
     _favoritesRef!
         .child('/' + product.name)
         .update(Product.toRTDB(product, quantity: product.qty));
   }
 
-  static void emptyCart() {
+  static void emptyCart({save = true}) {
     for (Product product in _cart.values) {
       product.qty = 0;
       _cart[product.id] = product;
-      _userCart!
-          .child('/' + product.name)
-          .update(Product.toRTDB(product, quantity: product.qty));
+      if (save) {
+        _userCart!
+            .child('/' + product.name)
+            .update(Product.toRTDB(product, quantity: product.qty));
+      }
     }
   }
 

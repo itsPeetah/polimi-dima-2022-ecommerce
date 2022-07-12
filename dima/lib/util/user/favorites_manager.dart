@@ -70,6 +70,7 @@ class FavoritesManager {
     prod.qty = 1;
     content[productId] = prod;
     _saveLocalCart();
+    DatabaseManager.updateFavoritesFromProduct(prod, save: false);
   }
 
   void _removeFromFavoritesLocal(String productId) {
@@ -77,6 +78,7 @@ class FavoritesManager {
     prod.qty = 0;
     content[productId] = prod;
     _saveLocalCart();
+    DatabaseManager.updateFavoritesFromProduct(prod, save: false);
   }
 
   void _saveLocalCart() async {

@@ -1,8 +1,11 @@
 import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
+import 'package:dima/util/user/favorites_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../main.dart';
 import '../../util/database/database.dart';
 import '../../util/navigation/navigation_main.dart';
 
@@ -42,10 +45,12 @@ class _ProductFromIDState extends State<ProductFromID> {
     heartColor = pinkHeart;
     // var width = context.size.width;
 
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return _createBody(context, constraints);
-    });
+    return Consumer<ApplicationState>(builder: ((context, appState, _) {
+      return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        return _createBody(context, constraints);
+      });
+    }));
   }
 
   Widget _createBody(BuildContext context, BoxConstraints constraints) {

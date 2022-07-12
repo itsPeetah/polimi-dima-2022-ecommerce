@@ -88,6 +88,7 @@ class CartManager {
     oldProd.qty = oldProd.qty + 1;
     content[productId] = oldProd;
     _saveLocalCart();
+    DatabaseManager.updateUserCartFromProduct(oldProd, save: false);
   }
 
   void _removeFromCartLocal(String productId) {
@@ -95,6 +96,7 @@ class CartManager {
     oldProd.qty = oldProd.qty - 1;
     content[productId] = oldProd;
     _saveLocalCart();
+    DatabaseManager.updateUserCartFromProduct(oldProd, save: false);
   }
 
   void _emptyCartRemote() {
@@ -105,6 +107,7 @@ class CartManager {
     // TODO Notify listeners (also on favs and history)
     content = <String, dynamic>{};
     _saveLocalCart();
+    DatabaseManager.emptyCart(save: false);
   }
 
   void _saveLocalCart() async {

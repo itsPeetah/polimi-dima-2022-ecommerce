@@ -83,6 +83,8 @@ class PurchaseHistoryManager {
         Product.toRTDB(product, quantity: product.qty, orderedDate: date));
 
     _saveLocalPurchaseHistory();
+
+    DatabaseManager.updateUserHistoryFromProduct(product, save: false);
   }
 
   // void _removeFromPurchaseHistoryLocal(String productId) {

@@ -96,7 +96,7 @@ void main() {
     await tester.runAsync(() async {
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (context) => ApplicationState(initializer: () {
-          // DatabaseManager.updateCartTester();
+          DatabaseManager.updateCartTester();
           return;
         }),
         builder: (context, _) => _myApp,
@@ -253,5 +253,56 @@ void main() {
     // expect(find.byType(TextButton, skipOffstage: false), findsNWidgets(6));
 
     // return;
+  });
+
+  testWidgets('Mocked test for removing from cart ',
+      (WidgetTester tester) async {
+    tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
+    // Suppose we have one item in the cart and we want to check out
+    DatabaseManager.updateCartTester();
+    MyApp _myApp = const MyApp();
+    await tester.runAsync(() async {
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => ApplicationState(initializer: () {
+          return;
+        }),
+        builder: (context, _) => _myApp,
+      ));
+    });
+    String whenCartIsEmpty = 'You have no items inside your cart';
+    String whenHasItemsInCart = 'These are all the items inside your cart';
+    String buttonText = 'Check out';
+    // Cart page
+    await tester.tap(find.byIcon(Icons.shopping_cart));
+    await tester.pumpAndSettle();
+    expect(find.textContaining(whenHasItemsInCart), findsOneWidget);
+    expect(find.textContaining(buttonText), findsOneWidget);
+    expect(find.textContaining(whenCartIsEmpty), findsNothing);
+
+    await tester.tap(find.byIcon(Icons.remove));
+    await tester.pumpAndSettle();
+    expect(find.textContaining(whenHasItemsInCart), findsNothing);
+    expect(find.textContaining(buttonText), findsNothing);
+    expect(find.textContaining(whenCartIsEmpty), findsOneWidget);
+  });
+
+  testWidgets('Mocked test for removing from cart ',
+      (WidgetTester tester) async {
+    tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
+    // Suppose we have one item in the cart and we want to check out
+    DatabaseManager.updateCartTester();
+    MyApp _myApp = const MyApp();
+    await tester.runAsync(() async {
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => ApplicationState(initializer: () {
+          return;
+        }),
+        builder: (context, _) => _myApp,
+      ));
+    });
+    // Cart page
+    await tester.tap(find.byType(Image));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Lorem Ipsum'), findsOneWidget);
   });
 }
