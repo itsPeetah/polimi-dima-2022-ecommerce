@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dima/main.dart';
 import 'package:dima/util/user/product_map_prefs_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +36,8 @@ class PurchaseHistoryManager {
   }
 
   Map<String, dynamic> getItems() {
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (ApplicationState.isTesting ||
+        FirebaseAuth.instance.currentUser != null) {
       return DatabaseManager.bought as Map<String, dynamic>;
     } else {
       return content;

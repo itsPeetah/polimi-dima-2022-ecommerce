@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dima/main.dart';
 import 'package:dima/util/user/product_map_prefs_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +29,9 @@ class CartManager {
   // gateway to cart -> if logged use dbmanager, if not use this
 
   Map<String, dynamic> getItems() {
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (ApplicationState.isTesting ||
+        FirebaseAuth.instance.currentUser != null) {
+      print('DBM.CART:' + DatabaseManager.cart.entries.toString());
       return DatabaseManager.cart as Map<String, dynamic>;
     } else {
       return content;
@@ -36,6 +39,12 @@ class CartManager {
   }
 
   void addToCart(String productId) {
+    if (ApplicationState.isTesting) {
+      Product oldProd = DatabaseManager.cart[productId];
+      oldProd.qty = oldProd.qty + 1;
+      DatabaseManager.updateUserCartFromProduct(oldProd, save: false);
+      return;
+    }
     if (FirebaseAuth.instance.currentUser != null) {
       _addToCartRemote(productId);
     } else {
@@ -44,6 +53,12 @@ class CartManager {
   }
 
   void removeFromCart(String productId) {
+    if (ApplicationState.isTesting) {
+      Product oldProd = DatabaseManager.cart[productId];
+      oldProd.qty = 0;
+      DatabaseManager.updateUserCartFromProduct(oldProd, save: false);
+      return;
+    }
     if (FirebaseAuth.instance.currentUser != null) {
       _removeFromCartRemote(productId);
     } else {

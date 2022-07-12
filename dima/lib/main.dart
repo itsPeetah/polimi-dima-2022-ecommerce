@@ -44,6 +44,8 @@ class ApplicationState extends ChangeNotifier {
       // Does not work either way
       initializer();
       _testSetup();
+      print('Application is in testing mode...');
+      isTesting = true;
     } else {
       init();
     }
@@ -54,6 +56,8 @@ class ApplicationState extends ChangeNotifier {
     DatabaseManager.updateShopTester();
     notifyListeners();
   }
+
+  static bool isTesting = false;
 
   bool _firebaseAvailable = false;
   bool get firebaseAvailable => _firebaseAvailable;

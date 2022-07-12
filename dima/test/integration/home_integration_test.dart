@@ -96,7 +96,6 @@ void main() {
     await tester.runAsync(() async {
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (context) => ApplicationState(initializer: () {
-          DatabaseManager.updateCartTester();
           return;
         }),
         builder: (context, _) => _myApp,
@@ -255,9 +254,8 @@ void main() {
     // return;
   });
 
-  testWidgets('Mocked test for removing from cart ',
-      (WidgetTester tester) async {
-    tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
+  testWidgets('Mocked test for adding from cart ', (WidgetTester tester) async {
+    tester.binding.window.physicalSizeTestValue = const Size(1000, 1000);
     // Suppose we have one item in the cart and we want to check out
     DatabaseManager.updateCartTester();
     MyApp _myApp = const MyApp();
@@ -273,21 +271,42 @@ void main() {
     String whenHasItemsInCart = 'These are all the items inside your cart';
     String buttonText = 'Check out';
     // Cart page
-    await tester.tap(find.byIcon(Icons.shopping_cart));
+    // Remove from cart
+    await tester.dragUntilVisible(
+        find.byIcon(Icons.shopping_cart),
+        find.byType(ListView), // widget you want to scroll
+        const Offset(0, 10));
+    await tester.tap(find.byIcon(Icons.shopping_cart, skipOffstage: false));
     await tester.pumpAndSettle();
     expect(find.textContaining(whenHasItemsInCart), findsOneWidget);
     expect(find.textContaining(buttonText), findsOneWidget);
     expect(find.textContaining(whenCartIsEmpty), findsNothing);
 
-    await tester.tap(find.byIcon(Icons.remove));
-    await tester.pumpAndSettle();
-    expect(find.textContaining(whenHasItemsInCart), findsNothing);
-    expect(find.textContaining(buttonText), findsNothing);
-    expect(find.textContaining(whenCartIsEmpty), findsOneWidget);
+    // Remove from cart
+    await tester.dragUntilVisible(
+        find.byIcon(Icons.add),
+        find.byType(SingleChildScrollView), // widget you want to scroll
+        const Offset(0, 10));
+    for (final element
+        in find.byType(IconButton, skipOffstage: false).evaluate()) {
+      var _butt = element.widget as IconButton;
+      print('Button icon: ' + _butt.icon.toString());
+      var _buttIcon = _butt.icon as Icon;
+      if (_buttIcon.icon == Icons.add) {
+        _butt.onPressed!();
+      } else {}
+    }
+    // Refresh page because we do not initialize notifiers
+    await tester.tap(find.byIcon(Icons.person, skipOffstage: false));
+    // await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.shopping_cart, skipOffstage: false));
+    // await tester.pumpAndSettle();
+    expect(find.textContaining(whenHasItemsInCart), findsOneWidget);
+    expect(find.textContaining(buttonText), findsOneWidget);
+    expect(find.textContaining(whenCartIsEmpty), findsNothing);
   });
 
-  testWidgets('Mocked test for removing from cart ',
-      (WidgetTester tester) async {
+  testWidgets('Mocked test for tapping product ', (WidgetTester tester) async {
     tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
     // Suppose we have one item in the cart and we want to check out
     DatabaseManager.updateCartTester();
@@ -295,6 +314,7 @@ void main() {
     await tester.runAsync(() async {
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (context) => ApplicationState(initializer: () {
+          print('Testing... Testing...');
           return;
         }),
         builder: (context, _) => _myApp,
