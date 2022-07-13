@@ -1,6 +1,7 @@
 import 'package:dima/firebase_options.dart';
 import 'package:dima/util/authentication/authentication.dart';
 import 'package:dima/util/database/database.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/util/user/cart_manager.dart';
 import 'package:dima/util/user/favorites_manager.dart';
 import 'package:dima/util/user/purchase_history_manager.dart';
@@ -79,6 +80,7 @@ class ApplicationState extends ChangeNotifier {
     CartManager.instance.init(notifyListeners);
     FavoritesManager.instance.init(notifyListeners);
     PurchaseHistoryManager.instance.init(notifyListeners);
+    SecondaryNavigator.notifyApp = notifyListeners;
   }
 
   Future<void> _initializeFirebase() async {

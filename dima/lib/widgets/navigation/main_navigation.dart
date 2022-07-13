@@ -1,7 +1,9 @@
+import 'package:dima/main.dart';
 import 'package:flutter/material.dart';
 import 'package:dima/util/navigation/navigation_nested.dart';
 import 'package:dima/util/navigation/tab_item.dart';
 import 'package:dima/widgets/navigation/nested_navigator.dart';
+import 'package:provider/provider.dart';
 import 'bottom_tab_bar.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -33,23 +35,27 @@ class MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(_currentTab),
-      body: PageView(
-        controller: _pageController,
-        physics:
-            const NeverScrollableScrollPhysics(), // avoid scrolling from page to page
-        children: [
-          _buildNestedNavigator(TabItem.home),
-          _buildNestedNavigator(TabItem.map),
-          _buildNestedNavigator(TabItem.cart),
-          _buildNestedNavigator(TabItem.profile),
-        ],
-      ),
-      bottomNavigationBar: BottomTabBar(
-        currentTab: _currentTab,
-        onSelectTab: _selectTab,
-      ),
+    return Consumer<ApplicationState>(
+      builder: (context, value, child) {
+        return Scaffold(
+          appBar: _buildAppBar(_currentTab),
+          body: PageView(
+            controller: _pageController,
+            physics:
+                const NeverScrollableScrollPhysics(), // avoid scrolling from page to page
+            children: [
+              _buildNestedNavigator(TabItem.home),
+              _buildNestedNavigator(TabItem.map),
+              _buildNestedNavigator(TabItem.cart),
+              _buildNestedNavigator(TabItem.profile),
+            ],
+          ),
+          bottomNavigationBar: BottomTabBar(
+            currentTab: _currentTab,
+            onSelectTab: _selectTab,
+          ),
+        );
+      },
     );
   }
 
@@ -85,14 +91,23 @@ class MainNavigationState extends State<MainNavigation> {
   AppBar? _buildAppBar(TabItem tab) {
     switch (tab) {
       case TabItem.home:
+        final canPop =
+            SecondaryNavigator.homeNavigatorKey.currentState != null &&
+                SecondaryNavigator.homeNavigatorKey.currentState!.canPop();
         return AppBar(
           title: const Text("DIMA-eShop"),
           leading: IconButton(
-            icon: const Icon(Icons.search_rounded),
+            icon: Icon(
+                canPop ? Icons.chevron_left_rounded : Icons.search_rounded),
             onPressed: () {
-              SecondaryNavigator.push(
-                  SecondaryNavigator.homeNavigatorKey.currentContext!,
-                  "/search"); // TODO Add
+              if (canPop) {
+                SecondaryNavigator.pop(
+                    SecondaryNavigator.homeNavigatorKey.currentContext!);
+              } else {
+                SecondaryNavigator.push(
+                    SecondaryNavigator.homeNavigatorKey.currentContext!,
+                    "/search"); // TODO Add
+              }
             },
           ),
           actions: [

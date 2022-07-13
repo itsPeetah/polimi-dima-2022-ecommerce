@@ -24,6 +24,8 @@ class SecondaryNavigator {
   static final cartNavigatorKey = GlobalKey<NavigatorState>();
   static final profileNavigatorKey = GlobalKey<NavigatorState>();
 
+  static late Function()? notifyApp;
+
   static GlobalKey<NavigatorState> keyOf(TabItem navigatorTab) {
     switch (navigatorTab) {
       case TabItem.home:
@@ -56,10 +58,13 @@ class SecondaryNavigator {
         RouteSettings(name: routeName, arguments: routeArgs);
     final Route? r = NestedNavigatorRouter.generateRoute(rs);
     Navigator.push(context, r!);
+
+    if (notifyApp != null) notifyApp!();
   }
 
   static void pop(BuildContext context) {
     Navigator.pop(context);
+    if (notifyApp != null) notifyApp!();
   }
 }
 
