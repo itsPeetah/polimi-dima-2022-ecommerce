@@ -89,11 +89,11 @@ class MainNavigationState extends State<MainNavigation> {
   }
 
   AppBar? _buildAppBar(TabItem tab) {
+    bool canPop = false;
     switch (tab) {
       case TabItem.home:
-        final canPop =
-            SecondaryNavigator.homeNavigatorKey.currentState != null &&
-                SecondaryNavigator.homeNavigatorKey.currentState!.canPop();
+        canPop = SecondaryNavigator.homeNavigatorKey.currentState != null &&
+            SecondaryNavigator.homeNavigatorKey.currentState!.canPop();
         return AppBar(
           title: const Text("DIMA-eShop"),
           leading: IconButton(
@@ -122,11 +122,50 @@ class MainNavigationState extends State<MainNavigation> {
           ],
         );
       case TabItem.map:
-        return AppBar(title: const Text('All the shops close to you'));
+        canPop = SecondaryNavigator.mapNavigatorKey.currentState != null &&
+            SecondaryNavigator.mapNavigatorKey.currentState!.canPop();
+        return AppBar(
+          title: const Text('All the shops close to you'),
+          leading: canPop
+              ? IconButton(
+                  icon: const Icon(Icons.chevron_left_rounded),
+                  onPressed: () {
+                    SecondaryNavigator.pop(
+                        SecondaryNavigator.mapNavigatorKey.currentContext!);
+                  },
+                )
+              : null,
+        );
       case TabItem.cart:
-        return AppBar(title: const Text('Your cart'));
+        canPop = SecondaryNavigator.cartNavigatorKey.currentState != null &&
+            SecondaryNavigator.cartNavigatorKey.currentState!.canPop();
+        return AppBar(
+          title: const Text('Your cart'),
+          leading: canPop
+              ? IconButton(
+                  icon: const Icon(Icons.chevron_left_rounded),
+                  onPressed: () {
+                    SecondaryNavigator.pop(
+                        SecondaryNavigator.cartNavigatorKey.currentContext!);
+                  },
+                )
+              : null,
+        );
       case TabItem.profile:
-        return AppBar(title: const Text('Your profile'));
+        canPop = SecondaryNavigator.profileNavigatorKey.currentState != null &&
+            SecondaryNavigator.profileNavigatorKey.currentState!.canPop();
+        return AppBar(
+          title: const Text('Your profile'),
+          leading: canPop
+              ? IconButton(
+                  icon: const Icon(Icons.chevron_left_rounded),
+                  onPressed: () {
+                    SecondaryNavigator.pop(
+                        SecondaryNavigator.profileNavigatorKey.currentContext!);
+                  },
+                )
+              : null,
+        );
       default:
         return AppBar(
           title: Text("$tab"),
