@@ -19,7 +19,7 @@ class ProductSearchPageState extends State<ProductSearchPage> {
     if (query.isNotEmpty) {
       final List<Product> queryResults = [];
       for (Product p in DatabaseManager.allProducts.values) {
-        if (p.name.contains(query)) {
+        if (p.name.toLowerCase().contains(query)) {
           queryResults.add(p);
         }
       }
@@ -40,7 +40,7 @@ class ProductSearchPageState extends State<ProductSearchPage> {
       child: Column(
         children: [
           TextField(
-            onChanged: _queryProducts,
+            onChanged: (v) => _queryProducts(v.toLowerCase()),
             controller: _searchInputController,
           ),
           Expanded(
