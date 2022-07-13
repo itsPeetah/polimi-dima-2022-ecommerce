@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:math';
+
 import 'package:dima/util/database/database.dart';
 import 'package:dima/util/navigation/navigation_main.dart';
 import 'package:dima/util/user/cart_manager.dart';
@@ -86,7 +88,8 @@ class PaymentDetailsPageState extends State<PaymentDetailsPage> {
 
   Future<bool> sendPayment() async {
     await Future.delayed(const Duration(seconds: 1), () => {true});
-    return true;
+    // Random result to simulate failing payments
+    return Random(0).nextDouble() > 0.1;
   }
 
   @override
