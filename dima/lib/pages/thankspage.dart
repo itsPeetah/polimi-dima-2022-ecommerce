@@ -33,18 +33,26 @@ class ThanksPage extends StatelessWidget {
     }
     return Column(
       children: <Widget>[
-        const Text('Thank you for choosing our application to buy products!\n'),
-        Text('\t' +
-            String.fromCharCode(0x2022) +
-            'The total you paid is:\$' +
-            price +
-            '.\n'),
-        Text('\t' +
-            String.fromCharCode(0x2022) +
-            'Your order will be sent in \'' +
-            location +
-            '\', within 3 days.\n'),
-        const Text('All the products that you bought are: \n'),
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              const Text(
+                  'Thank you for choosing our application to buy products!\n'),
+              Text('\t' +
+                  String.fromCharCode(0x2022) +
+                  'The total you paid is:\$' +
+                  price +
+                  '.\n'),
+              Text('\t' +
+                  String.fromCharCode(0x2022) +
+                  'Your order will be sent in \'' +
+                  location +
+                  '\', within 3 days.\n'),
+              const Text('All the products that you bought are: \n'),
+            ],
+          ),
+        ),
         SizedBox(
             height: constraints.maxHeight * 0.7,
             width: constraints.maxWidth,
