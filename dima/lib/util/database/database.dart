@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:dima/model/product.dart';
+import 'package:dima/util/user/purchase_history_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -215,8 +216,9 @@ class DatabaseManager {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
 
-    _bought[_numTransactions!.toString()] = Product.fromRTDB(
-        Product.toRTDB(product, quantity: product.qty, orderedDate: date));
+    _bought[PurchaseHistoryManager.instance.getNumTransactions().toString()] =
+        Product.fromRTDB(
+            Product.toRTDB(product, quantity: product.qty, orderedDate: date));
     if (save == false) return;
     _boughtRef!
         // define random key

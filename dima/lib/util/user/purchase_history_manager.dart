@@ -44,6 +44,15 @@ class PurchaseHistoryManager {
     }
   }
 
+  int getNumTransactions() {
+    if (ApplicationState.isTesting ||
+        FirebaseAuth.instance.currentUser != null) {
+      return DatabaseManager.numTransactions;
+    } else {
+      return numTransactions;
+    }
+  }
+
   void addToPurchaseHistory(Product product) {
     if (FirebaseAuth.instance.currentUser != null) {
       _addToPurchaseHistoryRemote(product);
