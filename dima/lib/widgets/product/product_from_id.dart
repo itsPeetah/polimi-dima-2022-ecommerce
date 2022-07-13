@@ -62,9 +62,6 @@ class _ProductFromIDState extends State<ProductFromID> {
       heartColor = Colors.white;
     }
     Widget body = ListView(children: [
-      ElevatedButton(
-          onPressed: () => SecondaryNavigator.pop(context),
-          child: const Text('Go Back')),
       SizedBox(
           child: FittedBox(child: widget.product.image),
           width: width,
