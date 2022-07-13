@@ -93,9 +93,11 @@ class ProductSearchPageState extends State<ProductSearchPage> {
           const SizedBox(
             width: 10,
           ),
-          Text(
-            p.name,
-            style: TextStyle(color: Colors.black, fontSize: 24),
+          Expanded(
+            child: Text(
+              p.name,
+              style: TextStyle(color: Colors.black, fontSize: 24),
+            ),
           )
         ],
       ),
