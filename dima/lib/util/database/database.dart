@@ -219,13 +219,19 @@ class DatabaseManager {
     _bought[PurchaseHistoryManager.instance.getNumTransactions().toString()] =
         Product.fromRTDB(
             Product.toRTDB(product, quantity: product.qty, orderedDate: date));
-    if (save == false) return;
-    _boughtRef!
+
+    final bRef = save
+        ? boughtRef
+        : FirebaseDatabase.instance.ref().child('/anonymous/bought');
+    bRef
         // define random key
-        .child('/' + _numTransactions!.toString() + '/')
+        .child(PurchaseHistoryManager.instance.getNumTransactions().toString() +
+            '/')
         .set(Product.toRTDB(product, quantity: product.qty, orderedDate: date));
-    _numTransactions = _numTransactions! + 1;
-    _numTransactionsRef!.set(_numTransactions);
+    if (save) {
+      _numTransactions = _numTransactions! + 1;
+      _numTransactionsRef!.set(_numTransactions);
+    }
   }
 
   static void updateFavoritesFromProduct(Product product, {save = true}) {
