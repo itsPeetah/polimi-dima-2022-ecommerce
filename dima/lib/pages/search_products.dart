@@ -51,13 +51,15 @@ class ProductSearchPageState extends State<ProductSearchPage> {
 
   List<Widget> _buildListedItemWidgets(BuildContext context) {
     final List<Widget> items = [];
-    _listedItems.forEach((Product product) {
+    void addWidgetsToList(Product product) {
       items.add(Divider(
         height: 10,
         thickness: items.isNotEmpty ? 1 : 0,
       ));
       items.add(_buildListedItem(product, context));
-    });
+    }
+
+    _listedItems.forEach(addWidgetsToList);
     return items;
   }
 
