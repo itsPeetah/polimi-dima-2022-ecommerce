@@ -5,16 +5,19 @@ import 'package:dima/model/product.dart';
 import 'package:dima/styles/styleoftext.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../main.dart';
 
 class ShoppingCartProduct extends StatefulWidget {
-  const ShoppingCartProduct(
+  ShoppingCartProduct(
       {Key? key,
       required this.product,
       required this.quantity,
       this.typeOfPage = 'product'})
       : super(key: key);
   final Product product;
-  final int quantity;
+  int quantity;
   final dynamic typeOfPage;
   static const String productSimple = "product";
   static const String favorites = "favorites";
@@ -26,9 +29,11 @@ class ShoppingCartProduct extends StatefulWidget {
 class ShoppingCartProductState extends State<ShoppingCartProduct> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return _buildBody(constraints);
-    });
+    return Consumer<ApplicationState>(builder: ((context, appState, _) {
+      return LayoutBuilder(builder: (context, constraints) {
+        return _buildBody(constraints);
+      });
+    }));
   }
 
   removeThisProduct() {
@@ -179,8 +184,10 @@ class ShoppingCartProductState extends State<ShoppingCartProduct> {
             child: CircleAvatar(
               child: IconButton(
                 onPressed: () {
-                  Product.removeFromCart(widget.product.id);
-                  setState(() {});
+                  setState(() {
+                    Product.removeFromCart(widget.product.id);
+                    // widget.quantity = widget.quantity - 1;
+                  });
                 },
                 icon: const Icon(
                   Icons.remove,

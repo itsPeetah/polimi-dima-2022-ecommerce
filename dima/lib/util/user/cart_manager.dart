@@ -1,20 +1,25 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dima/main.dart';
 import 'package:dima/util/user/product_map_prefs_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/product.dart';
 import '../database/database.dart';
 
-class CartManager {
+class CartManager extends ChangeNotifier {
   static const String _PREFSKEY = "localCart";
 
   static CartManager instance = CartManager();
   late Map<String, dynamic> content;
-
-  void init() async {
+  Function? notify;
+  void init(Function? fn) async {
+    if (fn != null) {
+      notify = fn;
+    }
     final prefs = await SharedPreferences.getInstance();
     final String? jsonStr = prefs.getString(_PREFSKEY);
 
@@ -49,6 +54,7 @@ class CartManager {
       _addToCartRemote(productId);
     } else {
       _addToCartLocal(productId);
+      notify!();
     }
   }
 
@@ -63,6 +69,7 @@ class CartManager {
       _removeFromCartRemote(productId);
     } else {
       _removeFromCartLocal(productId);
+      notify!();
     }
   }
 
@@ -108,7 +115,7 @@ class CartManager {
 
   void _removeFromCartLocal(String productId) {
     Product oldProd = content[productId];
-    oldProd.qty = oldProd.qty - 1;
+    oldProd.qty = max(0, oldProd.qty - 1);
     content[productId] = oldProd;
     _saveLocalCart();
     DatabaseManager.updateUserCartFromProduct(oldProd, save: false);

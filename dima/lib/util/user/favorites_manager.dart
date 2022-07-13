@@ -13,8 +13,11 @@ class FavoritesManager {
 
   static FavoritesManager instance = FavoritesManager();
   late Map<String, dynamic> content;
-
-  void init() async {
+  Function? notify;
+  void init(Function? fn) async {
+    if (fn != null) {
+      notify = fn;
+    }
     final prefs = await SharedPreferences.getInstance();
     final String? jsonStr = prefs.getString(_PREFSKEY);
 
@@ -40,6 +43,7 @@ class FavoritesManager {
       _addToFavoritesRemote(productId);
     } else {
       _addToFavoritesLocal(productId);
+      notify!();
     }
   }
 
@@ -48,6 +52,7 @@ class FavoritesManager {
       _removeFromFavoritesRemote(productId);
     } else {
       _removeFromFavoritesLocal(productId);
+      notify!();
     }
   }
 

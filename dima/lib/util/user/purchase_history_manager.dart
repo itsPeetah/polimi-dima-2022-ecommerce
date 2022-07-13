@@ -15,8 +15,11 @@ class PurchaseHistoryManager {
   static PurchaseHistoryManager instance = PurchaseHistoryManager();
   late Map<String, dynamic> content;
   int numTransactions = 0;
-
-  void init() async {
+  Function? notify;
+  void init(Function? fn) async {
+    if (fn != null) {
+      notify = fn;
+    }
     final prefs = await SharedPreferences.getInstance();
     final String? jsonStr = prefs.getString(_PREFSKEY_HISTORY);
     final int? integer = prefs.getInt(_PREFSKEY_NUMTRANS);
@@ -58,6 +61,7 @@ class PurchaseHistoryManager {
       _addToPurchaseHistoryRemote(product);
     } else {
       _addToPurchaseHistoryLocal(product);
+      notify!();
     }
   }
 

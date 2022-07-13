@@ -76,9 +76,9 @@ class ApplicationState extends ChangeNotifier {
     _subscribeToProductCatalogue();
 
     // Load shared preferences
-    CartManager.instance.init();
-    FavoritesManager.instance.init();
-    PurchaseHistoryManager.instance.init();
+    CartManager.instance.init(notifyListeners);
+    FavoritesManager.instance.init(notifyListeners);
+    PurchaseHistoryManager.instance.init(notifyListeners);
   }
 
   Future<void> _initializeFirebase() async {
