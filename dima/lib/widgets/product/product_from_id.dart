@@ -11,10 +11,10 @@ import '../../util/navigation/navigation_main.dart';
 
 /// Previously called product from id is now simply the page you get redirected when you click on a product link.
 class ProductFromID extends StatefulWidget {
-  const ProductFromID({Key? key, this.productId = "0", required this.product})
+  ProductFromID({Key? key, this.productId = "-1", required this.product})
       : super(key: key);
 
-  final String productId;
+  String productId;
   final Product product;
   @override
   State<ProductFromID> createState() => _ProductFromIDState();
@@ -42,6 +42,9 @@ class _ProductFromIDState extends State<ProductFromID> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.productId == '-1') {
+      widget.productId = widget.product.id;
+    }
     heartColor = pinkHeart;
     // var width = context.size.width;
 
