@@ -31,18 +31,21 @@ class ProductSearchPageState extends State<ProductSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          onChanged: _queryProducts,
-          controller: _searchInputController,
-        ),
-        Expanded(
-          child: ListView(
-            children: _buildListedItemWidgets(context),
+    return Container(
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Column(
+        children: [
+          TextField(
+            onChanged: _queryProducts,
+            controller: _searchInputController,
           ),
-        )
-      ],
+          Expanded(
+            child: ListView(
+              children: _buildListedItemWidgets(context),
+            ),
+          )
+        ],
+      ),
     );
   }
 
