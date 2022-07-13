@@ -26,6 +26,10 @@ class ProductSearchPageState extends State<ProductSearchPage> {
       setState(() {
         _listedItems = queryResults;
       });
+    } else {
+      setState(() {
+        _listedItems = [];
+      });
     }
   }
 
@@ -50,6 +54,12 @@ class ProductSearchPageState extends State<ProductSearchPage> {
   }
 
   List<Widget> _buildListedItemWidgets(BuildContext context) {
+    if (_searchInputController.value.text.isNotEmpty && _listedItems.isEmpty) {
+      return [
+        const TextLarge(text: "Oops, such product is not in our catalog :(")
+      ];
+    }
+
     final List<Widget> items = [];
     void addWidgetsToList(Product product) {
       items.add(Divider(
