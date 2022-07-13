@@ -282,14 +282,12 @@ class DatabaseManager {
   }
 
   static void updateShopTester() {
-    final product = Shop.fromTest();
-    _allProducts['0'] = product;
-    allProducts['0'] = _allProducts['0'];
+    final shop = Shop.fromTest();
+    _allShops['0'] = shop;
   }
 
   static void updateCartTester() {
     updateProductTester();
     _cart['0'] = _allProducts['0'];
-    cart['0'] = _cart['0'];
   }
 }
