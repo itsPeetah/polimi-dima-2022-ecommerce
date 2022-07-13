@@ -11,7 +11,6 @@ class NestedNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final String initialRoute;
   final Route<dynamic>? Function(RouteSettings)? onGenerateRoute;
-
   @override
   Widget build(BuildContext context) {
     return Navigator(

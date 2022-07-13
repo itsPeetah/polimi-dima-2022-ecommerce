@@ -1,3 +1,4 @@
+import 'package:dima/pages/app_info.dart';
 import 'package:dima/pages/cart.dart';
 import 'package:dima/pages/favorites.dart';
 import 'package:dima/pages/home.dart';
@@ -68,6 +69,7 @@ class NestedNavigatorRoutes {
   static const String cart = "/cart";
   static const String profile = "/profile";
   static const String product = "/product";
+  static const String appInfo = "/appInfo";
   // PAYMENT PAGES
   static const String checkout = "/checkout";
   static const String thankyoupage = "/thankyoupage";
@@ -143,6 +145,8 @@ class NestedNavigatorRouter {
         return MaterialPageRoute(builder: (_) => const HistoryPage());
       case NestedNavigatorRoutes.favorites:
         return MaterialPageRoute(builder: (_) => const FavoritesPage());
+      case NestedNavigatorRoutes.appInfo:
+        return MaterialPageRoute(builder: (_) => const AppInfoPage());
       case "/":
         return MaterialPageRoute(
           builder: (_) => const HelloPage(
