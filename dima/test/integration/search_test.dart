@@ -30,17 +30,11 @@ void main() {
     for (final element
         in find.byType(TextField, skipOffstage: false).evaluate()) {
       TextField widget = element.widget as TextField;
-      widget.controller!.text = 'asasasasa';
+      // widget.controller!.text = 'asasasasa';
+      await tester.enterText(find.byWidget(widget), "asasas");
       // await tester.tapAt(tester.getCenter(find.byWidget(element.widget)));
     }
     await tester.pump(Duration(seconds: 1));
-    expect(find.textContaining("Oops"), findsOneWidget);
-    // expect(find.textContaining('Sign Up', skipOffstage: false), findsOneWidget);
-    // expect(
-    //     find.textContaining('Full Name', skipOffstage: false), findsOneWidget);
-    // expect(find.textContaining('Email', skipOffstage: false), findsOneWidget);
-    // expect(
-    //     find.textContaining('Password', skipOffstage: false), findsOneWidget);
-    // expect(find.textContaining('Cancel', skipOffstage: false), findsOneWidget);
+    expect(find.textContaining("Oops", skipOffstage: false), findsOneWidget);
   });
 }
