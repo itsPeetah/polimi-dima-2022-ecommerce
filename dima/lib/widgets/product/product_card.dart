@@ -84,11 +84,7 @@ class ProductCard extends StatelessWidget {
                 Text(
                   "Lorem ipsum dolor sit amet...",
                   style: TextStyle(fontSize: 20, color: Colors.grey[400]),
-                ),
-                Text(
-                  "(view more)",
-                  style: TextStyle(fontSize: 20, color: Colors.grey[400]),
-                ),
+                )
               ],
             ),
           ),
