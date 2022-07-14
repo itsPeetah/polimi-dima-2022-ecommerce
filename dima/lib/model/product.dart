@@ -71,7 +71,8 @@ class Product {
         imageLink: 'images / twoMenShakingHands.jpg',
         name: 'Chuwi',
         price: '16.00\$',
-        qty: 1);
+        qty: 1,
+        orderedDate: DateTime(1998, 4, 1));
   }
   static Map<String, dynamic> toRTDB(Product p,
       {int quantity = 0, DateTime? orderedDate}) {

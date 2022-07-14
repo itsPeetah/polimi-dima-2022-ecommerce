@@ -278,6 +278,7 @@ class DatabaseManager {
 
   static void updateProductTester() {
     final product = Product.fromTest();
+
     _allProducts['0'] = product;
   }
 
