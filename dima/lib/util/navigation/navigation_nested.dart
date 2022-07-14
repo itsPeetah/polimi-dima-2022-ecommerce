@@ -24,7 +24,7 @@ class SecondaryNavigator {
   static final cartNavigatorKey = GlobalKey<NavigatorState>();
   static final profileNavigatorKey = GlobalKey<NavigatorState>();
 
-  static late Function()? notifyApp;
+  static Function()? notifyApp;
 
   static GlobalKey<NavigatorState> keyOf(TabItem navigatorTab) {
     switch (navigatorTab) {
