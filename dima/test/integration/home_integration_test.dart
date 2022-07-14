@@ -137,34 +137,64 @@ void main() {
     expect(find.byType(GoogleMap), findsOneWidget);
   });
 
-  // testWidgets('Mocked test for buying ', (WidgetTester tester) async {
-  //   tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
-  //   // Suppose we have one item in the cart and we want to check out
-  //   DatabaseManager.updateCartTester();
-  //   MyApp _myApp = const MyApp();
-  //   await tester.runAsync(() async {
-  //     await tester.pumpWidget(ChangeNotifierProvider(
-  //       create: (context) => ApplicationState(initializer: () {
-  //         // DatabaseManager.updateCartTester();
-  //         return;
-  //       }),
-  //       builder: (context, _) => _myApp,
-  //     ));
-  //   });
-  //   String whenCartIsEmpty = 'You have no items inside your cart';
-  //   String whenHasItemsInCart = 'These are all the items inside your cart';
-  //   String buttonText = 'Check out';
-  //   // Cart page
-  //   await tester.tap(find.byIcon(Icons.shopping_cart));
-  //   await tester.pumpAndSettle();
-  //   expect(find.textContaining(whenHasItemsInCart), findsOneWidget);
-  //   expect(find.textContaining(buttonText), findsOneWidget);
-  //   expect(find.textContaining(whenCartIsEmpty), findsNothing);
-  //   //
-  //   Finder _nameFinder =
-  //       find.textContaining('Enter your name', skipOffstage: false);
-  //   Finder _locFinder =
-  //       find.textContaining('Enter your desired location', skipOffstage: false);
+  testWidgets('Mocked test for buying ', (WidgetTester tester) async {
+    tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
+    // Suppose we have one item in the cart and we want to check out
+    DatabaseManager.updateCartTester();
+    MyApp _myApp = const MyApp();
+    await tester.runAsync(() async {
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => ApplicationState(initializer: () {
+          // DatabaseManager.updateCartTester();
+          return;
+        }),
+        builder: (context, _) => _myApp,
+      ));
+    });
+    String whenCartIsEmpty = 'You have no items inside your cart';
+    String whenHasItemsInCart = 'These are all the items inside your cart';
+    String buttonText = 'Check out';
+    // Cart page
+    await tester.tap(find.byIcon(Icons.shopping_cart));
+    await tester.pumpAndSettle();
+    expect(find.textContaining(whenHasItemsInCart), findsOneWidget);
+    expect(find.textContaining(buttonText), findsOneWidget);
+    expect(find.textContaining(whenCartIsEmpty), findsNothing);
+    //
+    Finder _nameFinder =
+        find.textContaining('Enter your name', skipOffstage: false);
+    Finder _locFinder =
+        find.textContaining('Enter your desired location', skipOffstage: false);
+
+  testWidgets('Mocked test for buying ', (WidgetTester tester) async {
+    tester.binding.window.physicalSizeTestValue = const Size(600, 1600);
+    // Suppose we have one item in the cart and we want to check out
+    DatabaseManager.updateCartTester();
+    MyApp _myApp = const MyApp();
+    await tester.runAsync(() async {
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => ApplicationState(initializer: () {
+          // DatabaseManager.updateCartTester();
+          return;
+        }),
+        builder: (context, _) => _myApp,
+      ));
+    });
+    String whenCartIsEmpty = 'You have no items inside your cart';
+    String whenHasItemsInCart = 'These are all the items inside your cart';
+    String buttonText = 'Check out';
+    // Cart page
+    await tester.tap(find.byIcon(Icons.shopping_cart));
+    await tester.pumpAndSettle();
+    expect(find.textContaining(whenHasItemsInCart), findsOneWidget);
+    expect(find.textContaining(buttonText), findsOneWidget);
+    expect(find.textContaining(whenCartIsEmpty), findsNothing);
+    //
+    Finder _nameFinder =
+        find.textContaining('Enter your name', skipOffstage: false);
+    Finder _locFinder =
+        find.textContaining('Enter your desired location', skipOffstage: false);
+
 
   //   // Delivery Details Page
   //   await tester.tap(find.textContaining(buttonText));
