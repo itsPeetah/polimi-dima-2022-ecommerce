@@ -73,7 +73,10 @@ class ShoppingCartRouteState extends State<ShoppingCartRoute> {
       _view = Expanded(child: _gridComponent);
     }
     return Column(children: [
-      headline,
+      Padding(
+        child: headline,
+        padding: const EdgeInsets.all(20),
+      ),
       children.isEmpty ? const SizedBox(width: 10, height: 10) : _view,
       if (children.isNotEmpty)
         TextButtonLarge(text: 'Check out', onPressed: _buyCallback),
