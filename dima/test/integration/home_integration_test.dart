@@ -138,7 +138,7 @@ void main() {
   });
 
   testWidgets('Mocked test for buying ', (WidgetTester tester) async {
-    tester.binding.window.physicalSizeTestValue = const Size(600, 1400);
+    tester.binding.window.physicalSizeTestValue = const Size(600, 1600);
     // Suppose we have one item in the cart and we want to check out
     DatabaseManager.updateCartTester();
     MyApp _myApp = const MyApp();
