@@ -39,9 +39,13 @@ class ProductSearchPageState extends State<ProductSearchPage> {
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
-          TextField(
-            onChanged: (v) => _queryProducts(v.toLowerCase()),
-            controller: _searchInputController,
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+              style: TextStyle(fontSize: 24),
+              onChanged: (v) => _queryProducts(v.toLowerCase()),
+              controller: _searchInputController,
+            ),
           ),
           Expanded(
             child: ListView(
