@@ -35,21 +35,21 @@ Future<List<Product>> userPref() async {
 Future<List<Product>> getAllDb() async {
   List<Product> resultList = [];
 
-  await Future.delayed(const Duration(milliseconds: 100), () {});
-  print('get all db call');
-  final productRef = FirebaseDatabase.instance.ref().child('/product');
-  productRef.orderByKey().limitToFirst(10).onValue.listen(
-    (event) {
-      List<Product> resultList = [];
-      final listOfData = event.snapshot.value as List<dynamic>;
-      for (Map<dynamic, dynamic> data in listOfData) {
-        var datax = Map<String, dynamic>.from(data);
-        final productToAppend = Product.fromRTDB(datax);
-        resultList.add(productToAppend);
-        // set state
-      }
-    },
-  );
+  // await Future.delayed(const Duration(milliseconds: 100), () {});
+  // print('get all db call');
+  // final productRef = FirebaseDatabase.instance.ref().child('/product');
+  // productRef.orderByKey().limitToFirst(10).onValue.listen(
+  //   (event) {
+  //     List<Product> resultList = [];
+  //     final listOfData = event.snapshot.value as List<dynamic>;
+  //     for (Map<dynamic, dynamic> data in listOfData) {
+  //       var datax = Map<String, dynamic>.from(data);
+  //       final productToAppend = Product.fromRTDB(datax);
+  //       resultList.add(productToAppend);
+  //       // set state
+  //     }
+  //   },
+  // );
 
   return resultList;
 }

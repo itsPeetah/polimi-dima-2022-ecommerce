@@ -1,58 +1,159 @@
-import 'package:dima/default_scaffold.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'firebase_options.dart';
+import 'package:dima/firebase_options.dart';
+import 'package:dima/util/authentication/authentication.dart';
+import 'package:dima/util/database/database.dart';
+import 'package:dima/util/navigation/navigation_nested.dart';
+import 'package:dima/util/user/cart_manager.dart';
+import 'package:dima/util/user/favorites_manager.dart';
+import 'package:dima/util/user/purchase_history_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:dima/util/navigation/navigation_main.dart';
+import 'package:provider/provider.dart';
 
-Future<void> main() async {
-  // Firebase initialization and avoiding race condition
-  WidgetsFlutterBinding.ensureInitialized();
-  print('Ensured WidgetsFlutterBinding is initialized');
-
-  runApp(MyApp());
+void main() async {
+  // TODO: Maybe make this a multiprovider
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: (context, _) => const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  late Future<FirebaseApp> _fbApp;
-  late FirebaseApp fbApp;
-  // This widget is the root of your application.
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    _fbApp =
-        Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     return MaterialApp(
-      title: 'AppName.com',
+      title: 'Flutter Nested Navigation Tests',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      home: FutureBuilder(
-        future: _fbApp,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print('Firebase might have not been initialized correctly' +
-                snapshot.error.toString());
-            return const Text('Error');
-          } else if (snapshot.hasData) {
-            fbApp = snapshot.data as FirebaseApp;
-            print('Firebase has been initialized correctly');
-            FirebaseAuth.instance.authStateChanges().listen((User? user) {
-              if (user == null) {
-                print('User is currently signed out!');
-              } else {
-                print('User is signed in!');
-              }
-            });
-            //firebase: fbApp
-            return DefaultScaffold();
-          } else {
-            /// TODO: create loading screen
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+      /* Entry Point -> MainNavigation (tabbed view) */
+      initialRoute: MainNavigationRoutes.root,
+      /* Here to create pages based on route */
+      onGenerateRoute: MainNavigatorRouter.generateRoute,
+      navigatorKey: MainNavigator.mainNavigatorKey,
     );
+  }
+}
+
+class ApplicationState extends ChangeNotifier {
+  ApplicationState({Function? initializer}) {
+    if (null != initializer) {
+      // Does not work either way
+      initializer();
+      _testSetup();
+      print('Application is in testing mode...');
+      isTesting = true;
+    } else {
+      init();
+    }
+  }
+  _testSetup() async {
+    // final products = await DatabaseManager.product.get();
+    DatabaseManager.updateProductTester();
+    DatabaseManager.updateShopTester();
+    notifyListeners();
+  }
+
+  static bool isTesting = false;
+
+  bool _firebaseAvailable = false;
+  bool get firebaseAvailable => _firebaseAvailable;
+
+  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
+  ApplicationLoginState get loginState => _loginState;
+
+  Future<void> init() async {
+    // Initialize firebase
+    await _initializeFirebase();
+
+    // Listen for auth user changes
+    _subscribeToAuthChanges();
+
+    // Listen for changes to the catalogue
+    _subscribeToProductCatalogue();
+
+    // Load shared preferences
+    CartManager.instance.init(notifyListeners);
+    FavoritesManager.instance.init(notifyListeners);
+    PurchaseHistoryManager.instance.init(notifyListeners);
+    SecondaryNavigator.notifyApp = notifyListeners;
+  }
+
+  Future<void> _initializeFirebase() async {
+    await Firebase.initializeApp(
+            options: DefaultFirebaseOptions.currentPlatform)
+        .whenComplete(() {
+      _firebaseAvailable = true;
+      notifyListeners();
+    });
+  }
+
+  void _subscribeToAuthChanges() {
+    FirebaseAuth.instance.userChanges().listen((user) async {
+      if (user != null) {
+        _loginState = ApplicationLoginState.loggedIn;
+        // notify changes of user cart on child changed, or added
+        final userCart = await DatabaseManager.userCart.get();
+        final boughtRef = await DatabaseManager.boughtRef.get();
+        final favoritesRef = await DatabaseManager.favoritesRef.get();
+        final numTransactionsRef =
+            await DatabaseManager.numTransactionsRef.get();
+        DatabaseManager.initUserCart(userCart);
+        DatabaseManager.initUserTransactions(numTransactionsRef);
+        DatabaseManager.initUserHistory(boughtRef);
+        DatabaseManager.initFavorites(favoritesRef);
+        DatabaseManager.userCart.onChildChanged.listen((event) {
+          DatabaseManager.updateUserCart(event.snapshot);
+          notifyListeners();
+        });
+        DatabaseManager.userCart.onChildAdded.listen((event) {
+          DatabaseManager.updateUserCart(event.snapshot);
+          notifyListeners();
+        });
+        // DatabaseManager.boughtRef.onChildAdded.listen((event) {
+        //   DatabaseManager.updateHistory(event.snapshot);
+        //   notifyListeners();
+        // });
+        DatabaseManager.favoritesRef.onChildChanged.listen((event) {
+          DatabaseManager.updateFavorites(event.snapshot);
+          notifyListeners();
+        });
+        DatabaseManager.favoritesRef.onChildAdded.listen((event) {
+          DatabaseManager.updateFavorites(event.snapshot);
+          notifyListeners();
+        });
+      } else {
+        _loginState = ApplicationLoginState.loggedOut;
+      }
+      notifyListeners();
+    });
+  }
+
+  void _subscribeToProductCatalogue() async {
+    final products = await DatabaseManager.product.get();
+    DatabaseManager.updateProductStore(products);
+    notifyListeners();
+
+    DatabaseManager.product.onChildChanged.listen((event) {
+      DatabaseManager.updateProduct(event.snapshot);
+      notifyListeners();
+    });
+
+    DatabaseManager.product.onChildAdded.listen((event) {
+      DatabaseManager.updateProduct(event.snapshot);
+      notifyListeners();
+    });
+
+    final shops = await DatabaseManager.shop.get();
+    DatabaseManager.updateAllShops(shops);
+    notifyListeners();
+    DatabaseManager.shop.onChildChanged.listen((event) {
+      DatabaseManager.updateProduct(event.snapshot);
+      notifyListeners();
+    });
   }
 }
