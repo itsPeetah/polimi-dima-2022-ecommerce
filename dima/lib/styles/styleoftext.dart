@@ -24,7 +24,7 @@ const Color bottomBarColor = Color.fromARGB(255, 255, 143, 0);
 const double productTitleSize = 22;
 const double productTitleSizeTablet = 22 + 13;
 const double productPriceSize = 15.99;
-const double headerSize = 28;
+const double headerSize = 32;
 
 // Icon or size
 const double buttonSize = 15;
